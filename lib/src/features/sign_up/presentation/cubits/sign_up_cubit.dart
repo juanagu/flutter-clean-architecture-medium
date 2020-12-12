@@ -20,7 +20,7 @@ class SignUpCubit extends Cubit<SignUpState> {
         emailAlreadyInUse: () => emit(SignUpState.emailAlreadyInUse()),
         unexpectedError: () => emit(SignUpState.unexpectedError()),
       ),
-      (success) => emit(SignUpState.unexpectedError()),
+      (success) => emit(SignUpState.registered()),
     );
   }
 }

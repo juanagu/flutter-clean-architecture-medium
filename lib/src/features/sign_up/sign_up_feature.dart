@@ -2,7 +2,6 @@ import 'package:app/src/abstractions/features/feature_config.dart';
 import 'package:app/src/abstractions/ioc/injector.dart';
 import 'package:app/src/abstractions/utils/logger.dart';
 import 'package:app/src/features/auth/auth_index_feature.dart';
-import 'package:app/src/features/sign_in/sign_in_feature.dart';
 import 'package:app/src/features/sign_up/data/firebase/sign_up_firebase_repository.dart';
 import 'package:app/src/features/sign_up/domain/repositories/sign_up_repository.dart';
 import 'package:app/src/features/sign_up/presentation/cubits/sign_up_cubit.dart';

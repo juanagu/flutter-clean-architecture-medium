@@ -50,11 +50,11 @@ class SignUpComponent extends StatelessWidget {
     return state.maybeWhen(
       creating: () => _buildCreatingView(context),
       registered: () => _buildRegisteredView(context),
-      orElse: () => _buildSignInFormView(context),
+      orElse: () => _buildSignUpFormView(context),
     );
   }
 
-  Widget _buildSignInFormView(BuildContext context) {
+  Widget _buildSignUpFormView(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         child: Form(
@@ -84,6 +84,8 @@ class SignUpComponent extends StatelessWidget {
       },
       controller: _emailController,
       autofocus: true,
+      autocorrect: false,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 
@@ -100,6 +102,7 @@ class SignUpComponent extends StatelessWidget {
       onFieldSubmitted: (_) {
         _onSubmit();
       },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 
