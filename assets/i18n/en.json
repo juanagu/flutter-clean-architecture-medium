@@ -1,0 +1,14 @@
+{
+    "app_title": "App",
+    "maintenance_message": "Oops! We are working to improve the performance of the app ...",
+    "auth_index_loading_semantic": "Checking session...",
+    "sign_in_email_label": "Email",
+    "sign_in_password_label": "Password",
+    "sign_in_submit_button_title": "Sign in",
+    "sign_up_button_title": "Sign up for App",
+    "sign_up_title": "Create your account",
+    "sign_up_submit_button_title": "Sign up",
+    "sign_up_email_label": "Email",
+    "sign_up_password_label": "Password",
+    "home_title" : "Home"
+}

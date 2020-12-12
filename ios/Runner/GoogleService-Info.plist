@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>737949218097-tb9kdmfsnio1e0cqhmfjffdp9ee34hn3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.737949218097-tb9kdmfsnio1e0cqhmfjffdp9ee34hn3</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>737949218097-6l1eu54i6u4tltvdc7u5a4il96pt3fgc.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB01bMiQjDECgI3rPqvmysXYPE-nfSZfFs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>737949218097</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.juanagu.app</string>
+	<key>PROJECT_ID</key>
+	<string>twittersimpleapp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>twittersimpleapp.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:737949218097:ios:35785550ca77e6ed1fac10</string>
+</dict>
+</plist>
