@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:app/src/ioc/ioc_manager.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:app/src/abstractions/utils/logger.dart';
 
-import 'base_main.dart';
 import 'src/abstractions/ioc/injector.dart';
-import 'src/application/presentation/application.dart';
+import 'src/application/application.dart';
 
 Future<void> main() async {
   await init();
@@ -15,4 +16,10 @@ Future<void> main() async {
       Injector.instance.resolve<Logger>().recordError(error, stackTrace);
     },
   );
+}
+
+Future init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  IocManager.register();
 }

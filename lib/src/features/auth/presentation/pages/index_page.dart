@@ -1,9 +1,9 @@
-import 'package:app/src/application/presentation/widgets/views/maintenance_view.dart';
+import 'package:app/src/application/widgets/views/maintenance_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:app/src/application/presentation/localizations/i18n.dart';
-import 'package:app/src/application/presentation/pages/page_container.dart';
-import 'package:app/src/application/presentation/widgets/indicators/circular_indicator.dart';
+import 'package:app/src/application/localizations/i18n.dart';
+import 'package:app/src/application/pages/page_container.dart';
+import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
 import 'package:app/src/features/auth/presentation/cubits/auth_index_cubit.dart';
 
 class AuthIndexPage extends StatelessWidget {

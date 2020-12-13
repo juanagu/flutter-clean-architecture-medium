@@ -1,4 +1,4 @@
-import 'package:app/src/application/presentation/localizations/i18n.dart';
+import 'package:app/src/application/localizations/i18n.dart';
 import 'package:flutter/material.dart';
 
 class MaintenceView extends StatelessWidget {

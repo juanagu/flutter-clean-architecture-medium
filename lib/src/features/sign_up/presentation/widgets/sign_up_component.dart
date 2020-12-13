@@ -1,8 +1,8 @@
-import 'package:app/src/application/presentation/widgets/indicators/circular_indicator.dart';
+import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
 import 'package:app/src/features/sign_up/presentation/cubits/sign_up_cubit.dart';
 import 'package:app/src/features/sign_up/presentation/validators/sign_up_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:app/src/application/presentation/localizations/i18n.dart';
+import 'package:app/src/application/localizations/i18n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpComponent extends StatelessWidget {

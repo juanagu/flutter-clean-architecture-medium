@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app/src/application/presentation/pages/page_container.dart';
-import 'package:app/src/application/presentation/localizations/i18n.dart';
+import 'package:app/src/application/pages/page_container.dart';
+import 'package:app/src/application/localizations/i18n.dart';
 
 class SignUpPage extends StatelessWidget {
   final Widget signUpWidget;

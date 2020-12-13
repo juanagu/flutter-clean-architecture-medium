@@ -1,5 +1,5 @@
-import 'package:app/src/application/presentation/localizations/i18n.dart';
-import 'package:app/src/application/presentation/widgets/indicators/circular_indicator.dart';
+import 'package:app/src/application/localizations/i18n.dart';
+import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
 import 'package:app/src/features/tweet_feed/presentation/cubits/tweet_feed_cubit.dart';
 import 'package:app/src/features/tweet_feed/presentation/models/tweet_item.dart';
 import 'package:app/src/features/tweet_feed/presentation/widgets/tweet_feed_list_item.dart';

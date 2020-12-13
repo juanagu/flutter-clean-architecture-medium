@@ -1,6 +1,6 @@
-import 'package:app/src/application/presentation/localizations/i18n.dart';
-import 'package:app/src/application/presentation/pages/page_container.dart';
-import 'package:app/src/application/presentation/widgets/indicators/circular_indicator.dart';
+import 'package:app/src/application/localizations/i18n.dart';
+import 'package:app/src/application/pages/page_container.dart';
+import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
 import 'package:app/src/features/tweet_creation/presentation/cubits/tweet_creation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
