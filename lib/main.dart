@@ -5,7 +5,7 @@ import 'package:app/src/abstractions/utils/logger.dart';
 
 import 'base_main.dart';
 import 'src/abstractions/ioc/injector.dart';
-import 'src/core/presentation/application.dart';
+import 'src/application/presentation/application.dart';
 
 Future<void> main() async {
   await init();

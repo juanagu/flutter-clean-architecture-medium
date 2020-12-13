@@ -1,6 +1,8 @@
 import 'package:app/src/abstractions/features/feature_config.dart';
+import 'package:app/src/core/domain/repositories/user_session_repository.dart';
 import 'package:app/src/features/feature_default_config.dart';
 import 'package:app/src/integrations/firebase/firebase_remote_feature_config.dart';
+import 'package:app/src/integrations/firebase/user_session_firebase_repository.dart';
 import 'package:app/src/integrations/web/web_mock_feature_config.dart';
 import 'package:app/src/integrations/web/web_mock_logger.dart';
 import 'package:flutter/foundation.dart';
@@ -40,5 +42,7 @@ abstract class IocManager {
   static void _registerCommons(Injector injector) {
     injector.registerLazySingleton<DataRemoteClient>(
         () => FirebaseDataRemoteClient());
+    injector.registerFactory<UserSessionRepository>(
+        () => UserSessionFirebaseRepository());
   }
 }

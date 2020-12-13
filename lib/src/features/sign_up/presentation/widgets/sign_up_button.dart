@@ -1,5 +1,5 @@
 import 'package:app/src/abstractions/features/feature_config.dart';
-import 'package:app/src/core/presentation/localizations/i18n.dart';
+import 'package:app/src/application/presentation/localizations/i18n.dart';
 import 'package:app/src/features/sign_up/sign_up_feature.dart';
 import 'package:flutter/material.dart';
 

@@ -10,5 +10,8 @@
     "sign_up_submit_button_title": "Sign up",
     "sign_up_email_label": "Email",
     "sign_up_password_label": "Password",
-    "home_title" : "Home"
+    "home_title" : "Home",
+    "tweet_creation_title" : "Unsent Tweet",
+    "tweet_creation_hint_text" : "What's happening?",
+    "tweet_creation_submit_button_title" :  "Tweet"
 }
