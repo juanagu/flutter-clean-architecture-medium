@@ -20,7 +20,7 @@ class PageContainer extends StatelessWidget {
       appBar: _buildAppBar(context),
       body: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.1),
+            horizontal: MediaQuery.of(context).size.width * 0.05),
         child: body,
       ),
       floatingActionButton: floatingActionButton,

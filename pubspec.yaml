@@ -37,7 +37,9 @@ dependencies:
   get_it: 5.0.3
   #functional programming
   dartz: ^0.9.2
-
+  #date time
+  timeago: 2.0.29 
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

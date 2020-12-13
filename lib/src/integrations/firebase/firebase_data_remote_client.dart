@@ -16,11 +16,6 @@ class FirebaseDataRemoteClient implements DataRemoteClient {
   }
 
   @override
-  Stream<dynamic> listen(String path) {
-    return FirebaseFirestore.instance.collection(path).snapshots();
-  }
-
-  @override
   Future<dynamic> post(String path, {data}) {
     return FirebaseFirestore.instance.collection(path).add(data);
   }

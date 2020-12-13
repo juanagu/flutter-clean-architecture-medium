@@ -1,6 +1,8 @@
 import 'package:app/src/abstractions/features/feature_config.dart';
 import 'package:app/src/core/domain/repositories/user_session_repository.dart';
+import 'package:app/src/core/presentation/helpers/time_ago_helper.dart';
 import 'package:app/src/features/feature_default_config.dart';
+import 'package:app/src/integrations/date_time_helpers/timeago_impl_helper.dart';
 import 'package:app/src/integrations/firebase/firebase_remote_feature_config.dart';
 import 'package:app/src/integrations/firebase/user_session_firebase_repository.dart';
 import 'package:app/src/integrations/web/web_mock_feature_config.dart';
@@ -44,5 +46,6 @@ abstract class IocManager {
         () => FirebaseDataRemoteClient());
     injector.registerFactory<UserSessionRepository>(
         () => UserSessionFirebaseRepository());
+    injector.registerLazySingleton<TimeagoHelper>(() => TimeagoImplHelper());
   }
 }
