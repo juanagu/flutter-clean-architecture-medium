@@ -32,7 +32,12 @@ dependencies:
   cloud_firestore: ^0.14.4
   firebase_auth: 0.18.4+1
   firebase_crashlytics: ^0.2.4
-  firebase_remote_config: ^0.4.3
+  #firebase_remote_config: ^0.4.3
+  # TODO: Check when this bug (https://github.com/FirebaseExtended/flutterfire/issues/4035) is fixed and swap back to official package
+  firebase_remote_config:
+    git:
+      url: https://github.com/FilledStacks/flutterfire.git
+      path: packages/firebase_remote_config
   #get_it
   get_it: 5.0.3
   #functional programming

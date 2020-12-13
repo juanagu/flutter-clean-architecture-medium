@@ -25,9 +25,8 @@ class FirebaseRemoteFeatureConfig implements FeatureConfig {
   Future<void> _init() async {
     if (_instance == null) {
       _instance = await RemoteConfig.instance;
-      await _instance.setConfigSettings(
-        RemoteConfigSettings(debugMode: kDebugMode),
-      );
+      //await _instance.setConfigSettings(RemoteConfigSettings());
+
       await _instance.setDefaults(_defaultConfig);
       await _instance.fetch(expiration: Duration(minutes: 1));
       await _instance.activateFetched();

@@ -50,3 +50,4 @@ app.*.map.json
 **.freezed.dart
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
+pubspec.lock
