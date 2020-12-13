@@ -3,12 +3,14 @@ import 'package:app/src/core/presentation/helpers/time_ago_helper.dart';
 import 'package:app/src/features/tweet_feed/data/firebase/tweet_feed_firebase_repository.dart';
 import 'package:app/src/features/tweet_feed/domain/repositories/tweet_feed_repository.dart';
 import 'package:app/src/features/tweet_feed/domain/sorters/implementations/tweet_feed_insertion_sorter.dart';
+import 'package:app/src/features/tweet_feed/domain/sorters/tweet_feed_sorter.dart';
 import 'package:app/src/features/tweet_feed/domain/use_cases/implementaions/v1_tweet_feed_use_case.dart';
 import 'package:app/src/features/tweet_feed/domain/use_cases/tweet_feed_use_case.dart';
 import 'package:app/src/features/tweet_feed/presentation/cubits/tweet_feed_cubit.dart';
 import 'package:app/src/features/tweet_feed/presentation/mappers/tweet_item_mapper.dart';
 import 'package:flutter/material.dart';
 
+import 'domain/sorters/implementations/tweet_qualificator_to_sorter.dart';
 import 'presentation/widgets/tweet_feed_component.dart';
 
 class TweetFeedFeature {
@@ -34,7 +36,11 @@ class TweetFeedFeature {
     );
   }
 
-  TweetFeedInsertionSorter _provideSorter() => TweetFeedInsertionSorter();
+  TweetFeedSorter _provideSorter() {
+    return TweetQualificatorToSorter(
+      sorter: TweetFeedInsertionSorter(),
+    );
+  }
 
   TweetItemMapper provideMapper() {
     return TweetItemMapper(
