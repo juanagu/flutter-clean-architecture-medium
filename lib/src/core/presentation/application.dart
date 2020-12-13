@@ -1,5 +1,6 @@
 import 'package:app/src/features/home/presentation/home_feature.dart';
 import 'package:app/src/features/sign_up/sign_up_feature.dart';
+import 'package:app/src/features/tweet_creation/presentation/tweet_creation_feature.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app/src/features/auth/auth_index_feature.dart';
@@ -31,6 +32,7 @@ class Application extends StatelessWidget {
       ...SignInFeature.generateRoutes(),
       ...SignUpFeature.generateRoutes(),
       ...HomeFeature.generateRoutes(),
+      ...TweetCreationFeature.generateRoutes(),
     };
   }
 }

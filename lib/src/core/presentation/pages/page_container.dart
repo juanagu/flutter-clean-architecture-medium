@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class PageContainer extends StatelessWidget {
   final Widget body;
   final String title;
+  final Widget floatingActionButton;
   const PageContainer({
     Key key,
     @required this.body,
     this.title,
+    this.floatingActionButton,
   }) : super(key: key);
 
   @override
@@ -18,6 +20,7 @@ class PageContainer extends StatelessWidget {
             horizontal: MediaQuery.of(context).size.width * 0.1),
         child: body,
       ),
+      floatingActionButton: floatingActionButton,
     );
   }
 
