@@ -11,7 +11,7 @@ import 'package:app/src/features/tweet_creation/presentation/cubits/tweet_creati
 import 'package:app/src/features/tweet_creation/presentation/pages/tweet_creation_page.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/tweet_creation_floating_button.dart';
+import 'presentation/widgets/tweet_creation_floating_button.dart';
 
 class TweetCreationFeature {
   static const String Route = '/tweet';

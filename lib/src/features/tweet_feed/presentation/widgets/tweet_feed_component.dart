@@ -44,14 +44,11 @@ class TweetFeedComponent extends StatelessWidget {
   }
 
   Widget _buildFoundView(List<TweetItem> items, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: ListView.separated(
-        itemCount: items.length,
-        itemBuilder: (context, index) =>
-            TweetFeedListItem(tweetItem: items[index]),
-        separatorBuilder: (context, index) => Divider(),
-      ),
+    return ListView.separated(
+      itemCount: items.length,
+      itemBuilder: (context, index) =>
+          TweetFeedListItem(tweetItem: items[index]),
+      separatorBuilder: (context, index) => Divider(),
     );
   }
 }
