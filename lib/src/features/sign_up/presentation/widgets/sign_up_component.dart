@@ -74,7 +74,7 @@ class SignUpComponent extends StatelessWidget {
   Widget _buildEmailTextField(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: I18n.of(context).translate('sign_up_email_label'),
+        labelText: I18n.of(context).translate('sign_up_feature.email_label'),
       ),
       validator: (value) => _validator.validateEmail(context, value),
       keyboardType: TextInputType.emailAddress,
@@ -92,7 +92,7 @@ class SignUpComponent extends StatelessWidget {
   Widget _buildPasswordTextField(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: I18n.of(context).translate('sign_up_password_label'),
+        labelText: I18n.of(context).translate('sign_up_feature.password_label'),
       ),
       obscureText: true,
       validator: (value) => _validator.validatePassword(context, value),
@@ -111,7 +111,7 @@ class SignUpComponent extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16.0),
       child: RaisedButton(
         child: Text(
-          I18n.of(context).translate('sign_up_submit_button_title'),
+          I18n.of(context).translate('sign_up_feature.submit_button_title'),
         ),
         onPressed: _onSubmit,
       ),
@@ -130,8 +130,8 @@ class SignUpComponent extends StatelessWidget {
   Widget _buildCreatingView(BuildContext context) {
     return Center(
       child: CircularIndicator(
-        semanticsValue:
-            I18n.of(context).translate('sign_up_creating_message_semantics'),
+        semanticsValue: I18n.of(context)
+            .translate('sign_up_feature.creating_message_semantics'),
       ),
     );
   }
@@ -146,7 +146,7 @@ class SignUpComponent extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          I18n.of(context).translate('sign_up_email_already_in_use'),
+          I18n.of(context).translate('sign_up_feature.email_already_in_use'),
         ),
       ),
     );
@@ -156,7 +156,7 @@ class SignUpComponent extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          I18n.of(context).translate('sign_up_unexpected_message'),
+          I18n.of(context).translate('sign_up_feature.unexpected_message'),
         ),
       ),
     );

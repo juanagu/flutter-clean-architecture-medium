@@ -76,7 +76,7 @@ class SignInComponent extends StatelessWidget {
   Widget _buildEmailTextField(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: I18n.of(context).translate('sign_in_email_label'),
+        labelText: I18n.of(context).translate('sign_in_feature.email_label'),
       ),
       validator: (value) => _validator.validateEmail(context, value),
       keyboardType: TextInputType.emailAddress,
@@ -94,7 +94,7 @@ class SignInComponent extends StatelessWidget {
   Widget _buildPasswordTextField(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: I18n.of(context).translate('sign_up_password_label'),
+        labelText: I18n.of(context).translate('sign_in_feature.password_label'),
       ),
       obscureText: true,
       validator: (value) => _validator.validatePassword(context, value),
@@ -113,7 +113,7 @@ class SignInComponent extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16.0),
       child: RaisedButton(
         child: Text(
-          I18n.of(context).translate('sign_in_submit_button_title'),
+          I18n.of(context).translate('sign_in_feature.submit_button_title'),
         ),
         onPressed: _onSubmit,
       ),
@@ -137,7 +137,7 @@ class SignInComponent extends StatelessWidget {
     return Center(
       child: CircularIndicator(
         semanticsValue: I18n.of(context)
-            .translate('sign_in_authenticating_message_semantics'),
+            .translate('sign_in_feature.authenticating_message_semantics'),
       ),
     );
   }
@@ -152,7 +152,7 @@ class SignInComponent extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          I18n.of(context).translate('sign_in_unauthorized_message'),
+          I18n.of(context).translate('sign_in_feature.unauthorized_message'),
         ),
       ),
     );
@@ -162,7 +162,7 @@ class SignInComponent extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          I18n.of(context).translate('sign_in_unexpected_message'),
+          I18n.of(context).translate('sign_in_feature.unexpected_message'),
         ),
       ),
     );

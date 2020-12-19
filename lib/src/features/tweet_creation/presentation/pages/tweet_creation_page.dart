@@ -51,7 +51,7 @@ class TweetCreationPage extends StatelessWidget {
 
   Widget _buildTweetPageView(BuildContext context) {
     return PageContainer(
-      title: I18n.of(context).translate('tweet_creation_title'),
+      title: I18n.of(context).translate('tweet_creation_feature.title'),
       body: _buildBody(context),
       actions: [
         _buildTweetSubmitButton(context),
@@ -70,8 +70,8 @@ class TweetCreationPage extends StatelessWidget {
             child: TextFormField(
               decoration: InputDecoration(
                 isDense: true,
-                hintText:
-                    I18n.of(context).translate('tweet_creation_hint_text'),
+                hintText: I18n.of(context)
+                    .translate('tweet_creation_feature.hint_text'),
               ),
               controller: _tweetController,
               autofocus: true,
@@ -87,7 +87,8 @@ class TweetCreationPage extends StatelessWidget {
 
   Widget _buildTweetSubmitButton(BuildContext context) {
     return IconButton(
-      tooltip: I18n.of(context).translate('tweet_creation_submit_button_title'),
+      tooltip: I18n.of(context)
+          .translate('tweet_creation_feature.submit_button_title'),
       icon: Icon(
         Icons.check,
       ),
@@ -105,7 +106,8 @@ class TweetCreationPage extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          I18n.of(context).translate('tweet_unexpected_error_message'),
+          I18n.of(context)
+              .translate('tweet_creation_feature.unexpected_error_message'),
         ),
       ),
     );
@@ -116,7 +118,7 @@ class TweetCreationPage extends StatelessWidget {
       body: Center(
         child: CircularIndicator(
           semanticsValue: I18n.of(context)
-              .translate('tweet_creation_tweeting_message_semantics'),
+              .translate('tweet_creation_feature.tweeting_message_semantics'),
         ),
       ),
     );

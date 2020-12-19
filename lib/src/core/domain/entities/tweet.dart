@@ -6,14 +6,16 @@ class Tweet implements Comparable {
   final int likes;
   final User owner;
   final DateTime creationDate;
+  final bool likeIt;
 
   Tweet(
     this.id,
     this.content,
     this.likes,
     this.owner,
-    this.creationDate,
-  );
+    this.creationDate, {
+    this.likeIt = false,
+  });
 
   @override
   int compareTo(other) {
@@ -29,5 +31,18 @@ class Tweet implements Comparable {
     }
 
     return 0;
+  }
+
+  Tweet changeLike() {
+    final _likeIt = !likeIt;
+    final _likes = _likeIt ? likes + 1 : likes - 1;
+    return Tweet(
+      id,
+      content,
+      _likes,
+      owner,
+      creationDate,
+      likeIt: _likeIt,
+    );
   }
 }

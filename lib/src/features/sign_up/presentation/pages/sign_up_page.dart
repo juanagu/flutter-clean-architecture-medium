@@ -13,7 +13,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageContainer(
-      title: I18n.of(context).translate('sign_up_title'),
+      title: I18n.of(context).translate('sign_up_feature.title'),
       body: signUpWidget,
     );
   }

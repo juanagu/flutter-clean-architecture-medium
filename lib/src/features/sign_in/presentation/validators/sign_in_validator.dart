@@ -5,7 +5,7 @@ import 'package:app/src/application/localizations/i18n.dart';
 class SignInValidator {
   String validateEmail(BuildContext context, String value) {
     if (value.isEmpty) {
-      return I18n.of(context).translate('sign_in_email_is_required');
+      return I18n.of(context).translate('sign_in_feature.email_is_required');
     }
 
     if (!EmailValidator.validate(value)) {
@@ -17,7 +17,7 @@ class SignInValidator {
 
   String validatePassword(BuildContext context, String value) {
     if (value.isEmpty) {
-      return I18n.of(context).translate('sign_in_password_is_required');
+      return I18n.of(context).translate('sign_in_feature.password_is_required');
     }
     return null;
   }

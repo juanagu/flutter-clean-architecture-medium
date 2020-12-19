@@ -13,7 +13,7 @@ class I18n {
 
   final Locale _locale;
   bool isTest;
-  Map<String, String> _sentences;
+  Map<String, dynamic> _sentences;
 
   static I18n of(BuildContext context) {
     return Localizations.of<I18n>(context, I18n);
@@ -29,6 +29,9 @@ class I18n {
     Map<String, dynamic> _result = json.decode(data);
     _sentences = {};
     _result.forEach((String key, dynamic value) {
+      if (value is Map) {
+        return _sentences[key] = value;
+      }
       _sentences[key] = value.toString();
     });
     return I18n(_locale);
@@ -51,8 +54,17 @@ class I18n {
       return '...';
     }
 
-    var text = _sentences[key];
+    final keySplit = key.split('.');
+    var text = keySplit.length == 1
+        ? _sentences[keySplit[0]]
+        : _getComposeTranslation(keySplit);
     return text ?? key;
+  }
+
+  String _getComposeTranslation(List<String> keySplit) {
+    return _sentences[keySplit[0]] != null
+        ? _sentences[keySplit[0]][keySplit[1]]
+        : null;
   }
 
   String toUpperCase(String key) {

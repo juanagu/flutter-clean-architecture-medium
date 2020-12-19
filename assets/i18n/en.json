@@ -1,17 +1,27 @@
 {
     "app_title": "App",
     "maintenance_message": "Oops! We are working to improve the performance of the app ...",
-    "auth_index_loading_semantic": "Checking session...",
-    "sign_in_email_label": "Email",
-    "sign_in_password_label": "Password",
-    "sign_in_submit_button_title": "Sign in",
-    "sign_up_button_title": "Sign up for App",
-    "sign_up_title": "Create your account",
-    "sign_up_submit_button_title": "Sign up",
-    "sign_up_email_label": "Email",
-    "sign_up_password_label": "Password",
-    "home_title" : "Home",
-    "tweet_creation_title" : "Unsent Tweet",
-    "tweet_creation_hint_text" : "What's happening?",
-    "tweet_creation_submit_button_title" :  "Tweet"
+    "auth_index_feature": {
+        "loading_semantic": "Checking session..."
+    },
+    "sign_in_feature": {
+        "email_label": "Email",
+        "password_label": "Password",
+        "submit_button_title": "Sign in"
+    },
+    "sign_up_feature": {
+        "button_title": "Sign up for App",
+        "title": "Create your account",
+        "submit_button_title": "Sign up",
+        "email_label": "Email",
+        "password_label": "Password"
+    },
+    "home_feature": {
+        "title": "Home"
+    },
+    "tweet_creation_feature": {
+        "title": "Unsent Tweet",
+        "hint_text": "What's happening?",
+        "submit_button_title": "Tweet"
+    }
 }

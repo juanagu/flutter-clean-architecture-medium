@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageContainer(
-      title: I18n.of(context).translate('home_title'),
+      title: I18n.of(context).translate('home_feature.title'),
       body: TweetFeedFeature().build(),
       floatingActionButton: TweetCreationFeature().buildFloatingButton(),
     );
