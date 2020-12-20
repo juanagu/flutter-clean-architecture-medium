@@ -18,7 +18,7 @@ Future<void> main() async {
   );
 }
 
-Future init() async {
+Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   IocManager.register();
