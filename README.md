@@ -2,6 +2,12 @@
 # Clean Architecture + Feature Toggles (Simple implementation)
 
 ## Architecture
+![App Components Diagram](https://github.com/juanagu/flutter-clean-architecture-medium/blob/master/docs/1_app_components_diagram.jpeg)
+
+![Data Flow and Dependency Rule](https://github.com/juanagu/flutter-clean-architecture-medium/blob/master/docs/2_data_flow_dependency_rule.jpeg)
+
+![Feature Diagram](https://github.com/juanagu/flutter-clean-architecture-medium/blob/master/docs/3_feature_diagram.jpeg)
+
 
  - Name: [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), [Feature Toggles](https://martinfowler.com/articles/feature-toggles.html)
 
