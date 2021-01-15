@@ -1,4 +1,4 @@
-# WIP
+# Twitter App (WIP)
 # Clean Architecture + Feature Toggles (Simple implementation)
 
 ## Architecture
