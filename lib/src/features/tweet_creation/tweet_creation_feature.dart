@@ -14,17 +14,17 @@ import 'package:flutter/material.dart';
 import 'presentation/widgets/tweet_creation_floating_button.dart';
 
 class TweetCreationFeature {
-  static const String Route = '/tweet';
-  static const String Key = 'tweetCreationIsActive';
+  static const String route = '/tweet';
+  static const String key = 'tweetCreationIsActive';
 
   static Map<String, WidgetBuilder> generateRoutes() {
     return {
-      Route: (context) => TweetCreationFeature().buildPage(),
+      route: (context) => TweetCreationFeature().buildPage(),
     };
   }
 
   static Future<dynamic> navigate(BuildContext context) {
-    return Navigator.of(context).pushNamed(Route);
+    return Navigator.of(context).pushNamed(route);
   }
 
   Widget buildPage() {

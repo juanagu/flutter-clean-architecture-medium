@@ -5,10 +5,9 @@ import 'package:app/src/features/tweet_feed/presentation/models/tweet_item.dart'
 import 'package:meta/meta.dart';
 
 class TweetItemMapper {
-  final TimeagoHelper _timeagoHelper;
-
   TweetItemMapper({@required TimeagoHelper timeagoHelper})
       : _timeagoHelper = timeagoHelper;
+  final TimeagoHelper _timeagoHelper;
 
   TweetItem fromTweet(Tweet tweet) {
     return TweetItem(

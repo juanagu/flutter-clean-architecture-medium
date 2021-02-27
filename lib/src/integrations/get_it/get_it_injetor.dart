@@ -2,14 +2,14 @@ import 'package:get_it/get_it.dart';
 import 'package:app/src/abstractions/ioc/injector.dart';
 
 class GetItInjector implements Injector {
-  static final GetItInjector _singleton = GetItInjector._internal();
-  final GetIt _getIt = GetIt.asNewInstance();
-
   factory GetItInjector() {
     return _singleton;
   }
 
   GetItInjector._internal();
+
+  static final GetItInjector _singleton = GetItInjector._internal();
+  final GetIt _getIt = GetIt.asNewInstance();
 
   @override
   void registerFactory<T>(factoryFunc) {

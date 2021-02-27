@@ -6,22 +6,21 @@ import 'package:meta/meta.dart';
 export 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
-  final SignInRepository _signInRepository;
-
   SignInCubit({
     @required SignInRepository signInRepository,
   })  : _signInRepository = signInRepository,
-        super(SignInState.initial());
+        super(const SignInState.initial());
+  final SignInRepository _signInRepository;
 
   Future<void> signIn(String email, String password) async {
-    emit(SignInState.authenticating());
+    emit(const SignInState.authenticating());
     var either = await _signInRepository.signIn(email, password);
     either.fold(
       (error) => error.when(
-        unauthorized: () => emit(SignInState.unauthorized()),
-        unexpectedError: () => emit(SignInState.unexpectedError()),
+        unauthorized: () => emit(const SignInState.unauthorized()),
+        unexpectedError: () => emit(const SignInState.unexpectedError()),
       ),
-      (authorized) => emit(SignInState.authorized()),
+      (authorized) => emit(const SignInState.authorized()),
     );
   }
 }

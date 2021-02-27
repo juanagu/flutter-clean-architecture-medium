@@ -12,17 +12,17 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: AuthIndexFeature.Route,
+      initialRoute: AuthIndexFeature.route,
       onGenerateTitle: (context) => I18n.of(context).translate('app_title'),
       themeMode: ThemeMode.system,
       routes: generateRoutes(),
       localizationsDelegates: [
-        AppLocalizationsDelegate(),
+        const AppLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales:
-          I18n.Languages.map((language) => Locale(language)).toList(),
+          I18n.languages.map((language) => Locale(language)).toList(),
     );
   }
 

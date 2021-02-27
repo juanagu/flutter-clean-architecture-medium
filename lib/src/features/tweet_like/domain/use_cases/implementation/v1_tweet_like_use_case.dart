@@ -7,11 +7,11 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 class V1TweetLikeUseCase implements TweetLikeUseCase {
-  final TweetLikeRepository _tweetLikeRepository;
-
   V1TweetLikeUseCase({
     @required TweetLikeRepository tweetLikeRepository,
   }) : _tweetLikeRepository = tweetLikeRepository;
+
+  final TweetLikeRepository _tweetLikeRepository;
 
   @override
   Future<Either<TweetLikeFailure, TweetLikeResult>> execute(Tweet tweet) {

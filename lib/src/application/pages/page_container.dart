@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 class PageContainer extends StatelessWidget {
-  final Widget body;
-  final String title;
-  final Widget floatingActionButton;
-  final List<Widget> actions;
-
   const PageContainer({
     Key key,
     @required this.body,
@@ -13,6 +8,11 @@ class PageContainer extends StatelessWidget {
     this.floatingActionButton,
     this.actions,
   }) : super(key: key);
+
+  final Widget body;
+  final String title;
+  final Widget floatingActionButton;
+  final List<Widget> actions;
 
   @override
   Widget build(BuildContext context) {

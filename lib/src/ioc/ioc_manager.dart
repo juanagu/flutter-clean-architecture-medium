@@ -27,25 +27,27 @@ abstract class IocManager {
   }
 
   static void _registerMobile(Injector injcetor) {
-    var injector = Injector.register(GetItInjector());
-    injector.registerLazySingleton<Logger>(() => FirebaseCrashlyticsLogger());
-    injector.registerLazySingleton<FeatureConfig>(() =>
-        FirebaseRemoteFeatureConfig(defaultConfig: FeatureDefaultConfig.value));
+    var injector = Injector.register(GetItInjector())
+      ..registerLazySingleton<Logger>(() => FirebaseCrashlyticsLogger())
+      ..registerLazySingleton<FeatureConfig>(() => FirebaseRemoteFeatureConfig(
+          defaultConfig: FeatureDefaultConfig.value));
 
     _registerCommons(injector);
   }
 
   static void _registerWeb(Injector injector) {
-    injector.registerLazySingleton<Logger>(() => WebMockLogger());
-    injector.registerLazySingleton<FeatureConfig>(() => WebMockFeatureConfig());
+    injector
+      ..registerLazySingleton<Logger>(() => WebMockLogger())
+      ..registerLazySingleton<FeatureConfig>(() => WebMockFeatureConfig());
     _registerCommons(injector);
   }
 
   static void _registerCommons(Injector injector) {
-    injector.registerLazySingleton<DataRemoteClient>(
-        () => FirebaseDataRemoteClient());
-    injector.registerFactory<UserSessionRepository>(
-        () => UserSessionFirebaseRepository());
-    injector.registerLazySingleton<TimeagoHelper>(() => TimeagoImplHelper());
+    injector
+      ..registerLazySingleton<DataRemoteClient>(
+          () => FirebaseDataRemoteClient())
+      ..registerFactory<UserSessionRepository>(
+          () => UserSessionFirebaseRepository())
+      ..registerLazySingleton<TimeagoHelper>(() => TimeagoImplHelper());
   }
 }

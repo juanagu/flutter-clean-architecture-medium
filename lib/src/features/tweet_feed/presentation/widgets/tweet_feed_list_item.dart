@@ -3,12 +3,12 @@ import 'package:app/src/features/tweet_like/tweet_like_feature.dart';
 import 'package:flutter/material.dart';
 
 class TweetFeedListItem extends StatelessWidget {
-  final TweetItem tweetItem;
-
   const TweetFeedListItem({
     Key key,
     @required this.tweetItem,
   }) : super(key: key);
+
+  final TweetItem tweetItem;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,7 @@ class TweetFeedListItem extends StatelessWidget {
   }
 
   Widget _buildUserAvatar() {
-    return CircleAvatar(
-      child: Icon(Icons.person),
-    );
+    return const CircleAvatar(child: Icon(Icons.person));
   }
 
   Widget _buildHeader(BuildContext context) {

@@ -1,11 +1,6 @@
 import 'package:app/src/core/domain/entities/user.dart';
 
 class Tweet {
-  final String content;
-  final DateTime creationDate;
-  final User owner;
-  final int likes;
-
   Tweet(
     this.content,
     this.owner,
@@ -21,4 +16,9 @@ class Tweet {
       0,
     );
   }
+
+  final String content;
+  final DateTime creationDate;
+  final User owner;
+  final int likes;
 }

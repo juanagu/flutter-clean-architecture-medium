@@ -9,11 +9,11 @@ import 'package:app/src/features/sign_in/presentation/widgets/sign_in_component.
 import 'package:flutter/material.dart';
 
 class SignInFeature {
-  static const String Route = '/sign-in';
+  static const String route = '/sign-in';
 
   static Map<String, WidgetBuilder> generateRoutes() {
     return {
-      Route: (context) => SignInFeature().buildPage(),
+      route: (context) => SignInFeature().buildPage(),
     };
   }
 
@@ -23,9 +23,9 @@ class SignInFeature {
   }) {
     final navigator = Navigator.of(context);
 
-    if (retainHistory) return navigator.pushNamed(Route);
+    if (retainHistory) return navigator.pushNamed(route);
 
-    return navigator.pushNamedAndRemoveUntil(Route, (route) => false);
+    return navigator.pushNamedAndRemoveUntil(route, (route) => false);
   }
 
   Widget buildPage() {
@@ -37,7 +37,7 @@ class SignInFeature {
   Widget _build() {
     return SignInComponent(
       cubit: _provideCubit(),
-      onAuthorized: (context) => AuthIndexFeature.navigate(context),
+      onAuthorized: AuthIndexFeature.navigate,
     );
   }
 

@@ -7,17 +7,17 @@ import 'package:app/src/features/tweet_feed/domain/use_cases/tweet_feed_use_case
 import 'package:meta/meta.dart';
 
 class V1TweetFeedUseCase implements TweetFeedUseCase {
-  final TweetFeedRepository _tweetFeedRepository;
-  final TweetFeedSorter _tweetFeedSorter;
-
-  final StreamController<List<Tweet>> _controller =
-      StreamController<List<Tweet>>();
-
   V1TweetFeedUseCase({
     @required TweetFeedRepository tweetFeedRepository,
     @required TweetFeedSorter tweetFeedSorter,
   })  : _tweetFeedRepository = tweetFeedRepository,
         _tweetFeedSorter = tweetFeedSorter;
+
+  final TweetFeedRepository _tweetFeedRepository;
+  final TweetFeedSorter _tweetFeedSorter;
+
+  final StreamController<List<Tweet>> _controller =
+      StreamController<List<Tweet>>();
 
   @override
   Stream<List<Tweet>> execute() {

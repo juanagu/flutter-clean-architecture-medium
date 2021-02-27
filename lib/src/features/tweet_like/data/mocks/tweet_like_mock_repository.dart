@@ -7,7 +7,7 @@ import 'package:dartz/dartz.dart';
 class TweetLikeMockRepository implements TweetLikeRepository {
   @override
   Future<Either<TweetLikeFailure, TweetLikeResult>> update(Tweet tweet) async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
 
     return right(TweetLikeResult.sent(tweet));
   }

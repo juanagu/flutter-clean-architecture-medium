@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CircularIndicator extends StatelessWidget {
-  final String semanticsValue;
-
   const CircularIndicator({
     Key key,
     @required this.semanticsValue,
   }) : super(key: key);
+
+  final String semanticsValue;
 
   @override
   Widget build(BuildContext context) {

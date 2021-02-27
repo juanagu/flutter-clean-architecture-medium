@@ -9,30 +9,29 @@ import 'auth_index_state.dart';
 export 'auth_index_state.dart';
 
 class AuthIndexCubit extends Cubit<AuthIndexState> {
-  final AuthSessionRepository _authSessionRepository;
-  final FeatureConfig _featureConfig;
-
   AuthIndexCubit({
     @required AuthSessionRepository authSessionRepository,
     @required FeatureConfig featureConfig,
   })  : _authSessionRepository = authSessionRepository,
         _featureConfig = featureConfig,
-        super(AuthIndexState.initial());
+        super(const AuthIndexState.initial());
+  final AuthSessionRepository _authSessionRepository;
+  final FeatureConfig _featureConfig;
 
   Future<void> check() async {
-    var isAppActive = await _featureConfig.isEnabled(AuthIndexFeature.Key);
+    var isAppActive = await _featureConfig.isEnabled(AuthIndexFeature.key);
     if (!isAppActive) {
-      emit(AuthIndexState.maintenance());
+      emit(const AuthIndexState.maintenance());
       return;
     }
 
     var either = await _authSessionRepository.isAuthorized();
     either.fold(
       (error) => error.when(
-        unauthorized: () => emit(AuthIndexState.unauthorized()),
-        unexpectedError: () => emit(AuthIndexState.unexpectedError()),
+        unauthorized: () => emit(const AuthIndexState.unauthorized()),
+        unexpectedError: () => emit(const AuthIndexState.unexpectedError()),
       ),
-      (authorized) => emit(AuthIndexState.authorized()),
+      (authorized) => emit(const AuthIndexState.authorized()),
     );
   }
 }

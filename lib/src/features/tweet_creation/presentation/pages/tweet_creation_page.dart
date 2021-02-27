@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TweetCreationPage extends StatelessWidget {
-  final TweetCreationCubit cubit;
-  final Function(BuildContext) onTweeted;
-
-  final TextEditingController _tweetController = TextEditingController();
-
   TweetCreationPage({
     Key key,
     @required this.cubit,
     @required this.onTweeted,
   }) : super(key: key);
+
+  final TweetCreationCubit cubit;
+  final Function(BuildContext) onTweeted;
+
+  final TextEditingController _tweetController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +89,7 @@ class TweetCreationPage extends StatelessWidget {
     return IconButton(
       tooltip: I18n.of(context)
           .translate('tweet_creation_feature.submit_button_title'),
-      icon: Icon(
-        Icons.check,
-      ),
+      icon: const Icon(Icons.check),
       onPressed: _onSubmit,
     );
   }
@@ -103,7 +101,7 @@ class TweetCreationPage extends StatelessWidget {
   }
 
   void _showUnexpectedError(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text(
           I18n.of(context)
@@ -125,7 +123,7 @@ class TweetCreationPage extends StatelessWidget {
   }
 
   Widget _buildTweetedView(BuildContext context) {
-    return PageContainer(
+    return const PageContainer(
       body: Center(
         child: Icon(Icons.check),
       ),

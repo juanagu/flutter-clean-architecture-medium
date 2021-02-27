@@ -6,11 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 class SignInFirebaseRepository implements SignInRepository {
-  final Logger _logger;
-
   SignInFirebaseRepository({
     @required Logger logger,
   }) : _logger = logger;
+
+  final Logger _logger;
 
   @override
   Future<Either<SignInFailure, bool>> signIn(
@@ -24,13 +24,13 @@ class SignInFirebaseRepository implements SignInRepository {
         return right(true);
       }
 
-      return left(SignInFailure.unexpectedError());
+      return left(const SignInFailure.unexpectedError());
     } catch (error, stackTrace) {
       if (error is FirebaseAuthException) {
-        return left(SignInFailure.unauthorized());
+        return left(const SignInFailure.unauthorized());
       } else {
         await _logger.recordError(error, stackTrace);
-        return left(SignInFailure.unexpectedError());
+        return left(const SignInFailure.unexpectedError());
       }
     }
   }

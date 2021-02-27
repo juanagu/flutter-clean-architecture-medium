@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class I18n {
-  static const List<String> Languages = ['en', 'es'];
-  static const String DefaultLanguage = 'en';
   I18n(
     this._locale, {
     this.isTest = false,
   });
+  static const List<String> languages = ['en', 'es'];
+  static const String defaultLanguage = 'en';
 
   final Locale _locale;
   bool isTest;
@@ -43,7 +43,7 @@ class I18n {
           .loadString('assets/i18n/${_locale.languageCode}.json');
     } catch (_) {
       return await rootBundle
-          .loadString('assets/i18n/${I18n.DefaultLanguage}.json');
+          .loadString('assets/i18n/${I18n.defaultLanguage}.json');
     }
   }
 
@@ -73,14 +73,15 @@ class I18n {
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<I18n> {
-  final bool isTest;
   const AppLocalizationsDelegate({
     this.isTest = false,
   });
 
+  final bool isTest;
+
   @override
   bool isSupported(Locale locale) {
-    return I18n.Languages.contains(locale.languageCode);
+    return I18n.languages.contains(locale.languageCode);
   }
 
   @override

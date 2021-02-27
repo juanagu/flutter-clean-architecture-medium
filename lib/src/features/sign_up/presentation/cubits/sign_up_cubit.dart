@@ -5,22 +5,21 @@ import 'package:meta/meta.dart';
 export 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  final SignUpRepository _signUpRepository;
-
   SignUpCubit({
     @required SignUpRepository signUpRepository,
   })  : _signUpRepository = signUpRepository,
-        super(SignUpState.initial());
+        super(const SignUpState.initial());
+  final SignUpRepository _signUpRepository;
 
   Future<void> signUp(String email, String password) async {
-    emit(SignUpState.creating());
+    emit(const SignUpState.creating());
     var either = await _signUpRepository.signUp(email, password);
     either.fold(
       (error) => error.when(
-        emailAlreadyInUse: () => emit(SignUpState.emailAlreadyInUse()),
-        unexpectedError: () => emit(SignUpState.unexpectedError()),
+        emailAlreadyInUse: () => emit(const SignUpState.emailAlreadyInUse()),
+        unexpectedError: () => emit(const SignUpState.unexpectedError()),
       ),
-      (success) => emit(SignUpState.registered()),
+      (success) => emit(const SignUpState.registered()),
     );
   }
 }

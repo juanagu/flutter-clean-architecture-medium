@@ -5,8 +5,8 @@ import 'auth/auth_index_feature.dart';
 
 abstract class FeatureDefaultConfig {
   static Map<String, dynamic> value = {
-    AuthIndexFeature.Key: true,
-    SignUpFeature.Key: true,
-    TweetCreationFeature.Key: true,
+    AuthIndexFeature.key: true,
+    SignUpFeature.key: true,
+    TweetCreationFeature.key: true,
   };
 }

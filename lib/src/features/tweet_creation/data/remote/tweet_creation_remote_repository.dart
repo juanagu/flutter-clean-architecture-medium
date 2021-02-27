@@ -8,37 +8,35 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 class TweetCreationRemoteRepository implements TweetCreationRepository {
-  static const String TweetCollection = 'tweets';
-
-  final DataRemoteClient _dataRemoteClient;
-  final Logger _logger;
-
   TweetCreationRemoteRepository({
     @required DataRemoteClient dataRemoteClient,
     @required Logger logger,
   })  : _dataRemoteClient = dataRemoteClient,
         _logger = logger;
 
+  static const String tweetCollection = 'tweets';
+
+  final DataRemoteClient _dataRemoteClient;
+  final Logger _logger;
+
   @override
   Future<Either<TweetCreationFailure, bool>> create(Tweet tweet) async {
     try {
       var response = await _post(tweet);
 
-      if (response != null) {
-        return right(true);
-      }
+      if (response != null) return right(true);
 
-      return left(TweetCreationFailure.unexpectedError());
+      return left(const TweetCreationFailure.unexpectedError());
     } catch (error, stackTrace) {
       await _logger.recordError(error, stackTrace);
 
-      return left(TweetCreationFailure.unexpectedError());
+      return left(const TweetCreationFailure.unexpectedError());
     }
   }
 
   Future<dynamic> _post(Tweet tweet) async {
     return await _dataRemoteClient.post(
-      TweetCollection,
+      tweetCollection,
       data: TweetDataMapper(tweet).toJson(),
     );
   }

@@ -6,18 +6,18 @@ import 'package:meta/meta.dart';
 export 'tweet_feed_state.dart';
 
 class TweetFeedCubit extends Cubit<TweetFeedState> {
-  final TweetFeedUseCase _tweetFeedUseCase;
-  final TweetItemMapper _tweetItemMapper;
-
   TweetFeedCubit({
     @required TweetFeedUseCase tweetFeedUseCase,
     @required TweetItemMapper tweetItemMapper,
   })  : _tweetFeedUseCase = tweetFeedUseCase,
         _tweetItemMapper = tweetItemMapper,
-        super(TweetFeedState.initial());
+        super(const TweetFeedState.initial());
+
+  final TweetFeedUseCase _tweetFeedUseCase;
+  final TweetItemMapper _tweetItemMapper;
 
   void fetch() async {
-    emit(TweetFeedState.loading());
+    emit(const TweetFeedState.loading());
     _tweetFeedUseCase.execute().listen(
       (tweets) {
         if (tweets != null && tweets.isNotEmpty) {

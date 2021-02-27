@@ -7,14 +7,14 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 class TweetCreationV1UseCase implements TweetCreationUseCase {
-  final UserSessionRepository _userSessionRepository;
-  final TweetCreationRepository _tweetCreationRepository;
-
   TweetCreationV1UseCase({
     @required UserSessionRepository userSessionRepository,
     @required TweetCreationRepository tweetCreationRepository,
   })  : _userSessionRepository = userSessionRepository,
         _tweetCreationRepository = tweetCreationRepository;
+
+  final UserSessionRepository _userSessionRepository;
+  final TweetCreationRepository _tweetCreationRepository;
 
   @override
   Future<Either<TweetCreationFailure, bool>> execute(String content) async {

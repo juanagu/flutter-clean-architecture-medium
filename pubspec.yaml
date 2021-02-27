@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -26,34 +26,33 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   #bloc
-  flutter_bloc: ^6.1.1
+  flutter_bloc: ^6.1.2
   #firebase
-  firebase_core: ^0.5.3
-  cloud_firestore: ^0.14.4
-  firebase_auth: 0.18.4+1
-  firebase_crashlytics: ^0.2.4
-  #firebase_remote_config: ^0.4.3
+  firebase_core: 0.7.0 
+  cloud_firestore: 0.16.0+1 
+  firebase_auth: 0.20.1 
+  firebase_crashlytics: 0.4.0+1
+  firebase_remote_config: ^0.6.0
   # TODO: Check when this bug (https://github.com/FirebaseExtended/flutterfire/issues/4035) is fixed and swap back to official package
-  firebase_remote_config:
-    git:
-      url: https://github.com/FilledStacks/flutterfire.git
-      path: packages/firebase_remote_config
+  # firebase_remote_config:
+  #   git:
+  #     url: https://github.com/FilledStacks/flutterfire.git
+  #     path: packages/firebase_remote_config
   #get_it
-  get_it: 5.0.3
+  get_it: 5.0.6
   #functional programming
   dartz: ^0.9.2
   #date time
-  timeago: 2.0.29 
-  #icons
+  timeago: 2.0.30
+   #icons
   flutter_icons: 1.1.0 
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.10.9
-  pedantic: ^1.9.2
+  build_runner: ^1.11.1
   #functional programming
-  freezed: ^0.12.3
+  freezed: ^0.12.7
 
 flutter:
 

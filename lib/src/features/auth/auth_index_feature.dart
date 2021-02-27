@@ -12,18 +12,18 @@ import 'package:app/src/features/auth/presentation/pages/index_page.dart';
 import 'package:app/src/features/sign_in/sign_in_feature.dart';
 
 class AuthIndexFeature {
-  static const String Route = '/';
-  static const String Key = 'appIsActive';
+  static const String route = '/';
+  static const String key = 'appIsActive';
 
   static Map<String, WidgetBuilder> generateRoutes() {
     return {
-      Route: (context) => AuthIndexFeature().buildPage(),
+      route: (context) => AuthIndexFeature().buildPage(),
     };
   }
 
   static Future<void> navigate(BuildContext context) {
     return Navigator.of(context).pushNamedAndRemoveUntil(
-      Route,
+      route,
       (route) => false,
     );
   }
@@ -31,8 +31,8 @@ class AuthIndexFeature {
   Widget buildPage() {
     return AuthIndexPage(
       cubit: _provideCubit(),
-      onAuthorized: (context) => HomeFeature.navigate(context),
-      onUnauthorized: (context) => SignInFeature.navigate(context),
+      onAuthorized: HomeFeature.navigate,
+      onUnauthorized: SignInFeature.navigate,
       onUnexpected: (context) {
         log('onUnexpected');
       },

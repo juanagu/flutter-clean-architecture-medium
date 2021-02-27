@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TweetFeedComponent extends StatelessWidget {
-  final TweetFeedCubit cubit;
-
   const TweetFeedComponent({
     Key key,
     @required this.cubit,
   }) : super(key: key);
+
+  final TweetFeedCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class TweetFeedComponent extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) =>
           TweetFeedListItem(tweetItem: items[index]),
-      separatorBuilder: (context, index) => Divider(),
+      separatorBuilder: (_, __) => const Divider(),
     );
   }
 }

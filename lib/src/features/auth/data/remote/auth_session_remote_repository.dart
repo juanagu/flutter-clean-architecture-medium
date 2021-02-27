@@ -6,14 +6,14 @@ import 'package:app/src/features/auth/domain/repositories/auth_session_repositor
 import 'package:meta/meta.dart';
 
 class AuthSessionRemoteRepository implements AuthSessionRepository {
-  final DataRemoteClient _dataRemoteClient;
-  final Logger _logger;
-
   AuthSessionRemoteRepository({
     @required DataRemoteClient dataRemoteClient,
     @required Logger logger,
   })  : _dataRemoteClient = dataRemoteClient,
         _logger = logger;
+
+  final DataRemoteClient _dataRemoteClient;
+  final Logger _logger;
 
   @override
   Future<Either<AuthSessionFailure, bool>> isAuthorized() async {
@@ -23,11 +23,11 @@ class AuthSessionRemoteRepository implements AuthSessionRepository {
       if (result) {
         return right(result);
       } else {
-        return left(AuthSessionFailure.unauthorized());
+        return left(const AuthSessionFailure.unauthorized());
       }
     } catch (error, stackTrace) {
       await _logger.recordError(error, stackTrace);
-      return left(AuthSessionFailure.unexpectedError());
+      return left(const AuthSessionFailure.unexpectedError());
     }
   }
 }

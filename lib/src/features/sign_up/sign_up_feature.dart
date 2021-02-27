@@ -11,12 +11,12 @@ import 'package:app/src/features/sign_up/presentation/widgets/sign_up_component.
 import 'package:flutter/material.dart';
 
 class SignUpFeature {
-  static const String Route = '/sign-up';
-  static const String Key = 'signUpFeatureIsActive';
+  static const String route = '/sign-up';
+  static const String key = 'signUpFeatureIsActive';
 
   static Map<String, WidgetBuilder> generateRoutes() {
     return {
-      Route: (context) => SignUpFeature().buildPage(),
+      route: (context) => SignUpFeature().buildPage(),
     };
   }
 
@@ -26,9 +26,9 @@ class SignUpFeature {
   }) {
     final navigator = Navigator.of(context);
 
-    if (retainHistory) return navigator.pushNamed(Route);
+    if (retainHistory) return navigator.pushNamed(route);
 
-    return navigator.pushNamedAndRemoveUntil(Route, (route) => false);
+    return navigator.pushNamedAndRemoveUntil(route, (route) => false);
   }
 
   Widget buildPage() {
@@ -46,7 +46,7 @@ class SignUpFeature {
   Widget _build() {
     return SignUpComponent(
       cubit: _provideCubit(),
-      onRegistered: (context) => AuthIndexFeature.navigate(context),
+      onRegistered: AuthIndexFeature.navigate,
     );
   }
 

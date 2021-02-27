@@ -7,6 +7,12 @@ import 'package:app/src/application/localizations/i18n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInComponent extends StatelessWidget {
+  SignInComponent({
+    Key key,
+    @required this.cubit,
+    @required this.onAuthorized,
+  }) : super(key: key);
+
   final SignInCubit cubit;
   final Function(BuildContext) onAuthorized;
 
@@ -15,12 +21,6 @@ class SignInComponent extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
-
-  SignInComponent({
-    Key key,
-    @required this.cubit,
-    @required this.onAuthorized,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,13 +143,11 @@ class SignInComponent extends StatelessWidget {
   }
 
   Widget _buildAuthorizedView(BuildContext context) {
-    return Center(
-      child: Icon(Icons.check),
-    );
+    return const Center(child: Icon(Icons.check));
   }
 
   void _showUnauthorized(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text(
           I18n.of(context).translate('sign_in_feature.unauthorized_message'),
@@ -159,7 +157,7 @@ class SignInComponent extends StatelessWidget {
   }
 
   void _showUnexpectedError(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text(
           I18n.of(context).translate('sign_in_feature.unexpected_message'),

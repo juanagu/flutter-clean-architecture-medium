@@ -1,13 +1,6 @@
 import 'package:app/src/core/domain/entities/user.dart';
 
 class Tweet implements Comparable {
-  final String id;
-  final String content;
-  final int likes;
-  final User owner;
-  final DateTime creationDate;
-  final bool likeIt;
-
   Tweet(
     this.id,
     this.content,
@@ -16,6 +9,13 @@ class Tweet implements Comparable {
     this.creationDate, {
     this.likeIt = false,
   });
+
+  final String id;
+  final String content;
+  final int likes;
+  final User owner;
+  final DateTime creationDate;
+  final bool likeIt;
 
   @override
   int compareTo(other) {

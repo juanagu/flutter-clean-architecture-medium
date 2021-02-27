@@ -1,9 +1,8 @@
 import 'package:app/src/features/tweet_creation/domain/entities/tweet.dart';
 
 class TweetDataMapper {
-  final Tweet tweet;
-
   TweetDataMapper(this.tweet);
+  final Tweet tweet;
 
   Map<String, dynamic> toJson() {
     return {

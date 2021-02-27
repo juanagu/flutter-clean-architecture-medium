@@ -6,6 +6,12 @@ import 'package:app/src/application/localizations/i18n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpComponent extends StatelessWidget {
+  SignUpComponent({
+    Key key,
+    @required this.cubit,
+    @required this.onRegistered,
+  }) : super(key: key);
+
   final SignUpCubit cubit;
   final Function(BuildContext) onRegistered;
 
@@ -14,12 +20,6 @@ class SignUpComponent extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
-
-  SignUpComponent({
-    Key key,
-    @required this.cubit,
-    @required this.onRegistered,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,13 +137,11 @@ class SignUpComponent extends StatelessWidget {
   }
 
   Widget _buildRegisteredView(BuildContext context) {
-    return Center(
-      child: Icon(Icons.check),
-    );
+    return const Center(child: Icon(Icons.check));
   }
 
   void _showEmailAlreadyInUse(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text(
           I18n.of(context).translate('sign_up_feature.email_already_in_use'),
@@ -153,7 +151,7 @@ class SignUpComponent extends StatelessWidget {
   }
 
   void _showUnexpectedError(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text(
           I18n.of(context).translate('sign_up_feature.unexpected_message'),

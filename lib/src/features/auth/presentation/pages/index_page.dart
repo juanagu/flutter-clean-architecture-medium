@@ -7,11 +7,6 @@ import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
 import 'package:app/src/features/auth/presentation/cubits/auth_index_cubit.dart';
 
 class AuthIndexPage extends StatelessWidget {
-  final AuthIndexCubit cubit;
-  final Function(BuildContext) onAuthorized;
-  final Function(BuildContext) onUnauthorized;
-  final Function(BuildContext) onUnexpected;
-
   AuthIndexPage({
     Key key,
     @required this.cubit,
@@ -19,6 +14,11 @@ class AuthIndexPage extends StatelessWidget {
     @required this.onUnauthorized,
     @required this.onUnexpected,
   }) : super(key: key);
+
+  final AuthIndexCubit cubit;
+  final Function(BuildContext) onAuthorized;
+  final Function(BuildContext) onUnauthorized;
+  final Function(BuildContext) onUnexpected;
 
   @override
   Widget build(BuildContext context) {
@@ -68,19 +68,19 @@ class AuthIndexPage extends StatelessWidget {
   }
 
   Widget _buildAuthorizedView(BuildContext context) {
-    return Center(
+    return const Center(
       child: Icon(Icons.check),
     );
   }
 
   Widget _buildUnauthorizedView(BuildContext context) {
-    return Center(
+    return const Center(
       child: Icon(Icons.block),
     );
   }
 
   Widget _buildUnexpectedErrorView(BuildContext context) {
-    return Center(
+    return const Center(
       child: Icon(Icons.error),
     );
   }

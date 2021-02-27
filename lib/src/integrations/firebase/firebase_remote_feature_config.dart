@@ -4,12 +4,12 @@ import 'package:app/src/abstractions/features/feature_config.dart';
 import 'package:meta/meta.dart';
 
 class FirebaseRemoteFeatureConfig implements FeatureConfig {
-  final Map<String, dynamic> _defaultConfig;
-  RemoteConfig _instance;
-
   FirebaseRemoteFeatureConfig({
     @required Map<String, dynamic> defaultConfig,
   }) : _defaultConfig = defaultConfig;
+
+  final Map<String, dynamic> _defaultConfig;
+  RemoteConfig _instance;
 
   @override
   Future<bool> isEnabled(String key) async {
@@ -28,7 +28,7 @@ class FirebaseRemoteFeatureConfig implements FeatureConfig {
       //await _instance.setConfigSettings(RemoteConfigSettings());
 
       await _instance.setDefaults(_defaultConfig);
-      await _instance.fetch(expiration: Duration(minutes: 1));
+      await _instance.fetch(expiration: const Duration(minutes: 1));
       await _instance.activateFetched();
     }
   }

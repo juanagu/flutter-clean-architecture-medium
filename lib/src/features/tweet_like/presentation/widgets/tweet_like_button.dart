@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class TweetLikeButton extends StatelessWidget {
-  final Tweet tweet;
   const TweetLikeButton({
     Key key,
     this.tweet,
   }) : super(key: key);
+
+  final Tweet tweet;
 
   @override
   Widget build(BuildContext context) {

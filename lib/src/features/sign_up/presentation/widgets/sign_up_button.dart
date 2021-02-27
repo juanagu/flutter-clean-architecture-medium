@@ -4,12 +4,12 @@ import 'package:app/src/features/sign_up/sign_up_feature.dart';
 import 'package:flutter/material.dart';
 
 class SignUpButton extends StatefulWidget {
-  final FeatureConfig featureConfig;
-
   const SignUpButton({
     Key key,
     @required this.featureConfig,
   }) : super(key: key);
+  final FeatureConfig featureConfig;
+
   @override
   _SignUpButtonState createState() => _SignUpButtonState();
 }
@@ -24,13 +24,13 @@ class _SignUpButtonState extends State<SignUpButton> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isEnabled) return SizedBox.shrink();
+    if (!_isEnabled) return const SizedBox.shrink();
 
     return Padding(
       padding: const EdgeInsets.only(top: 4.0),
       child: FlatButton(
         child: Text(
-          I18n.of(context).translate('sign_up_button_title'),
+          I18n.of(context).translate('sign_up_feature.button_title'),
           style: Theme.of(context).textTheme.button.copyWith(
                 decoration: TextDecoration.underline,
                 color: Theme.of(context).accentColor,
@@ -42,7 +42,7 @@ class _SignUpButtonState extends State<SignUpButton> {
   }
 
   Future<void> _fetchIsEnabled() async {
-    var isEnabled = await widget.featureConfig.isEnabled(SignUpFeature.Key);
+    var isEnabled = await widget.featureConfig.isEnabled(SignUpFeature.key);
     if (isEnabled != _isEnabled) {
       setState(() {
         _isEnabled = isEnabled;

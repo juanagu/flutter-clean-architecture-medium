@@ -3,11 +3,12 @@ import 'package:app/src/features/tweet_creation/tweet_creation_feature.dart';
 import 'package:flutter/material.dart';
 
 class TweetCreationFloatingButton extends StatefulWidget {
-  final FeatureConfig featureConfig;
   const TweetCreationFloatingButton({
     Key key,
     @required this.featureConfig,
   }) : super(key: key);
+
+  final FeatureConfig featureConfig;
 
   @override
   _TweetCreationFloatingButtonState createState() =>
@@ -26,18 +27,18 @@ class _TweetCreationFloatingButtonState
 
   @override
   Widget build(BuildContext context) {
-    if (!_isEnabled) return SizedBox.shrink();
+    if (!_isEnabled) return const SizedBox.shrink();
 
     return FloatingActionButton(
       onPressed: () => TweetCreationFeature.navigate(context),
-      child: Icon(Icons.add_comment),
+      child: const Icon(Icons.add_comment),
       backgroundColor: Theme.of(context).accentColor,
     );
   }
 
   Future<void> _fetchIsEnabled() async {
     var isEnabled =
-        await widget.featureConfig.isEnabled(TweetCreationFeature.Key);
+        await widget.featureConfig.isEnabled(TweetCreationFeature.key);
     if (isEnabled != _isEnabled) {
       setState(() {
         _isEnabled = isEnabled;

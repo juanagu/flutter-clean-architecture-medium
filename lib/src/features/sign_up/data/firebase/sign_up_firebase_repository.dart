@@ -6,12 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 class SignUpFirebaseRepository implements SignUpRepository {
-  final Logger _logger;
-  static const String FirebaseCodeEmailAlreadyInUse = 'email-already-in-use';
-
   SignUpFirebaseRepository({
     @required Logger logger,
   }) : _logger = logger;
+  final Logger _logger;
+  static const String firebaseCodeEmailAlreadyInUse = 'email-already-in-use';
+
   @override
   Future<Either<SignUpFailure, bool>> signUp(
     String email,
@@ -27,14 +27,14 @@ class SignUpFirebaseRepository implements SignUpRepository {
         return right(true);
       }
 
-      return left(SignUpFailure.unexpectedError());
+      return left(const SignUpFailure.unexpectedError());
     } catch (error, stackTrace) {
       if (error is FirebaseAuthException &&
-          error.code == FirebaseCodeEmailAlreadyInUse) {
-        return left(SignUpFailure.emailAlreadyInUse());
+          error.code == firebaseCodeEmailAlreadyInUse) {
+        return left(const SignUpFailure.emailAlreadyInUse());
       } else {
         await _logger.recordError(error, stackTrace);
-        return left(SignUpFailure.unexpectedError());
+        return left(const SignUpFailure.unexpectedError());
       }
     }
   }

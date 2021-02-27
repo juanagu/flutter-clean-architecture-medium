@@ -1,7 +1,8 @@
 typedef FactoryFunc<T> = T Function();
 
 abstract class Injector {
-  static Injector instance;
+  static Injector _instance;
+  static Injector get instance => _instance;
   void registerFactory<T>(FactoryFunc<T> factoryFunc);
 
   void registerFactoryByName<T>(FactoryFunc<T> factoryFunc, String name);
@@ -19,7 +20,7 @@ abstract class Injector {
   T resolveByName<T>(String name);
 
   static Injector register(Injector implementation) {
-    instance = implementation;
-    return instance;
+    _instance = implementation;
+    return _instance;
   }
 }
