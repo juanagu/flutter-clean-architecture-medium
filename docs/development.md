@@ -116,6 +116,17 @@ Widget tests use the shipped dictionaries, so a copy change shows up in them.
 
 There is no release tier; the web build is the only build CI makes, and it proves the Firebase-free entry point compiles.
 
+## Verifying in a browser
+
+UI changes ship with screenshots at 390 wide and at desktop, for every state they touch, taken from the in-memory build:
+
+1. `flutter build web --release --dart-define=IN_MEMORY_BACKEND=true`, then serve `build/web` (for example `npx http-server -p 8767 -s -c-1 build/web`).
+2. Desktop: open `http://localhost:8767/` in a wide window.
+3. Phone: when the window cannot be resized (a maximised browser driven by automation), drop a `mobile.html` next to the build with a 390x844 iframe pointing at `/` and open that instead. Flutter lays out to the iframe, so the capture is the real 390 layout.
+4. Sign in with the demo account, then walk the states: validation errors, the feed with a liked tweet, compose empty and at the limit, a posted tweet.
+
+Both themes follow the system setting; switch it in the OS to capture light and dark. The widget tests under `test/` pump the shipped theme and the real dictionaries at 390x844, so Spanish and the light theme are covered there even when a browser pass captures only one.
+
 ## What bites
 
 - **Crashlytics is off in debug.** `FirebaseCrashlyticsLogger` calls `setCrashlyticsCollectionEnabled(!kDebugMode)`. Test crash reporting on a release or profile build.
