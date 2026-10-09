@@ -19,7 +19,7 @@ graph TD
   integrations --> firebase[(Firebase SDKs)]
 ```
 
-Rules, all checked by reading imports:
+Rules, enforced by `test/architecture/dependency_rule_test.dart`, which reads every import under `lib/` and fails with the offending lines:
 
 - `abstractions` imports nothing from the app.
 - `core` imports only `abstractions`.
@@ -174,8 +174,10 @@ sequenceDiagram
 | Domain (entities, sorters, use cases) | Plain `test()` with hand-written fakes from `test/support/fakes.dart`. No Flutter, no network. | `tweet_test.dart`, `tweet_feed_sorters_test.dart`, `authored_tweet_creation_use_case_test.dart` |
 | Data (repositories) | Run against the in-memory adapters, assert the `Either` and what was logged. | `sign_in_test.dart`, `sign_up_remote_repository_test.dart` |
 | Presentation (cubits) | Fixed or controllable use cases and repositories; assert emitted states and subscription cleanup. | `auth_index_cubit_test.dart`, `tweet_feed_cubit_test.dart`, `tweet_like_cubit_test.dart` |
-| Presentation (widgets) | `pumpLocalized` at 390x844 with the real dictionaries, in `en` and `es`. | `email_password_form_test.dart`, `tweet_feed_component_test.dart` |
+| Presentation (widgets) | `pumpLocalized` at 390x844 with the shipped theme and the real dictionaries, in `en` and `es`; one state per test. | `email_password_form_test.dart`, `tweet_feed_component_test.dart`, `tweet_composer_test.dart`, `tweet_like_button_test.dart` |
+| Page shell | `PageContainer` at 390, 768 and 1280 surfaces: gutter, capped column, title alignment. | `page_container_test.dart` |
 | Integrations | In-memory adapters have their own tests. Firebase adapters are not unit-tested; they are thin and need a project. | `in_memory_data_remote_client_test.dart` |
 | Application | I18n loader and dictionary consistency; validators. | `i18n_test.dart`, `email_validator_test.dart` |
+| Architecture | Every import under `lib/` checked against the layer table, vendor packages confined to `integrations/` and `main.dart`, no feature importing its own composition root from inside. | `test/architecture/dependency_rule_test.dart` |
 
-Fakes implement the ports directly. Nothing is mocked with a framework.
+Fakes implement the ports directly. Nothing is mocked with a framework. There is no end-to-end tier yet (`integration_test/` against the in-memory backend is the planned next step); until then the UI is verified by the widget tests and a manual browser pass (`development.md`, "Verifying in a browser").

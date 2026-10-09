@@ -50,7 +50,7 @@ lib/
     features/               One folder per feature, each with a <name>_feature.dart composition root
     ioc/                    IocManager: binds every port to an adapter per platform (mobile, web, in-memory)
 assets/i18n/                en.json and es.json dictionaries
-test/                       Mirrors lib/; shared fakes in test/support/
+test/                       Mirrors lib/; shared fakes in test/support/; test/architecture/ enforces the dependency rule above
 docs/                       Figures, development guide, architecture, ADRs
 ```
 
@@ -75,6 +75,7 @@ Example: a `profile` feature at `/profile`.
 - [docs/architecture.md](docs/architecture.md): layers, ports, failures, toggles, i18n, testing.
 - [docs/adr/](docs/adr/README.md): decisions and the alternatives considered.
 - [CONTRIBUTING.md](CONTRIBUTING.md): branch flow and where knowledge lives.
+- [CLAUDE.md](CLAUDE.md): where a coding agent starts; `AGENTS.md` points at it.
 - [CHANGELOG.md](CHANGELOG.md).
 
 ## Known gaps
