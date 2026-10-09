@@ -40,7 +40,7 @@ Update the doc that would otherwise mislead. Do not append history to a living d
 
 - **i18n:** add every new key to both `assets/i18n/en.json` and `assets/i18n/es.json`, and remove keys nothing uses. `flutter test` fails otherwise.
 - **No Firebase config in git:** `google-services.json`, `GoogleService-Info.plist` and `lib/firebase_options.dart` are gitignored. Keep them that way. Never embed them in a script.
-- **Dependency rule:** features import `abstractions`, `core` and `application` only. Only `ioc/` and `main.dart` import `integrations`. Only `integrations/` and `main.dart` import Firebase packages.
+- **Dependency rule:** features import `abstractions`, `core` and `application` only. Only `ioc/` and `main.dart` import `integrations`. Only `integrations/` and `main.dart` import Firebase packages. `test/architecture/dependency_rule_test.dart` checks every import under `lib/` and fails with the offending lines; `flutter test` runs it.
 - **Cross-feature access** goes through the Feature class (`route`, `navigate`, `build*`), passed as callbacks or widgets. Never import another feature's `data/`, `domain/` or `presentation/`.
 - **New feature:** follow the 8 steps in `README.md` and add a `feature_readme.md`.
 - **Lint:** no `// ignore` comments to get past the analyzer. Fix the code.

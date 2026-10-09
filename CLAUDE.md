@@ -1,6 +1,6 @@
 # Twitter App (Flutter sample): project instructions
 
-Companion repo of a Medium article on Clean Architecture, feature modules and feature toggles in Flutter. The global standards (`~/.claude/CLAUDE.md`) and the Flutter conventions in `~/.claude/agents/frontend-engineer.md` apply in full; this file only says where this repo keeps its own knowledge. Keep it short: it loads every session.
+Companion repo of a Medium article on Clean Architecture, feature modules and feature toggles in Flutter. The global standards (`~/.claude/CLAUDE.md`) apply in full, and the `flutter-architecture` skill describes this repo's architecture: invoke it before writing, planning or reviewing any code here. This file only says where this repo keeps its own knowledge. Keep it short: it loads every session.
 
 ## Read first
 
@@ -21,6 +21,6 @@ Companion repo of a Medium article on Clean Architecture, feature modules and fe
 
 - The `tweets` document schema has one home, `lib/src/core/data/tweet_document.dart`. Likes are the `likedBy` set of user ids; the count and `likeIt` derive from it and are written with atomic set operations, never as a number.
 - Remote Config keys live in `lib/src/application/feature_flags.dart` and match the parameters in the Firebase project; renaming one here means renaming it there.
-- Only `integrations/` and `main.dart` import Firebase packages; only `ioc/` and `main.dart` import `integrations/`. Features import `abstractions`, `core` and `application` only, and reach other features through their Feature class alone.
+- Only `integrations/` and `main.dart` import Firebase packages; only `ioc/` and `main.dart` import `integrations/`. Features import `abstractions`, `core` and `application` only, and reach other features through their Feature class alone. `test/architecture/dependency_rule_test.dart` enforces this and names the offending import; fix the import, never the test.
 - Both dictionaries under `assets/i18n/` keep identical key sets, every key used in `lib/` exists, and every key is used. The i18n test fails otherwise.
 - `google-services.json`, `GoogleService-Info.plist` and `lib/firebase_options.dart` stay out of git, and are never embedded in a script.
