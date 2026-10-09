@@ -2,5 +2,5 @@ import 'package:app/src/features/tweet_creation/domain/failures/tweet_creation_f
 import 'package:dartz/dartz.dart';
 
 abstract class TweetCreationUseCase {
-  Future<Either<TweetCreationFailure, bool>> execute(String content);
+  Future<Either<TweetCreationFailure, Unit>> execute(String content);
 }

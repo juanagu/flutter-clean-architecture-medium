@@ -1,8 +1,11 @@
+import 'package:app/src/abstractions/auth/auth_client.dart';
 import 'package:app/src/abstractions/features/feature_config.dart';
 import 'package:app/src/abstractions/ioc/injector.dart';
 import 'package:app/src/abstractions/utils/logger.dart';
+import 'package:app/src/application/feature_flags.dart';
+import 'package:app/src/application/widgets/feature_gate.dart';
 import 'package:app/src/features/auth/auth_index_feature.dart';
-import 'package:app/src/features/sign_up/data/firebase/sign_up_firebase_repository.dart';
+import 'package:app/src/features/sign_up/data/remote/sign_up_remote_repository.dart';
 import 'package:app/src/features/sign_up/domain/repositories/sign_up_repository.dart';
 import 'package:app/src/features/sign_up/presentation/cubits/sign_up_cubit.dart';
 import 'package:app/src/features/sign_up/presentation/pages/sign_up_page.dart';
@@ -10,55 +13,45 @@ import 'package:app/src/features/sign_up/presentation/widgets/sign_up_button.dar
 import 'package:app/src/features/sign_up/presentation/widgets/sign_up_component.dart';
 import 'package:flutter/material.dart';
 
+/// Composition root of the sign-up screen and of the button that opens it.
 class SignUpFeature {
   static const String route = '/sign-up';
-  static const String key = 'signUpFeatureIsActive';
 
   static Map<String, WidgetBuilder> generateRoutes() {
-    return {
-      route: (context) => SignUpFeature().buildPage(),
-    };
+    return {route: (context) => SignUpFeature().buildPage()};
   }
 
-  static Future<dynamic> navigate(
-    BuildContext context, {
-    bool retainHistory = true,
-  }) {
-    final navigator = Navigator.of(context);
-
-    if (retainHistory) return navigator.pushNamed(route);
-
-    return navigator.pushNamedAndRemoveUntil(route, (route) => false);
+  static Future<void> navigate(BuildContext context) {
+    return Navigator.of(context).pushNamed(route);
   }
 
   Widget buildPage() {
     return SignUpPage(
-      signUpWidget: _build(),
+      body: SignUpComponent(
+        createCubit: _provideCubit,
+        onRegistered: AuthIndexFeature.navigate,
+      ),
     );
   }
 
+  /// Hidden while the sign-up toggle is off.
   Widget buildButton() {
-    return SignUpButton(
+    return FeatureGate(
       featureConfig: Injector.instance.resolve<FeatureConfig>(),
-    );
-  }
-
-  Widget _build() {
-    return SignUpComponent(
-      cubit: _provideCubit(),
-      onRegistered: AuthIndexFeature.navigate,
+      flag: FeatureFlags.signUp,
+      child: const SignUpButton(onPressed: navigate),
     );
   }
 
   SignUpCubit _provideCubit() {
-    return SignUpCubit(
-      signUpRepository: _provideRepository(),
-    );
+    return SignUpCubit(signUpRepository: _provideRepository());
   }
 
   SignUpRepository _provideRepository() {
-    return SignUpFirebaseRepository(
-      logger: Injector.instance.resolve<Logger>(),
+    final injector = Injector.instance;
+    return SignUpRemoteRepository(
+      authClient: injector.resolve<AuthClient>(),
+      logger: injector.resolve<Logger>(),
     );
   }
 }

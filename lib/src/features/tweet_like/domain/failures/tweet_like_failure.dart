@@ -1,9 +1,13 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:app/src/abstractions/failures/failure.dart';
 
-part 'tweet_like_failure.freezed.dart';
+sealed class TweetLikeFailure extends Failure {
+  const TweetLikeFailure();
+}
 
-@freezed
-abstract class TweetLikeFailure extends Failure with _$TweetLikeFailure {
-  const factory TweetLikeFailure.unexpectedError() = UnexpectedError;
+class TweetLikeUnauthenticated extends TweetLikeFailure {
+  const TweetLikeUnauthenticated();
+}
+
+class TweetLikeUnexpectedError extends TweetLikeFailure {
+  const TweetLikeUnexpectedError();
 }

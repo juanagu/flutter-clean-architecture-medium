@@ -1,16 +1,23 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+sealed class AuthIndexState {
+  const AuthIndexState();
+}
 
-part 'auth_index_state.freezed.dart';
+class AuthIndexInitial extends AuthIndexState {
+  const AuthIndexInitial();
+}
 
-@freezed
-abstract class AuthIndexState with _$AuthIndexState {
-  const factory AuthIndexState.initial() = Initial;
+class AuthIndexAuthorized extends AuthIndexState {
+  const AuthIndexAuthorized();
+}
 
-  const factory AuthIndexState.authorized() = Authorized;
+class AuthIndexUnauthorized extends AuthIndexState {
+  const AuthIndexUnauthorized();
+}
 
-  const factory AuthIndexState.unauthorized() = Unauthorized;
+class AuthIndexUnexpectedError extends AuthIndexState {
+  const AuthIndexUnexpectedError();
+}
 
-  const factory AuthIndexState.unexpectedError() = UnexpectedError;
-
-  const factory AuthIndexState.maintenance() = Maintenance;
+class AuthIndexMaintenance extends AuthIndexState {
+  const AuthIndexMaintenance();
 }

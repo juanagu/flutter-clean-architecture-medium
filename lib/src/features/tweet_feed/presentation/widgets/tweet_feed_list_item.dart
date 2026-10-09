@@ -1,33 +1,33 @@
 import 'package:app/src/features/tweet_feed/presentation/models/tweet_item.dart';
-import 'package:app/src/features/tweet_like/tweet_like_feature.dart';
 import 'package:flutter/material.dart';
 
 class TweetFeedListItem extends StatelessWidget {
   const TweetFeedListItem({
-    Key key,
-    @required this.tweetItem,
-  }) : super(key: key);
+    super.key,
+    required this.tweetItem,
+    required this.likeAction,
+  });
 
   final TweetItem tweetItem;
+  final Widget likeAction;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
+      padding: const EdgeInsets.only(top: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
         children: [
-          _buildUserAvatar(),
+          const CircleAvatar(child: Icon(Icons.person)),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 16.0),
+              padding: const EdgeInsets.only(left: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildHeader(context),
                   _buildContent(context),
-                  TweetLikeFeature().build(tweetItem.tweet),
+                  likeAction,
                 ],
               ),
             ),
@@ -37,43 +37,29 @@ class TweetFeedListItem extends StatelessWidget {
     );
   }
 
-  Widget _buildUserAvatar() {
-    return const CircleAvatar(child: Icon(Icons.person));
-  }
-
   Widget _buildHeader(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildUserEmail(context),
-        _buildTimeago(context),
+        Expanded(
+          child: Text(
+            tweetItem.ownerEmail,
+            style: textTheme.titleSmall,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Text(tweetItem.timeAgo, style: textTheme.bodySmall),
       ],
-    );
-  }
-
-  Widget _buildUserEmail(BuildContext context) {
-    return Text(
-      tweetItem.ownerEmail,
-      style: Theme.of(context).textTheme.subtitle2,
-      textAlign: TextAlign.end,
-    );
-  }
-
-  Widget _buildTimeago(BuildContext context) {
-    return Text(
-      tweetItem.timeAgo,
-      style: Theme.of(context).textTheme.caption,
     );
   }
 
   Widget _buildContent(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
+      padding: const EdgeInsets.only(top: 12),
       child: Text(
         tweetItem.content,
-        style: Theme.of(context).textTheme.bodyText2.copyWith(
-              fontSize: 16.0,
-            ),
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }

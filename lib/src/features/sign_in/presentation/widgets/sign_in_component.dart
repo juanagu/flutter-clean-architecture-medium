@@ -1,168 +1,78 @@
-import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
-import 'package:app/src/features/sign_in/presentation/cubits/sign_in_cubit.dart';
-import 'package:app/src/features/sign_in/presentation/validators/sign_in_validator.dart';
-import 'package:app/src/features/sign_up/sign_up_feature.dart';
-import 'package:flutter/material.dart';
 import 'package:app/src/application/localizations/i18n.dart';
+import 'package:app/src/application/widgets/forms/email_password_form.dart';
+import 'package:app/src/application/widgets/snack_bars.dart';
+import 'package:app/src/features/sign_in/presentation/cubits/sign_in_cubit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInComponent extends StatelessWidget {
-  SignInComponent({
-    Key key,
-    @required this.cubit,
-    @required this.onAuthorized,
-  }) : super(key: key);
+  const SignInComponent({
+    super.key,
+    required this.createCubit,
+    required this.onAuthorized,
+    this.signUpAction,
+  });
 
-  final SignInCubit cubit;
-  final Function(BuildContext) onAuthorized;
+  final SignInCubit Function() createCubit;
+  final void Function(BuildContext context) onAuthorized;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final SignInValidator _validator = SignInValidator();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FocusNode _passwordFocusNode = FocusNode();
+  /// Rendered under the form; the feature that owns sign-up provides it.
+  final Widget? signUpAction;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => cubit,
+      create: (_) => createCubit(),
       child: BlocConsumer<SignInCubit, SignInState>(
-        listener: _listenByState,
+        listener: _listen,
         builder: _buildByState,
       ),
     );
   }
 
-  void _listenByState(
-    BuildContext context,
-    SignInState state,
-  ) {
-    state.maybeWhen(
-        authorized: () => onAuthorized(context),
-        unauthorized: () => _showUnauthorized(context),
-        unexpectedError: () => _showUnexpectedError(context),
-        orElse: () {});
-  }
-
-  Widget _buildByState(
-    BuildContext context,
-    SignInState state,
-  ) {
-    return state.maybeWhen(
-      authenticating: () => _buildAuthenticating(context),
-      authorized: () => _buildAuthorizedView(context),
-      orElse: () => _buildSignInFormView(context),
-    );
-  }
-
-  Widget _buildSignInFormView(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              _buildEmailTextField(context),
-              _buildPasswordTextField(context),
-              _buildSignInSubmitButton(context),
-              _buildSignUpButton(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmailTextField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: I18n.of(context).translate('sign_in_feature.email_label'),
-      ),
-      validator: (value) => _validator.validateEmail(context, value),
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      onFieldSubmitted: (_) {
-        _passwordFocusNode.requestFocus();
-      },
-      controller: _emailController,
-      autofocus: true,
-      autocorrect: false,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-    );
-  }
-
-  Widget _buildPasswordTextField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: I18n.of(context).translate('sign_in_feature.password_label'),
-      ),
-      obscureText: true,
-      validator: (value) => _validator.validatePassword(context, value),
-      controller: _passwordController,
-      focusNode: _passwordFocusNode,
-      textInputAction: TextInputAction.send,
-      onFieldSubmitted: (_) {
-        _onSubmit();
-      },
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-    );
-  }
-
-  Widget _buildSignInSubmitButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: RaisedButton(
-        child: Text(
-          I18n.of(context).translate('sign_in_feature.submit_button_title'),
-        ),
-        onPressed: _onSubmit,
-      ),
-    );
-  }
-
-  void _onSubmit() {
-    if (_formKey.currentState.validate()) {
-      cubit.signIn(
-        _emailController.text.trimLeft().trimRight(),
-        _passwordController.text,
-      );
+  void _listen(BuildContext context, SignInState state) {
+    switch (state) {
+      case SignInAuthorized():
+        onAuthorized(context);
+      case SignInUnauthorized():
+        showTranslatedSnackBar(context, 'sign_in_feature.unauthorized_message');
+      case SignInUnexpectedError():
+        showTranslatedSnackBar(context, 'sign_in_feature.unexpected_message');
+      case SignInInitial():
+      case SignInAuthenticating():
+        break;
     }
   }
 
-  Widget _buildSignUpButton(BuildContext context) {
-    return SignUpFeature().buildButton();
-  }
-
-  Widget _buildAuthenticating(BuildContext context) {
-    return Center(
-      child: CircularIndicator(
-        semanticsValue: I18n.of(context)
-            .translate('sign_in_feature.authenticating_message_semantics'),
+  /// The form stays mounted across every state but the final one, so a
+  /// failed attempt keeps what was typed.
+  Widget _buildByState(BuildContext context, SignInState state) {
+    return switch (state) {
+      SignInAuthorized() => const Center(child: Icon(Icons.check)),
+      SignInInitial() ||
+      SignInAuthenticating() ||
+      SignInUnauthorized() ||
+      SignInUnexpectedError() => _buildForm(
+        context,
+        isSubmitting: state is SignInAuthenticating,
       ),
-    );
+    };
   }
 
-  Widget _buildAuthorizedView(BuildContext context) {
-    return const Center(child: Icon(Icons.check));
-  }
-
-  void _showUnauthorized(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          I18n.of(context).translate('sign_in_feature.unauthorized_message'),
+  Widget _buildForm(BuildContext context, {required bool isSubmitting}) {
+    final i18n = I18n.of(context);
+    return EmailPasswordForm(
+      labels: EmailPasswordFormLabels(
+        email: i18n.translate('sign_in_feature.email_label'),
+        password: i18n.translate('sign_in_feature.password_label'),
+        submit: i18n.translate('sign_in_feature.submit_button_title'),
+        submittingSemantics: i18n.translate(
+          'sign_in_feature.authenticating_message_semantics',
         ),
       ),
-    );
-  }
-
-  void _showUnexpectedError(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          I18n.of(context).translate('sign_in_feature.unexpected_message'),
-        ),
-      ),
+      isSubmitting: isSubmitting,
+      onSubmit: context.read<SignInCubit>().signIn,
+      footer: signUpAction,
     );
   }
 }

@@ -1,16 +1,27 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+sealed class SignUpState {
+  const SignUpState();
+}
 
-part 'sign_up_state.freezed.dart';
+class SignUpInitial extends SignUpState {
+  const SignUpInitial();
+}
 
-@freezed
-abstract class SignUpState with _$SignUpState {
-  const factory SignUpState.initial() = Initial;
+class SignUpCreating extends SignUpState {
+  const SignUpCreating();
+}
 
-  const factory SignUpState.creating() = Creating;
+class SignUpRegistered extends SignUpState {
+  const SignUpRegistered();
+}
 
-  const factory SignUpState.registered() = Registered;
+class SignUpEmailAlreadyInUse extends SignUpState {
+  const SignUpEmailAlreadyInUse();
+}
 
-  const factory SignUpState.emailAlreadyInUse() = EmailAlreadyInUse;
+class SignUpWeakPassword extends SignUpState {
+  const SignUpWeakPassword();
+}
 
-  const factory SignUpState.unexpectedError() = UnexpectedError;
+class SignUpUnexpectedError extends SignUpState {
+  const SignUpUnexpectedError();
 }

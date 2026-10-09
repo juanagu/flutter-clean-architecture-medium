@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  push:
+    branches: [master]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    name: Analyze, test, build web
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - run: dart format --output=none --set-exit-if-changed lib test
+
+      - run: flutter analyze --fatal-infos
+
+      - run: flutter test
+
+      # Proves the Firebase-free entry point compiles; the app needs a Firebase
+      # project to run, see docs/development.md.
+      - run: flutter build web --release --dart-define=IN_MEMORY_BACKEND=true

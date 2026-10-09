@@ -1,18 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:app/src/application/pages/page_container.dart';
+import 'package:flutter/material.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({
-    Key key,
-    @required this.signInWiget,
-  }) : super(key: key);
+  const SignInPage({super.key, required this.body});
 
-  final Widget signInWiget;
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
-    return PageContainer(
-      body: signInWiget,
-    );
+    return PageContainer(body: body);
   }
 }

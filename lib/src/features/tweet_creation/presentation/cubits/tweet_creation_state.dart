@@ -1,14 +1,23 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:app/src/features/tweet_creation/domain/failures/tweet_creation_failure.dart';
 
-part 'tweet_creation_state.freezed.dart';
+sealed class TweetCreationState {
+  const TweetCreationState();
+}
 
-@freezed
-abstract class TweetCreationState with _$TweetCreationState {
-  const factory TweetCreationState.initial() = Initial;
+class TweetCreationInitial extends TweetCreationState {
+  const TweetCreationInitial();
+}
 
-  const factory TweetCreationState.tweeting() = Tweeting;
+class TweetCreationTweeting extends TweetCreationState {
+  const TweetCreationTweeting();
+}
 
-  const factory TweetCreationState.tweeted() = Tweeted;
+class TweetCreationTweeted extends TweetCreationState {
+  const TweetCreationTweeted();
+}
 
-  const factory TweetCreationState.unexpectedError() = UnexpectedError;
+class TweetCreationFailed extends TweetCreationState {
+  const TweetCreationFailed(this.failure);
+
+  final TweetCreationFailure failure;
 }

@@ -1,14 +1,13 @@
 import 'package:app/src/core/domain/entities/tweet.dart';
 
+/// What a feed row shows: the tweet plus its presentation-ready fields.
 class TweetItem {
-  TweetItem(
-    this.tweet,
-    this.timeAgo,
-    this.ownerEmail,
-  );
+  const TweetItem({required this.tweet, required this.timeAgo});
+
   final Tweet tweet;
   final String timeAgo;
-  final String ownerEmail;
 
   String get content => tweet.content;
+
+  String get ownerEmail => tweet.owner.email;
 }
