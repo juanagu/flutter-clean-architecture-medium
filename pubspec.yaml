@@ -1,62 +1,34 @@
 name: app
-description: Clean Architecture + Feature Module by JuanAgu
+description: Twitter-like sample app showing Clean Architecture with feature modules and feature toggles in Flutter.
+publish_to: 'none'
 
-# The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: ^3.13.0
+  flutter: '>=3.47.0'
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  #bloc
-  flutter_bloc: ^6.1.2
-  #firebase
-  firebase_core: 0.7.0 
-  cloud_firestore: 0.16.0+1 
-  firebase_auth: 0.20.1 
-  firebase_crashlytics: 0.4.0+1
-  firebase_remote_config: ^0.6.0
-  # TODO: Check when this bug (https://github.com/FirebaseExtended/flutterfire/issues/4035) is fixed and swap back to official package
-  # firebase_remote_config:
-  #   git:
-  #     url: https://github.com/FilledStacks/flutterfire.git
-  #     path: packages/firebase_remote_config
-  #get_it
-  get_it: 5.0.6
-  #functional programming
-  dartz: ^0.9.2
-  #date time
-  timeago: 2.0.30
-   #icons
-  flutter_icons: 1.1.0 
-  
+  flutter_bloc: ^9.1.1
+  firebase_core: ^4.1.0
+  cloud_firestore: ^6.0.1
+  firebase_auth: ^6.0.1
+  firebase_crashlytics: ^5.0.1
+  firebase_remote_config: ^6.0.1
+  get_it: ^8.0.3
+  dartz: ^0.10.1
+  timeago: ^3.7.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.11.1
-  #functional programming
-  freezed: ^0.12.7
+  flutter_lints: ^6.0.0
 
 flutter:
-
   uses-material-design: true
-
   assets:
     - assets/i18n/

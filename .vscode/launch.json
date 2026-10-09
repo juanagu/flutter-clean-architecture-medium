@@ -1,13 +1,17 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "twitter_app",
+            "name": "Twitter App (Firebase)",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "Twitter App (in-memory, Chrome)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome",
+            "toolArgs": ["--dart-define=IN_MEMORY_BACKEND=true"]
         }
     ]
 }

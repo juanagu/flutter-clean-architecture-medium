@@ -1,27 +1,55 @@
 {
-    "app_title": "App",
-    "maintenance_message": "Oops! We are working to improve the performance of the app ...",
+    "app_title": "Twitter App",
+    "maintenance_message": "¡Ups! Estamos trabajando para mejorar la app. Vuelve a intentarlo más tarde.",
+    "retry_button_title": "Reintentar",
+    "form": {
+        "email_required": "El email es obligatorio",
+        "email_invalid": "Ingresa un email válido",
+        "password_required": "La contraseña es obligatoria"
+    },
     "auth_index_feature": {
-        "loading_semantic": "Checking session..."
+        "loading_semantic": "Comprobando sesión...",
+        "unexpected_message": "No pudimos comprobar tu sesión."
     },
     "sign_in_feature": {
         "email_label": "Email",
-        "password_label": "Password",
-        "submit_button_title": "Sign in"
+        "password_label": "Contraseña",
+        "submit_button_title": "Iniciar sesión",
+        "authenticating_message_semantics": "Iniciando sesión...",
+        "unauthorized_message": "Email o contraseña incorrectos.",
+        "unexpected_message": "Algo salió mal. Inténtalo de nuevo."
     },
     "sign_up_feature": {
-        "button_title": "Sign up for App",
-        "title": "Create your account",
-        "submit_button_title": "Sign up",
+        "button_title": "Registrarse en Twitter App",
+        "title": "Crea tu cuenta",
+        "submit_button_title": "Registrarse",
         "email_label": "Email",
-        "password_label": "Password"
+        "password_label": "Contraseña",
+        "creating_message_semantics": "Creando tu cuenta...",
+        "email_already_in_use": "Ese email ya está registrado.",
+        "weak_password": "Usa una contraseña de al menos 6 caracteres.",
+        "unexpected_message": "Algo salió mal. Inténtalo de nuevo."
     },
     "home_feature": {
-        "title": "Home"
+        "title": "Inicio"
+    },
+    "tweet_feed_feature": {
+        "loading_message_semantics": "Cargando tweets...",
+        "empty_message": "Todavía no hay tweets. Sé el primero en publicar.",
+        "unexpected_message": "No pudimos cargar el feed."
     },
     "tweet_creation_feature": {
-        "title": "Unsent Tweet",
-        "hint_text": "What's happening?",
-        "submit_button_title": "Tweet"
+        "title": "Nuevo Tweet",
+        "hint_text": "¿Qué está pasando?",
+        "submit_button_title": "Twittear",
+        "tweeting_message_semantics": "Publicando tu tweet...",
+        "unauthenticated_message": "Inicia sesión de nuevo para publicar.",
+        "unexpected_error_message": "No pudimos publicar tu tweet. Inténtalo de nuevo."
+    },
+    "tweet_like_feature": {
+        "like": "Me gusta",
+        "unlike": "Ya no me gusta",
+        "unauthenticated_message": "Inicia sesión de nuevo para dar me gusta.",
+        "unexpected_message": "No pudimos guardar tu me gusta."
     }
 }

@@ -1,5 +1,6 @@
 import 'package:app/src/core/domain/entities/user.dart';
 
 abstract class UserSessionRepository {
-  Future<User> getCurrentUser();
+  /// The signed-in user, or null when there is no session.
+  Future<User?> getCurrentUser();
 }

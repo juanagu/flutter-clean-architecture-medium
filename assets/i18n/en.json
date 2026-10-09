@@ -1,27 +1,55 @@
 {
-    "app_title": "App",
-    "maintenance_message": "Oops! We are working to improve the performance of the app ...",
+    "app_title": "Twitter App",
+    "maintenance_message": "Oops! We are working to improve the app. Please try again later.",
+    "retry_button_title": "Retry",
+    "form": {
+        "email_required": "Email is required",
+        "email_invalid": "Enter a valid email address",
+        "password_required": "Password is required"
+    },
     "auth_index_feature": {
-        "loading_semantic": "Checking session..."
+        "loading_semantic": "Checking session...",
+        "unexpected_message": "We could not check your session."
     },
     "sign_in_feature": {
         "email_label": "Email",
         "password_label": "Password",
-        "submit_button_title": "Sign in"
+        "submit_button_title": "Sign in",
+        "authenticating_message_semantics": "Signing in...",
+        "unauthorized_message": "Wrong email or password.",
+        "unexpected_message": "Something went wrong. Please try again."
     },
     "sign_up_feature": {
-        "button_title": "Sign up for App",
+        "button_title": "Sign up for Twitter App",
         "title": "Create your account",
         "submit_button_title": "Sign up",
         "email_label": "Email",
-        "password_label": "Password"
+        "password_label": "Password",
+        "creating_message_semantics": "Creating your account...",
+        "email_already_in_use": "That email is already registered.",
+        "weak_password": "Use a password of at least 6 characters.",
+        "unexpected_message": "Something went wrong. Please try again."
     },
     "home_feature": {
         "title": "Home"
     },
+    "tweet_feed_feature": {
+        "loading_message_semantics": "Loading tweets...",
+        "empty_message": "No tweets yet. Be the first to post.",
+        "unexpected_message": "We could not load the feed."
+    },
     "tweet_creation_feature": {
-        "title": "Unsent Tweet",
+        "title": "New Tweet",
         "hint_text": "What's happening?",
-        "submit_button_title": "Tweet"
+        "submit_button_title": "Tweet",
+        "tweeting_message_semantics": "Posting your tweet...",
+        "unauthenticated_message": "Sign in again to post.",
+        "unexpected_error_message": "We could not post your tweet. Please try again."
+    },
+    "tweet_like_feature": {
+        "like": "Like",
+        "unlike": "Unlike",
+        "unauthenticated_message": "Sign in again to like tweets.",
+        "unexpected_message": "We could not save your like."
     }
 }

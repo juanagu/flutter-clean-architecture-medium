@@ -1,162 +1,76 @@
-import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
-import 'package:app/src/features/sign_up/presentation/cubits/sign_up_cubit.dart';
-import 'package:app/src/features/sign_up/presentation/validators/sign_up_validator.dart';
-import 'package:flutter/material.dart';
 import 'package:app/src/application/localizations/i18n.dart';
+import 'package:app/src/application/widgets/forms/email_password_form.dart';
+import 'package:app/src/application/widgets/snack_bars.dart';
+import 'package:app/src/features/sign_up/presentation/cubits/sign_up_cubit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpComponent extends StatelessWidget {
-  SignUpComponent({
-    Key key,
-    @required this.cubit,
-    @required this.onRegistered,
-  }) : super(key: key);
+  const SignUpComponent({
+    super.key,
+    required this.createCubit,
+    required this.onRegistered,
+  });
 
-  final SignUpCubit cubit;
-  final Function(BuildContext) onRegistered;
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final SignUpValidator _validator = SignUpValidator();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FocusNode _passwordFocusNode = FocusNode();
+  final SignUpCubit Function() createCubit;
+  final void Function(BuildContext context) onRegistered;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => cubit,
+      create: (_) => createCubit(),
       child: BlocConsumer<SignUpCubit, SignUpState>(
-        listener: _listenByState,
+        listener: _listen,
         builder: _buildByState,
       ),
     );
   }
 
-  void _listenByState(
-    BuildContext context,
-    SignUpState state,
-  ) {
-    state.maybeWhen(
-        registered: () => onRegistered(context),
-        emailAlreadyInUse: () => _showEmailAlreadyInUse(context),
-        unexpectedError: () => _showUnexpectedError(context),
-        orElse: () {});
-  }
-
-  Widget _buildByState(
-    BuildContext context,
-    SignUpState state,
-  ) {
-    return state.maybeWhen(
-      creating: () => _buildCreatingView(context),
-      registered: () => _buildRegisteredView(context),
-      orElse: () => _buildSignUpFormView(context),
-    );
-  }
-
-  Widget _buildSignUpFormView(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              _buildEmailTextField(context),
-              _buildPasswordTextField(context),
-              _buildSignInSubmitButton(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmailTextField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: I18n.of(context).translate('sign_up_feature.email_label'),
-      ),
-      validator: (value) => _validator.validateEmail(context, value),
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      onFieldSubmitted: (_) {
-        _passwordFocusNode.requestFocus();
-      },
-      controller: _emailController,
-      autofocus: true,
-      autocorrect: false,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-    );
-  }
-
-  Widget _buildPasswordTextField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: I18n.of(context).translate('sign_up_feature.password_label'),
-      ),
-      obscureText: true,
-      validator: (value) => _validator.validatePassword(context, value),
-      controller: _passwordController,
-      focusNode: _passwordFocusNode,
-      textInputAction: TextInputAction.send,
-      onFieldSubmitted: (_) {
-        _onSubmit();
-      },
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-    );
-  }
-
-  Widget _buildSignInSubmitButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: RaisedButton(
-        child: Text(
-          I18n.of(context).translate('sign_up_feature.submit_button_title'),
-        ),
-        onPressed: _onSubmit,
-      ),
-    );
-  }
-
-  void _onSubmit() {
-    if (_formKey.currentState.validate()) {
-      cubit.signUp(
-        _emailController.text.trimRight().trimLeft(),
-        _passwordController.text,
-      );
+  void _listen(BuildContext context, SignUpState state) {
+    switch (state) {
+      case SignUpRegistered():
+        onRegistered(context);
+      case SignUpEmailAlreadyInUse():
+        showTranslatedSnackBar(context, 'sign_up_feature.email_already_in_use');
+      case SignUpWeakPassword():
+        showTranslatedSnackBar(context, 'sign_up_feature.weak_password');
+      case SignUpUnexpectedError():
+        showTranslatedSnackBar(context, 'sign_up_feature.unexpected_message');
+      case SignUpInitial():
+      case SignUpCreating():
+        break;
     }
   }
 
-  Widget _buildCreatingView(BuildContext context) {
-    return Center(
-      child: CircularIndicator(
-        semanticsValue: I18n.of(context)
-            .translate('sign_up_feature.creating_message_semantics'),
+  /// The form stays mounted across every state but the final one, so a
+  /// failed attempt keeps what was typed.
+  Widget _buildByState(BuildContext context, SignUpState state) {
+    return switch (state) {
+      SignUpRegistered() => const Center(child: Icon(Icons.check)),
+      SignUpInitial() ||
+      SignUpCreating() ||
+      SignUpEmailAlreadyInUse() ||
+      SignUpWeakPassword() ||
+      SignUpUnexpectedError() => _buildForm(
+        context,
+        isSubmitting: state is SignUpCreating,
       ),
-    );
+    };
   }
 
-  Widget _buildRegisteredView(BuildContext context) {
-    return const Center(child: Icon(Icons.check));
-  }
-
-  void _showEmailAlreadyInUse(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          I18n.of(context).translate('sign_up_feature.email_already_in_use'),
+  Widget _buildForm(BuildContext context, {required bool isSubmitting}) {
+    final i18n = I18n.of(context);
+    return EmailPasswordForm(
+      labels: EmailPasswordFormLabels(
+        email: i18n.translate('sign_up_feature.email_label'),
+        password: i18n.translate('sign_up_feature.password_label'),
+        submit: i18n.translate('sign_up_feature.submit_button_title'),
+        submittingSemantics: i18n.translate(
+          'sign_up_feature.creating_message_semantics',
         ),
       ),
-    );
-  }
-
-  void _showUnexpectedError(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          I18n.of(context).translate('sign_up_feature.unexpected_message'),
-        ),
-      ),
+      isSubmitting: isSubmitting,
+      onSubmit: context.read<SignUpCubit>().signUp,
     );
   }
 }

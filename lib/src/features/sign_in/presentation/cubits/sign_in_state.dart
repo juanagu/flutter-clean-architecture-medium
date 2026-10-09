@@ -1,16 +1,23 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+sealed class SignInState {
+  const SignInState();
+}
 
-part 'sign_in_state.freezed.dart';
+class SignInInitial extends SignInState {
+  const SignInInitial();
+}
 
-@freezed
-abstract class SignInState with _$SignInState {
-  const factory SignInState.initial() = Initial;
+class SignInAuthenticating extends SignInState {
+  const SignInAuthenticating();
+}
 
-  const factory SignInState.authenticating() = Authenticating;
+class SignInAuthorized extends SignInState {
+  const SignInAuthorized();
+}
 
-  const factory SignInState.authorized() = Authorized;
+class SignInUnauthorized extends SignInState {
+  const SignInUnauthorized();
+}
 
-  const factory SignInState.unauthorized() = Unauthorized;
-
-  const factory SignInState.unexpectedError() = UnexpectedError;
+class SignInUnexpectedError extends SignInState {
+  const SignInUnexpectedError();
 }

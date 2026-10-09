@@ -1,132 +1,66 @@
-import 'package:app/src/application/localizations/i18n.dart';
 import 'package:app/src/application/pages/page_container.dart';
-import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
+import 'package:app/src/application/widgets/snack_bars.dart';
+import 'package:app/src/features/tweet_creation/domain/failures/tweet_creation_failure.dart';
 import 'package:app/src/features/tweet_creation/presentation/cubits/tweet_creation_cubit.dart';
+import 'package:app/src/features/tweet_creation/presentation/widgets/tweet_composer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TweetCreationPage extends StatelessWidget {
-  TweetCreationPage({
-    Key key,
-    @required this.cubit,
-    @required this.onTweeted,
-  }) : super(key: key);
+  const TweetCreationPage({
+    super.key,
+    required this.createCubit,
+    required this.onTweeted,
+  });
 
-  final TweetCreationCubit cubit;
-  final Function(BuildContext) onTweeted;
-
-  final TextEditingController _tweetController = TextEditingController();
+  final TweetCreationCubit Function() createCubit;
+  final void Function(BuildContext context) onTweeted;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => cubit,
+      create: (_) => createCubit(),
       child: BlocConsumer<TweetCreationCubit, TweetCreationState>(
-        listener: _listenByState,
+        listener: _listen,
         builder: _buildByState,
       ),
     );
   }
 
-  void _listenByState(
-    BuildContext context,
-    TweetCreationState state,
-  ) {
-    state.maybeWhen(
-        tweeted: () => onTweeted(context),
-        unexpectedError: () => _showUnexpectedError(context),
-        orElse: () {});
-  }
-
-  Widget _buildByState(
-    BuildContext context,
-    TweetCreationState state,
-  ) {
-    return state.maybeWhen(
-      tweeting: () => _buildTweetingView(context),
-      tweeted: () => _buildTweetedView(context),
-      orElse: () => _buildTweetPageView(context),
-    );
-  }
-
-  Widget _buildTweetPageView(BuildContext context) {
-    return PageContainer(
-      title: I18n.of(context).translate('tweet_creation_feature.title'),
-      body: _buildBody(context),
-      actions: [
-        _buildTweetSubmitButton(context),
-      ],
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: SizedBox(
-            height: 250.0,
-            child: TextFormField(
-              decoration: InputDecoration(
-                isDense: true,
-                hintText: I18n.of(context)
-                    .translate('tweet_creation_feature.hint_text'),
-              ),
-              controller: _tweetController,
-              autofocus: true,
-              maxLength: 280,
-              keyboardType: TextInputType.multiline,
-              maxLines: 8,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTweetSubmitButton(BuildContext context) {
-    return IconButton(
-      tooltip: I18n.of(context)
-          .translate('tweet_creation_feature.submit_button_title'),
-      icon: const Icon(Icons.check),
-      onPressed: _onSubmit,
-    );
-  }
-
-  void _onSubmit() {
-    if (_tweetController.text.trim().isNotEmpty) {
-      cubit.tweet(_tweetController.text.trimLeft().trimRight());
+  void _listen(BuildContext context, TweetCreationState state) {
+    switch (state) {
+      case TweetCreationTweeted():
+        onTweeted(context);
+      case TweetCreationFailed(:final failure):
+        showTranslatedSnackBar(context, _messageKey(failure));
+      case TweetCreationInitial():
+      case TweetCreationTweeting():
+        break;
     }
   }
 
-  void _showUnexpectedError(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          I18n.of(context)
-              .translate('tweet_creation_feature.unexpected_error_message'),
-        ),
+  /// The composer stays mounted across every state but the final one, so a
+  /// failed submit keeps the draft.
+  Widget _buildByState(BuildContext context, TweetCreationState state) {
+    return switch (state) {
+      TweetCreationTweeted() => const PageContainer(
+        body: Center(child: Icon(Icons.check)),
       ),
-    );
+      TweetCreationInitial() ||
+      TweetCreationTweeting() ||
+      TweetCreationFailed() => TweetComposer(
+        isSubmitting: state is TweetCreationTweeting,
+        onSubmit: context.read<TweetCreationCubit>().tweet,
+      ),
+    };
   }
 
-  Widget _buildTweetingView(BuildContext context) {
-    return PageContainer(
-      body: Center(
-        child: CircularIndicator(
-          semanticsValue: I18n.of(context)
-              .translate('tweet_creation_feature.tweeting_message_semantics'),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTweetedView(BuildContext context) {
-    return const PageContainer(
-      body: Center(
-        child: Icon(Icons.check),
-      ),
-    );
+  String _messageKey(TweetCreationFailure failure) {
+    return switch (failure) {
+      TweetCreationUnauthenticated() =>
+        'tweet_creation_feature.unauthenticated_message',
+      TweetCreationUnexpectedError() =>
+        'tweet_creation_feature.unexpected_error_message',
+    };
   }
 }

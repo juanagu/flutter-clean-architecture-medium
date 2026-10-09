@@ -1,26 +1,26 @@
+import 'package:app/src/features/sign_in/domain/failures/sign_in_failure.dart'
+    as failures;
 import 'package:app/src/features/sign_in/domain/repositories/sign_in_repository.dart';
 import 'package:app/src/features/sign_in/presentation/cubits/sign_in_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 
 export 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit({
-    @required SignInRepository signInRepository,
-  })  : _signInRepository = signInRepository,
-        super(const SignInState.initial());
+  SignInCubit({required this._signInRepository}) : super(const SignInInitial());
+
   final SignInRepository _signInRepository;
 
   Future<void> signIn(String email, String password) async {
-    emit(const SignInState.authenticating());
-    var either = await _signInRepository.signIn(email, password);
-    either.fold(
-      (error) => error.when(
-        unauthorized: () => emit(const SignInState.unauthorized()),
-        unexpectedError: () => emit(const SignInState.unexpectedError()),
-      ),
-      (authorized) => emit(const SignInState.authorized()),
-    );
+    emit(const SignInAuthenticating());
+    final result = await _signInRepository.signIn(email, password);
+    emit(result.fold(_stateFromFailure, (_) => const SignInAuthorized()));
+  }
+
+  SignInState _stateFromFailure(failures.SignInFailure failure) {
+    return switch (failure) {
+      failures.SignInUnauthorized() => const SignInUnauthorized(),
+      failures.SignInUnexpectedError() => const SignInUnexpectedError(),
+    };
   }
 }

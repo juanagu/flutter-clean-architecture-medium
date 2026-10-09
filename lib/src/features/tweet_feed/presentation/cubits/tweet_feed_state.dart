@@ -1,15 +1,27 @@
 import 'package:app/src/features/tweet_feed/presentation/models/tweet_item.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'tweet_feed_state.freezed.dart';
+sealed class TweetFeedState {
+  const TweetFeedState();
+}
 
-@freezed
-abstract class TweetFeedState with _$TweetFeedState {
-  const factory TweetFeedState.initial() = Initial;
+class TweetFeedInitial extends TweetFeedState {
+  const TweetFeedInitial();
+}
 
-  const factory TweetFeedState.loading() = Loading;
+class TweetFeedLoading extends TweetFeedState {
+  const TweetFeedLoading();
+}
 
-  const factory TweetFeedState.found(List<TweetItem> items) = Found;
+class TweetFeedFound extends TweetFeedState {
+  const TweetFeedFound(this.items);
 
-  const factory TweetFeedState.unexpectedError() = Unexpectederror;
+  final List<TweetItem> items;
+}
+
+class TweetFeedEmpty extends TweetFeedState {
+  const TweetFeedEmpty();
+}
+
+class TweetFeedUnexpectedError extends TweetFeedState {
+  const TweetFeedUnexpectedError();
 }

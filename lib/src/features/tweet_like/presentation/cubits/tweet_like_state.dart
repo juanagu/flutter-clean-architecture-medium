@@ -1,16 +1,23 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:app/src/core/domain/entities/tweet.dart';
+import 'package:app/src/features/tweet_like/domain/failures/tweet_like_failure.dart';
 
-part 'tweet_like_state.freezed.dart';
+sealed class TweetLikeState {
+  const TweetLikeState(this.tweet);
 
-@freezed
-abstract class TweetLikeState with _$TweetLikeState {
-  const factory TweetLikeState.initial() = Initial;
+  /// The tweet as the UI should show it, including an optimistic like.
+  final Tweet tweet;
+}
 
-  const factory TweetLikeState.disabled() = Disabled;
+class TweetLikeIdle extends TweetLikeState {
+  const TweetLikeIdle(super.tweet);
+}
 
-  const factory TweetLikeState.sending() = Sending;
+class TweetLikeSending extends TweetLikeState {
+  const TweetLikeSending(super.tweet);
+}
 
-  const factory TweetLikeState.sent(bool likeIt) = Sent;
+class TweetLikeFailed extends TweetLikeState {
+  const TweetLikeFailed(super.tweet, this.failure);
 
-  const factory TweetLikeState.unexpectedError() = Unexpectederror;
+  final TweetLikeFailure failure;
 }

@@ -1,25 +1,28 @@
 import 'package:app/src/core/domain/entities/tweet.dart';
-import 'package:app/src/core/presentation/helpers/time_ago_helper.dart';
+import 'package:app/src/core/presentation/formatters/relative_time_formatter.dart';
 import 'package:app/src/features/tweet_feed/presentation/models/tweet_item.dart';
 
-import 'package:meta/meta.dart';
-
 class TweetItemMapper {
-  TweetItemMapper({@required TimeagoHelper timeagoHelper})
-      : _timeagoHelper = timeagoHelper;
-  final TimeagoHelper _timeagoHelper;
+  const TweetItemMapper({required this._relativeTimeFormatter});
 
-  TweetItem fromTweet(Tweet tweet) {
+  final RelativeTimeFormatter _relativeTimeFormatter;
+
+  TweetItem fromTweet(Tweet tweet, {required String languageCode}) {
     return TweetItem(
-      tweet,
-      _timeagoHelper.format(tweet.creationDate),
-      tweet.owner.email,
+      tweet: tweet,
+      timeAgo: _relativeTimeFormatter.format(
+        tweet.creationDate,
+        languageCode: languageCode,
+      ),
     );
   }
 
-  List<TweetItem> fromTweetList(List<Tweet> tweets) {
-    if (tweets == null) return [];
-
-    return tweets.map(fromTweet).toList();
+  List<TweetItem> fromTweetList(
+    List<Tweet> tweets, {
+    required String languageCode,
+  }) {
+    return tweets
+        .map((tweet) => fromTweet(tweet, languageCode: languageCode))
+        .toList();
   }
 }

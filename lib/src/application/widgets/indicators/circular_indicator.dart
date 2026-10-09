@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CircularIndicator extends StatelessWidget {
-  const CircularIndicator({
-    Key key,
-    @required this.semanticsValue,
-  }) : super(key: key);
+  const CircularIndicator({super.key, required this.semanticsLabel});
 
-  final String semanticsValue;
+  static const double _size = 24;
+
+  final String semanticsLabel;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 24.0,
-      width: 24.0,
-      child: CircularProgressIndicator(
-        semanticsValue: semanticsValue,
-      ),
+      height: _size,
+      width: _size,
+      child: CircularProgressIndicator(semanticsLabel: semanticsLabel),
     );
   }
 }

@@ -1,7 +1,11 @@
 import 'package:app/src/application/localizations/i18n.dart';
 import 'package:flutter/material.dart';
 
-class MaintenceView extends StatelessWidget {
+class MaintenanceView extends StatelessWidget {
+  const MaintenanceView({super.key});
+
+  static const double _iconSize = 60;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -10,11 +14,11 @@ class MaintenceView extends StatelessWidget {
         children: [
           Icon(
             Icons.info_outline,
-            size: 60.0,
-            color: Theme.of(context).accentColor,
+            size: _iconSize,
+            color: Theme.of(context).colorScheme.primary,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 16.0),
+            padding: const EdgeInsets.only(top: 16),
             child: Text(
               I18n.of(context).translate('maintenance_message'),
               textAlign: TextAlign.center,

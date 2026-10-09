@@ -1,10 +1,17 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:app/src/abstractions/failures/failure.dart';
 
-part 'sign_up_failure.freezed.dart';
+sealed class SignUpFailure extends Failure {
+  const SignUpFailure();
+}
 
-@freezed
-abstract class SignUpFailure extends Failure with _$SignUpFailure {
-  const factory SignUpFailure.emailAlreadyInUse() = EmailAlreadyInUse;
-  const factory SignUpFailure.unexpectedError() = UnexpectedError;
+class SignUpEmailAlreadyInUse extends SignUpFailure {
+  const SignUpEmailAlreadyInUse();
+}
+
+class SignUpWeakPassword extends SignUpFailure {
+  const SignUpWeakPassword();
+}
+
+class SignUpUnexpectedError extends SignUpFailure {
+  const SignUpUnexpectedError();
 }
