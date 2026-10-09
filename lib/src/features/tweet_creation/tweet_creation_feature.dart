@@ -1,9 +1,6 @@
 import 'package:app/src/abstractions/data/data_remote_client.dart';
-import 'package:app/src/abstractions/features/feature_config.dart';
 import 'package:app/src/abstractions/ioc/injector.dart';
 import 'package:app/src/abstractions/utils/logger.dart';
-import 'package:app/src/application/feature_flags.dart';
-import 'package:app/src/application/widgets/feature_gate.dart';
 import 'package:app/src/core/domain/repositories/user_session_repository.dart';
 import 'package:app/src/features/tweet_creation/data/remote/tweet_creation_remote_repository.dart';
 import 'package:app/src/features/tweet_creation/domain/repositories/tweet_creation_repository.dart';
@@ -33,13 +30,10 @@ class TweetCreationFeature {
     );
   }
 
-  /// Hidden while the tweet-creation toggle is off.
+  /// The host decides whether to show it: `home` reads the compose toggle
+  /// once for both the button and the feed padding under it.
   Widget buildFloatingButton() {
-    return FeatureGate(
-      featureConfig: Injector.instance.resolve<FeatureConfig>(),
-      flag: FeatureFlags.tweetCreation,
-      child: const TweetCreationFloatingButton(onPressed: navigate),
-    );
+    return const TweetCreationFloatingButton(onPressed: navigate);
   }
 
   TweetCreationCubit _provideCubit() {

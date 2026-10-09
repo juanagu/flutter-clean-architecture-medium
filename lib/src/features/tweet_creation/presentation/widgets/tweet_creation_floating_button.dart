@@ -12,7 +12,7 @@ class TweetCreationFloatingButton extends StatelessWidget {
     return FloatingActionButton(
       tooltip: I18n.of(context).translate('tweet_creation_feature.title'),
       onPressed: () => onPressed(context),
-      child: const Icon(Icons.add_comment),
+      child: const Icon(Icons.edit_outlined),
     );
   }
 }

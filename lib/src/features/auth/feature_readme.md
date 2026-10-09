@@ -24,7 +24,7 @@ The entry screen at `/`. Checks the `appIsActive` toggle, then whether there is 
 2. The cubit asks `FeatureConfig.isEnabled(FeatureFlags.appIsActive)`. An exception becomes `AuthIndexUnexpectedError`; `false` becomes `AuthIndexMaintenance`.
 3. Otherwise it calls `AuthSessionRepository.isAuthorized()`, backed by `AuthSessionRemoteRepository` over `AuthClient.currentUser`.
 4. `Right(unit)` becomes `AuthIndexAuthorized`; the page calls `onAuthorized` (`HomeFeature.navigate`). `Left(AuthSessionUnauthorized)` calls `onUnauthorized` (`SignInFeature.navigate`).
-5. The error state renders `MessageView` with a retry that calls `check()` again.
+5. The error state renders `MessageView` (`cloud_off_outlined`) with a tonal `Try again` that calls `check()` again. `AuthIndexAuthorized` and `AuthIndexUnauthorized` keep the loading spinner for the frame they exist, so nothing flashes before the navigation.
 
 ## Toggle
 

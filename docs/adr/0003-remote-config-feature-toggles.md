@@ -16,7 +16,7 @@ The article demonstrates feature toggles: turning the whole app, sign-up, and tw
 - A flag is checked once, at the feature's entry widget, never deeper:
   - `appIsActive` in `AuthIndexCubit.check()`, before the session check. Off shows `MaintenanceView`.
   - `signUpFeatureIsActive` gates `SignUpButton` (wrapped in `FeatureGate` by `SignUpFeature.buildButton()`). Off renders nothing.
-  - `tweetCreationIsActive` gates `TweetCreationFloatingButton` (wrapped in `FeatureGate` by `TweetCreationFeature.buildFloatingButton()`). Off renders nothing.
+  - `tweetCreationIsActive` is read once by `HomeFeature.buildPage()` (`FeatureGate.builder`), which renders the FAB and sizes the feed padding from it. Off renders nothing.
 - The routes behind a hidden button stay registered. The toggle hides the way in, it does not remove the feature.
 - An exception from `FeatureConfig` on the entry screen becomes `AuthIndexUnexpectedError` with a retry, not a hung spinner.
 

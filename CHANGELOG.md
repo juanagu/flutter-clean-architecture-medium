@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Added
 
+- Design system in `lib/src/application/theme/`: explicit light and dark colour schemes (warm off-white surface, near-black primary, coral reserved for the liked heart), a type scale on the platform font, component themes, and `Space` / `Radii` tokens. Spec and artboard in `docs/design/ux-pass-1.md`.
+- Auth forms: heading in the body (`Welcome back` / `Create your account`), show/hide password toggle, password helper on sign-up, and an inline error block (`FormErrorMessage`) for wrong credentials, email in use and weak password; unexpected errors stay snackbars.
+- Compose: `X` to leave, `Tweet` pill in the app bar disabled until there is text and showing a spinner while posting, borderless field, remaining-characters counter that turns red at 20 left.
+- Feed row: initial-letter avatar, `email · time` header, hairline dividers edge to edge, 44x44 like target with the count hidden at 0, hover tint on web.
+- `PageContainer` caps the content at a centred column (400 for forms, 600 for the feed and composer) and aligns the app bar row and the FAB to it on wide viewports.
+- Six i18n keys: `sign_in_feature.title`, `sign_up_feature.button_prompt`, `sign_up_feature.password_helper`, `form.show_password`, `form.hide_password`, `tweet_creation_feature.counter_semantics`.
+- Widget tests for the inline error, the password toggle, the compose pill and counter, the feed row, the like count and the capped column.
+
 - In-memory backend (`--dart-define=IN_MEMORY_BACKEND=true`): `InMemoryAuthClient`, `InMemoryDataRemoteClient` and `InMemorySeed` (account `demo@example.com` / `password`, three tweets). Runs the whole UI with no Firebase project.
 - `DeveloperLogLogger` and `DefaultsFeatureConfig` for in-memory runs.
 - `RemoteDocument` on the `DataRemoteClient` port, so repositories get the document id; `updateSet` for atomic set writes.
@@ -29,6 +37,9 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Changed
 
+- Copy in both languages per the design spec (`Try again`, `Enter your email`, `Create an account`, `New tweet`, ...). Keys unchanged.
+- `MessageView`: 40 icon in `onSurfaceVariant`, `bodyLarge` message, max width 320; `MaintenanceView` reuses it. Entry and feed errors use `cloud_off_outlined`; the entry's transitional states show the spinner instead of a check or block icon.
+- FAB icon is `edit_outlined`; `HomeFeature` reads the compose toggle once and both renders the FAB and pads the feed (88 with it, 16 without, plus the bottom safe-area inset).
 - Toolchain pinned to Flutter 3.47.7 stable / Dart 3.13 (`.fvmrc`, `pubspec.yaml`).
 - States and failures are Dart 3 `sealed class` hierarchies matched with `switch`, instead of `freezed` unions.
 - Lint is `flutter_lints` plus a few extra rules, with `strict-casts`, `strict-inference` and `strict-raw-types`.

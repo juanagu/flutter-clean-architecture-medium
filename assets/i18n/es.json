@@ -1,17 +1,20 @@
 {
     "app_title": "Twitter App",
-    "maintenance_message": "¡Ups! Estamos trabajando para mejorar la app. Vuelve a intentarlo más tarde.",
+    "maintenance_message": "Estamos en mantenimiento. Vuelve a intentarlo más tarde.",
     "retry_button_title": "Reintentar",
     "form": {
-        "email_required": "El email es obligatorio",
+        "email_required": "Ingresa tu email",
         "email_invalid": "Ingresa un email válido",
-        "password_required": "La contraseña es obligatoria"
+        "password_required": "Ingresa tu contraseña",
+        "show_password": "Mostrar contraseña",
+        "hide_password": "Ocultar contraseña"
     },
     "auth_index_feature": {
         "loading_semantic": "Comprobando sesión...",
         "unexpected_message": "No pudimos comprobar tu sesión."
     },
     "sign_in_feature": {
+        "title": "Hola de nuevo",
         "email_label": "Email",
         "password_label": "Contraseña",
         "submit_button_title": "Iniciar sesión",
@@ -20,14 +23,16 @@
         "unexpected_message": "Algo salió mal. Inténtalo de nuevo."
     },
     "sign_up_feature": {
-        "button_title": "Registrarse en Twitter App",
+        "button_prompt": "¿No tienes cuenta?",
+        "button_title": "Crear una cuenta",
         "title": "Crea tu cuenta",
-        "submit_button_title": "Registrarse",
+        "submit_button_title": "Crear cuenta",
         "email_label": "Email",
         "password_label": "Contraseña",
+        "password_helper": "Al menos 6 caracteres",
         "creating_message_semantics": "Creando tu cuenta...",
-        "email_already_in_use": "Ese email ya está registrado.",
-        "weak_password": "Usa una contraseña de al menos 6 caracteres.",
+        "email_already_in_use": "Este email ya está en uso. Prueba a iniciar sesión.",
+        "weak_password": "Usa al menos 6 caracteres.",
         "unexpected_message": "Algo salió mal. Inténtalo de nuevo."
     },
     "home_feature": {
@@ -35,20 +40,21 @@
     },
     "tweet_feed_feature": {
         "loading_message_semantics": "Cargando tweets...",
-        "empty_message": "Todavía no hay tweets. Sé el primero en publicar.",
+        "empty_message": "Aún no hay tweets. Publica el primero.",
         "unexpected_message": "No pudimos cargar el feed."
     },
     "tweet_creation_feature": {
-        "title": "Nuevo Tweet",
+        "title": "Nuevo tweet",
         "hint_text": "¿Qué está pasando?",
         "submit_button_title": "Twittear",
         "tweeting_message_semantics": "Publicando tu tweet...",
+        "counter_semantics": "Quedan {n} caracteres",
         "unauthenticated_message": "Inicia sesión de nuevo para publicar.",
         "unexpected_error_message": "No pudimos publicar tu tweet. Inténtalo de nuevo."
     },
     "tweet_like_feature": {
         "like": "Me gusta",
-        "unlike": "Ya no me gusta",
+        "unlike": "Quitar me gusta",
         "unauthenticated_message": "Inicia sesión de nuevo para dar me gusta.",
         "unexpected_message": "No pudimos guardar tu me gusta."
     }

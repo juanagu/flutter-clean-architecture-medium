@@ -8,7 +8,7 @@ The live list of tweets, newest first, embedded in the home screen. It has no ro
 
 `TweetFeedFeature` (`tweet_feed_feature.dart`):
 
-- `Widget build()`
+- `Widget build({bool hasFloatingAction = false})`: `true` keeps the end of the list clear of the host's floating button (88 bottom padding instead of 16).
 
 No `route`, `generateRoutes()` or `navigate()`.
 
@@ -25,6 +25,7 @@ No `route`, `generateRoutes()` or `navigate()`.
 3. `TweetFeedRemoteRepository.watch()` resolves the signed-in user once through `UserSessionRepository`, then maps `DataRemoteClient.watch('tweets', orderBy: 'creationDate', descending: true)` through `TweetDocument.fromRemote(document, currentUserId:)`, which derives `likes` and `likeIt` from `likedBy`.
 4. The cubit holds the `StreamSubscription`. An empty list emits `TweetFeedEmpty`; otherwise `TweetFeedFound` with mapped items. A stream error is logged and emits `TweetFeedUnexpectedError`. `close()` cancels the subscription; `subscribe()` cancels any previous one synchronously before listening again, so overlapping calls cannot leak one.
 5. The component renders a spinner, a `ListView.separated` of `TweetFeedListItem`s with `likeActionBuilder(tweet)` per row, an empty `MessageView`, or an error `MessageView` with a retry that calls `subscribe()`.
+6. A row is padded 16 on every side so the hairline dividers run edge to edge: an `InitialAvatar` from the owner email, then owner email (`titleSmall`, ellipsis) · time ago (`bodySmall`), the content (`bodyLarge`, wraps), and the like control. On web the row tints on hover (`HoverTint`); it has no tap action.
 
 `likeActionBuilder` is `TweetLikeFeature().build`, passed in by the Feature class.
 

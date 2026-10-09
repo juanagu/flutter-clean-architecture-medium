@@ -36,9 +36,17 @@ Rules, all checked by reading imports:
 | `lib/src/abstractions/` | Ports: `AuthClient` (+ `AuthErrorCode`, `AuthClientException`, `AuthUser`), `DataRemoteClient` (+ `RemoteDocument`), `FeatureConfig`, `Injector`, `Logger`, `Failure`. |
 | `lib/src/integrations/` | Adapters: `firebase/` (`FirebaseAuthClient`, `FirebaseDataRemoteClient`, `FirebaseCrashlyticsLogger`, `FirebaseRemoteFeatureConfig`), `in_memory/` (`InMemoryAuthClient`, `InMemoryDataRemoteClient`, `InMemorySeed`), `local/` (`DeveloperLogLogger`, `DefaultsFeatureConfig`), `get_it/GetItInjector`, `timeago/TimeagoRelativeTimeFormatter`. |
 | `lib/src/core/` | Shared domain and data: entities `Tweet`, `User`; ports `UserSessionRepository`, `RelativeTimeFormatter`; `TweetDocument` (the Firestore schema of a tweet, shared by the feature that writes tweets and the ones that read them); `AuthClientUserSessionRepository`. |
-| `lib/src/application/` | `Application` (MaterialApp, routes, theme, locales), `FeatureFlags`, `I18n` + `AppLocalizationsDelegate`, `PageContainer`, `EmailPasswordForm` + validators, `CircularIndicator`, `MaintenanceView`, `MessageView`. |
+| `lib/src/application/` | `Application` (MaterialApp, routes, locales), `FeatureFlags`, `I18n` + `AppLocalizationsDelegate`, the design system (`theme/`: `AppTheme`, colour schemes, text theme, component themes, `tokens.dart`), `PageContainer`, and the shared widgets (`EmailPasswordForm` + validators, `FormErrorMessage`, `PillButton`, `InitialAvatar`, `HoverTint`, `CircularIndicator`, `MaintenanceView`, `MessageView`, `FeatureGate`, `showTranslatedSnackBar`). |
 | `lib/src/features/<name>/` | `data/`, `domain/`, `presentation/` as needed, plus `<name>_feature.dart`. Each has a `feature_readme.md`. |
 | `lib/src/ioc/ioc_manager.dart` | App-wide composition root. |
+
+## Design system and page shell
+
+The visual spec is [design/ux-pass-1.md](design/ux-pass-1.md) with its artboard; this section only says where it lives in code.
+
+- `application/theme/` holds the tokens: explicit light and dark `ColorScheme`s (`tertiary` is the like accent and nothing else), the `TextTheme` on the platform font, the component themes (app bar, filled and text buttons, fields, FAB, snackbar, divider, progress indicator, icon button) and `tokens.dart` (`Space`, `Radii`, column widths, the tablet breakpoint). `AppTheme.light()` / `dark()` build the two `ThemeData`s `Application` passes. Widgets read everything through `Theme.of` and those constants; no colour, size or radius literal lives in feature code.
+- `PageContainer` is the only widget that knows about the content column: it caps the body at `columnWidth` (600 by default, 400 for the auth forms), centres it with a fixed 16 gutter (or none, for lists that pad their rows), builds the app bar row (back or close leading, title, actions) aligned to that same column, and shifts the floating action button in so it floats inside the column at every width.
+- Failures the user fixes by retyping are inline (`EmailPasswordForm.errorText` renders `FormErrorMessage` above the button); failures fixed by trying again, or that cannot be fixed, are snackbars or a `MessageView` with `Try again`. The table in the design doc lists each one.
 
 ## Composition roots: Feature classes and the Injector
 
@@ -107,7 +115,7 @@ Keys and defaults live in `FeatureFlags`:
 | --- | --- | --- |
 | `appIsActive` | `true` | `AuthIndexCubit.check()`: off shows `MaintenanceView` before any session check. |
 | `signUpFeatureIsActive` | `true` | `SignUpFeature.buildButton()` wraps `SignUpButton` in a `FeatureGate`. Off renders nothing. |
-| `tweetCreationIsActive` | `true` | `TweetCreationFeature.buildFloatingButton()` wraps the FAB in a `FeatureGate`. Off renders nothing. |
+| `tweetCreationIsActive` | `true` | `HomeFeature.buildPage()` reads it once through `FeatureGate.builder`: on, it renders `TweetCreationFeature.buildFloatingButton()` and pads the feed by 88; off, no FAB and 16. |
 
 A flag is checked once, at the feature's entry widget, through the `FeatureConfig` port. Nothing below the entry widget knows about toggles. The `/sign-up` and `/tweet` routes stay registered; only the way in is hidden. See [ADR 0003](adr/0003-remote-config-feature-toggles.md).
 
@@ -148,7 +156,7 @@ sequenceDiagram
   else invalid credentials
     F-->>R: AuthClientException(invalidCredentials)
     R-->>C: Left(SignInUnauthorized)
-    C-->>W: SignInUnauthorized (snackbar, form stays)
+    C-->>W: SignInUnauthorized (inline error block, form stays)
   else anything else
     F-->>R: exception
     R->>R: logger.recordError

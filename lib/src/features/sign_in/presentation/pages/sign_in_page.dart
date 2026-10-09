@@ -1,4 +1,5 @@
 import 'package:app/src/application/pages/page_container.dart';
+import 'package:app/src/application/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatelessWidget {
@@ -8,6 +9,6 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageContainer(body: body);
+    return PageContainer(body: body, columnWidth: kColumnWidthForm);
   }
 }

@@ -48,11 +48,13 @@ class AuthIndexPage extends StatelessWidget {
     }
   }
 
+  /// The two decided states keep the spinner for the frame they exist, so
+  /// nothing flashes before the navigation.
   Widget _buildByState(BuildContext context, AuthIndexState state) {
     return switch (state) {
-      AuthIndexInitial() => _buildLoading(context),
-      AuthIndexAuthorized() => const Center(child: Icon(Icons.check)),
-      AuthIndexUnauthorized() => const Center(child: Icon(Icons.block)),
+      AuthIndexInitial() ||
+      AuthIndexAuthorized() ||
+      AuthIndexUnauthorized() => _buildLoading(context),
       AuthIndexUnexpectedError() => _buildError(context),
       AuthIndexMaintenance() => const MaintenanceView(),
     };
@@ -60,7 +62,7 @@ class AuthIndexPage extends StatelessWidget {
 
   Widget _buildLoading(BuildContext context) {
     return Center(
-      child: CircularIndicator(
+      child: CircularIndicator.page(
         semanticsLabel: I18n.of(context)
             .translate('auth_index_feature.loading_semantic'),
       ),
@@ -70,7 +72,7 @@ class AuthIndexPage extends StatelessWidget {
   Widget _buildError(BuildContext context) {
     final i18n = I18n.of(context);
     return MessageView(
-      icon: Icons.error_outline,
+      icon: Icons.cloud_off_outlined,
       message: i18n.translate('auth_index_feature.unexpected_message'),
       action: FilledButton.tonal(
         onPressed: () => context.read<AuthIndexCubit>().check(),

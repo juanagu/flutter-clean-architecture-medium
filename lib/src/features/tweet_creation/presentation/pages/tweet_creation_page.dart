@@ -1,4 +1,3 @@
-import 'package:app/src/application/pages/page_container.dart';
 import 'package:app/src/application/widgets/snack_bars.dart';
 import 'package:app/src/features/tweet_creation/domain/failures/tweet_creation_failure.dart';
 import 'package:app/src/features/tweet_creation/presentation/cubits/tweet_creation_cubit.dart';
@@ -39,20 +38,16 @@ class TweetCreationPage extends StatelessWidget {
     }
   }
 
-  /// The composer stays mounted across every state but the final one, so a
-  /// failed submit keeps the draft.
+  /// The composer stays mounted across every state, so a failed submit
+  /// keeps the draft; the final one renders it read-only for its one frame.
   Widget _buildByState(BuildContext context, TweetCreationState state) {
-    return switch (state) {
-      TweetCreationTweeted() => const PageContainer(
-        body: Center(child: Icon(Icons.check)),
-      ),
-      TweetCreationInitial() ||
-      TweetCreationTweeting() ||
-      TweetCreationFailed() => TweetComposer(
-        isSubmitting: state is TweetCreationTweeting,
-        onSubmit: context.read<TweetCreationCubit>().tweet,
-      ),
-    };
+    return TweetComposer(
+      isSubmitting: switch (state) {
+        TweetCreationTweeting() || TweetCreationTweeted() => true,
+        TweetCreationInitial() || TweetCreationFailed() => false,
+      },
+      onSubmit: context.read<TweetCreationCubit>().tweet,
+    );
   }
 
   String _messageKey(TweetCreationFailure failure) {
