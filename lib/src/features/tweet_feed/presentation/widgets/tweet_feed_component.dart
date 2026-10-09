@@ -48,7 +48,7 @@ class TweetFeedComponent extends StatelessWidget {
   Widget _buildByState(BuildContext context, TweetFeedState state) {
     return switch (state) {
       TweetFeedInitial() || TweetFeedLoading() => _buildLoading(context),
-      TweetFeedFound(:final items) => _buildList(items),
+      TweetFeedFound(:final items) => _buildList(context, items),
       TweetFeedEmpty() => _buildEmpty(context),
       TweetFeedUnexpectedError() => _buildError(context),
     };
@@ -63,11 +63,16 @@ class TweetFeedComponent extends StatelessWidget {
     );
   }
 
-  Widget _buildList(List<TweetItem> items) {
+  /// An explicit padding replaces the safe-area padding a list applies on
+  /// its own, so the bottom inset is added back here.
+  double _bottomPadding(BuildContext context) {
+    final clearance = hasFloatingAction ? _bottomPaddingWithAction : Space.s4;
+    return clearance + MediaQuery.paddingOf(context).bottom;
+  }
+
+  Widget _buildList(BuildContext context, List<TweetItem> items) {
     return ListView.separated(
-      padding: EdgeInsets.only(
-        bottom: hasFloatingAction ? _bottomPaddingWithAction : Space.s4,
-      ),
+      padding: EdgeInsets.only(bottom: _bottomPadding(context)),
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];

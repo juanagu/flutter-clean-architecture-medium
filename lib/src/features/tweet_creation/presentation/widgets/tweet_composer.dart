@@ -42,7 +42,7 @@ class _TweetComposerState extends State<TweetComposer> {
     final i18n = I18n.of(context);
     return PageContainer(
       leading: PageLeading.close,
-      leadingEnabled: !widget.isSubmitting,
+      canLeave: !widget.isSubmitting,
       gutter: false,
       actions: [
         ValueListenableBuilder<TextEditingValue>(
@@ -64,7 +64,7 @@ class _TweetComposerState extends State<TweetComposer> {
       busySemanticsLabel: widget.isSubmitting
           ? i18n.translate('tweet_creation_feature.tweeting_message_semantics')
           : null,
-      onPressed: hasText || widget.isSubmitting ? _submit : null,
+      onPressed: hasText ? _submit : null,
     );
   }
 

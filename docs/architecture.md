@@ -115,7 +115,7 @@ Keys and defaults live in `FeatureFlags`:
 | --- | --- | --- |
 | `appIsActive` | `true` | `AuthIndexCubit.check()`: off shows `MaintenanceView` before any session check. |
 | `signUpFeatureIsActive` | `true` | `SignUpFeature.buildButton()` wraps `SignUpButton` in a `FeatureGate`. Off renders nothing. |
-| `tweetCreationIsActive` | `true` | `TweetCreationFeature.buildFloatingButton()` wraps the FAB in a `FeatureGate`. Off renders nothing. `HomeFeature.buildPage()` reads it too, through `FeatureGate.builder`, only to drop the feed's bottom padding when there is no FAB. |
+| `tweetCreationIsActive` | `true` | `HomeFeature.buildPage()` reads it once through `FeatureGate.builder`: on, it renders `TweetCreationFeature.buildFloatingButton()` and pads the feed by 88; off, no FAB and 16. |
 
 A flag is checked once, at the feature's entry widget, through the `FeatureConfig` port. Nothing below the entry widget knows about toggles. The `/sign-up` and `/tweet` routes stay registered; only the way in is hidden. See [ADR 0003](adr/0003-remote-config-feature-toggles.md).
 

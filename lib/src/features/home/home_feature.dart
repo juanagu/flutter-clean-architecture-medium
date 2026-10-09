@@ -20,15 +20,17 @@ class HomeFeature {
         .pushNamedAndRemoveUntil(route, (route) => false);
   }
 
-  /// The compose button hides itself when its toggle is off; the feed reads
-  /// the same toggle here to know whether to keep its last row clear of it.
+  /// Reads the compose toggle once: it decides both whether the button is
+  /// there and whether the feed keeps its last row clear of it.
   Widget buildPage() {
     return FeatureGate.builder(
       featureConfig: Injector.instance.resolve<FeatureConfig>(),
       flag: FeatureFlags.tweetCreation,
       builder: (_, canCompose) => HomePage(
         feed: TweetFeedFeature().build(hasFloatingAction: canCompose),
-        composeButton: TweetCreationFeature().buildFloatingButton(),
+        composeButton: canCompose
+            ? TweetCreationFeature().buildFloatingButton()
+            : null,
       ),
     );
   }

@@ -3,8 +3,9 @@ import 'package:app/src/application/widgets/indicators/circular_indicator.dart';
 import 'package:flutter/material.dart';
 
 /// A compact filled button for an app bar: 36 high in a 48 hit area. While
-/// [busySemanticsLabel] is set a spinner replaces the label and the width
-/// is kept, so the bar does not shift.
+/// [busySemanticsLabel] is set the button is disabled but keeps its colour,
+/// a spinner replaces the label and the width is kept, so the bar does not
+/// shift.
 class PillButton extends StatelessWidget {
   const PillButton({
     super.key,
@@ -19,9 +20,12 @@ class PillButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String? busySemanticsLabel;
 
+  bool get _isBusy => busySemanticsLabel != null;
+
   @override
   Widget build(BuildContext context) {
     final busySemanticsLabel = this.busySemanticsLabel;
+    final scheme = Theme.of(context).colorScheme;
     return FilledButton(
       style: FilledButton.styleFrom(
         shape: const StadiumBorder(),
@@ -29,13 +33,15 @@ class PillButton extends StatelessWidget {
         maximumSize: const Size(double.infinity, _height),
         padding: const EdgeInsets.symmetric(horizontal: Space.s4),
         tapTargetSize: MaterialTapTargetSize.padded,
+        disabledBackgroundColor: _isBusy ? scheme.primary : null,
+        disabledForegroundColor: _isBusy ? scheme.onPrimary : null,
       ),
-      onPressed: onPressed,
+      onPressed: _isBusy ? null : onPressed,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Visibility(
-            visible: busySemanticsLabel == null,
+            visible: !_isBusy,
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,

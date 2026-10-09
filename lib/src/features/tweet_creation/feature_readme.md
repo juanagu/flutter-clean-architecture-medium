@@ -12,7 +12,7 @@ The compose screen at `/tweet` and the floating button on home that opens it. Po
 - `static Map<String, WidgetBuilder> generateRoutes()`
 - `static Future<void> navigate(BuildContext context)`: `pushNamed`, so success pops back to home.
 - `Widget buildPage()`
-- `Widget buildFloatingButton()`: the toggle-aware FAB, rendered by `home`.
+- `Widget buildFloatingButton()`: the FAB, rendered by `home` when the compose toggle is on.
 
 ## States and failures
 
@@ -31,7 +31,7 @@ The floating button on home uses `Icons.edit_outlined` with `tweet_creation_feat
 
 ## Toggle
 
-`tweetCreationIsActive`, checked by the `FeatureGate` that `buildFloatingButton()` wraps around `TweetCreationFloatingButton`. Off renders `SizedBox.shrink()`. The `/tweet` route stays registered.
+`tweetCreationIsActive`, read once by `HomeFeature.buildPage()` (`FeatureGate.builder`), which renders `buildFloatingButton()` only when it is on. The `/tweet` route stays registered.
 
 ## Known gaps
 

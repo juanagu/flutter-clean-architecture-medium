@@ -122,9 +122,17 @@ void main() {
       ),
     );
 
-    expect(find.text('footer'), findsNothing);
+    final footerVisibility = tester.widget<Visibility>(
+      find.ancestor(of: find.text('footer'), matching: find.byType(Visibility)),
+    );
+    expect(footerVisibility.visible, isFalse);
+    expect(footerVisibility.maintainSize, isTrue);
     expect(find.text('Go'), findsNothing);
     expect(find.bySemanticsLabel('Working'), findsOneWidget);
+    expect(
+      tester.widget<FilledButton>(find.byType(FilledButton)).onPressed,
+      isNull,
+    );
   });
 }
 

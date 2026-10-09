@@ -52,7 +52,6 @@ class EmailPasswordForm extends StatefulWidget {
 
 class _EmailPasswordFormState extends State<EmailPasswordForm> {
   static const EmailPasswordValidator _validator = EmailPasswordValidator();
-  static const double _footerHeight = 44;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -104,7 +103,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
               FormErrorMessage(message: errorText),
               const SizedBox(height: Space.s4),
             ],
-            _buildSubmitButton(),
+            _buildSubmitButton(context),
             ..._buildFooter(),
           ],
         ),
@@ -162,15 +161,23 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
             : Icons.visibility_outlined,
       ),
       tooltip: I18n.of(context).translate(key),
-      onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+      onPressed: widget.isSubmitting
+          ? null
+          : () => setState(() => _isPasswordVisible = !_isPasswordVisible),
     );
   }
 
-  /// The button keeps its colour while submitting; the spinner says why it
-  /// does nothing.
-  Widget _buildSubmitButton() {
+  /// Disabled while submitting but keeping its colour; the spinner says why.
+  Widget _buildSubmitButton(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return FilledButton(
-      onPressed: _submit,
+      style: widget.isSubmitting
+          ? FilledButton.styleFrom(
+              disabledBackgroundColor: scheme.primary,
+              disabledForegroundColor: scheme.onPrimary,
+            )
+          : null,
+      onPressed: widget.isSubmitting ? null : _submit,
       child: widget.isSubmitting
           ? CircularIndicator.inButton(
               semanticsLabel: widget.labels.submittingSemantics,
@@ -179,16 +186,20 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
     );
   }
 
+  /// Hidden while submitting but still laid out, so the form never jumps.
   List<Widget> _buildFooter() {
     final footer = widget.footer;
     if (footer == null) return const [];
 
     return [
       const SizedBox(height: Space.s4),
-      if (widget.isSubmitting)
-        const SizedBox(height: _footerHeight)
-      else
-        footer,
+      Visibility(
+        visible: !widget.isSubmitting,
+        maintainSize: true,
+        maintainAnimation: true,
+        maintainState: true,
+        child: footer,
+      ),
     ];
   }
 

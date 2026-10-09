@@ -11,10 +11,11 @@ enum PageLeading { back, close }
 /// the app bar row and the floating action button to the same column.
 ///
 /// The app bar appears when the route can pop, or there is a [title] or any
-/// [actions]. The column gets a fixed 16 gutter unless [gutter] is false
-/// (lists and the composer carry their own padding so dividers can run edge
-/// to edge). [columnEdges] draws a hairline on each side of the column once
-/// the viewport is wider than it.
+/// [actions]; without one the body sits below the status bar on its own.
+/// The column gets a fixed 16 gutter unless [gutter] is false (lists and the
+/// composer carry their own padding so dividers can run edge to edge).
+/// [columnEdges] draws a hairline on each side of the column once the
+/// viewport is wider than it.
 class PageContainer extends StatelessWidget {
   const PageContainer({
     super.key,
@@ -24,7 +25,7 @@ class PageContainer extends StatelessWidget {
     this.floatingActionButton,
     this.columnWidth = kColumnWidthFeed,
     this.leading = PageLeading.back,
-    this.leadingEnabled = true,
+    this.canLeave = true,
     this.gutter = true,
     this.columnEdges = false,
   });
@@ -36,19 +37,26 @@ class PageContainer extends StatelessWidget {
   final double columnWidth;
   final PageLeading leading;
 
-  /// False greys the leading icon out and ignores taps, for a page that
+  /// False keeps the user on the page: the leading icon is greyed out and
+  /// system back, browser back and swipe-back are blocked. For a page that
   /// must not be left mid-submit.
-  final bool leadingEnabled;
+  final bool canLeave;
   final bool gutter;
   final bool columnEdges;
 
   @override
   Widget build(BuildContext context) {
     final canPop = Navigator.of(context).canPop();
-    return Scaffold(
-      appBar: _hasAppBar(canPop) ? _buildAppBar(context, canPop) : null,
-      body: _buildColumn(context),
-      floatingActionButton: _alignToColumn(context),
+    final hasAppBar = _hasAppBar(canPop);
+    return PopScope(
+      canPop: canLeave,
+      child: LayoutBuilder(
+        builder: (context, constraints) => Scaffold(
+          appBar: hasAppBar ? _buildAppBar(context, canPop) : null,
+          body: SafeArea(top: !hasAppBar, bottom: false, child: _buildColumn()),
+          floatingActionButton: _alignToColumn(constraints.maxWidth),
+        ),
+      ),
     );
   }
 
@@ -57,9 +65,9 @@ class PageContainer extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context, bool canPop) {
     final actions = this.actions ?? const <Widget>[];
+    final title = this.title;
     return AppBar(
       automaticallyImplyLeading: false,
-      titleSpacing: 0,
       title: _ColumnBox(
         width: columnWidth,
         child: Row(
@@ -70,7 +78,9 @@ class PageContainer extends StatelessWidget {
               const SizedBox(width: Space.s2),
             ] else
               const SizedBox(width: Space.s4),
-            Expanded(child: _buildTitle()),
+            Expanded(
+              child: title == null ? const SizedBox.shrink() : Text(title),
+            ),
             ...actions,
             if (actions.isNotEmpty) const SizedBox(width: Space.s4),
           ],
@@ -87,18 +97,11 @@ class PageContainer extends StatelessWidget {
       tooltip: isClose
           ? localizations.closeButtonTooltip
           : localizations.backButtonTooltip,
-      onPressed: leadingEnabled ? () => Navigator.of(context).pop() : null,
+      onPressed: canLeave ? () => Navigator.of(context).pop() : null,
     );
   }
 
-  Widget _buildTitle() {
-    final title = this.title;
-    if (title == null) return const SizedBox.shrink();
-
-    return Semantics(header: true, child: Text(title));
-  }
-
-  Widget _buildColumn(BuildContext context) {
+  Widget _buildColumn() {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isCapped = constraints.maxWidth > columnWidth;
@@ -126,15 +129,14 @@ class PageContainer extends StatelessWidget {
   }
 
   /// Shifts the button in by the space outside the column, so it floats
-  /// inside the column's right edge at every width.
-  Widget? _alignToColumn(BuildContext context) {
+  /// inside the column's end edge at every width.
+  Widget? _alignToColumn(double availableWidth) {
     final button = floatingActionButton;
     if (button == null) return null;
 
-    final viewportWidth = MediaQuery.sizeOf(context).width;
-    final inset = max(0.0, (viewportWidth - columnWidth) / 2);
+    final inset = max(0.0, (availableWidth - columnWidth) / 2);
     return Padding(
-      padding: EdgeInsets.only(right: inset),
+      padding: EdgeInsetsDirectional.only(end: inset),
       child: button,
     );
   }

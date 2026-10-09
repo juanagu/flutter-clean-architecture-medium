@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 /// dividers run the full width) and the column shows its hairline edges
 /// once the viewport is wider than it.
 class HomePage extends StatelessWidget {
-  const HomePage({super.key, required this.feed, required this.composeButton});
+  const HomePage({super.key, required this.feed, this.composeButton});
 
   final Widget feed;
-  final Widget composeButton;
+
+  /// Null when composing is toggled off.
+  final Widget? composeButton;
 
   @override
   Widget build(BuildContext context) {

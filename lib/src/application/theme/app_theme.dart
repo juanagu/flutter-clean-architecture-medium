@@ -12,7 +12,6 @@ abstract final class AppTheme {
 
   static ThemeData _build(ColorScheme colors) {
     return ThemeData(
-      useMaterial3: true,
       colorScheme: colors,
       scaffoldBackgroundColor: colors.surface,
       textTheme: AppTextTheme.textTheme,

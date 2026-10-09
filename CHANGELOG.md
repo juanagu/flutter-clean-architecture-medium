@@ -39,7 +39,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - Copy in both languages per the design spec (`Try again`, `Enter your email`, `Create an account`, `New tweet`, ...). Keys unchanged.
 - `MessageView`: 40 icon in `onSurfaceVariant`, `bodyLarge` message, max width 320; `MaintenanceView` reuses it. Entry and feed errors use `cloud_off_outlined`; the entry's transitional states show the spinner instead of a check or block icon.
-- FAB icon is `edit_outlined`; feed list keeps 88 of bottom padding under it (16 when the compose toggle is off, read by `HomeFeature` through `FeatureGate.builder`).
+- FAB icon is `edit_outlined`; `HomeFeature` reads the compose toggle once and both renders the FAB and pads the feed (88 with it, 16 without, plus the bottom safe-area inset).
 - Toolchain pinned to Flutter 3.47.7 stable / Dart 3.13 (`.fvmrc`, `pubspec.yaml`).
 - States and failures are Dart 3 `sealed class` hierarchies matched with `switch`, instead of `freezed` unions.
 - Lint is `flutter_lints` plus a few extra rules, with `strict-casts`, `strict-inference` and `strict-raw-types`.

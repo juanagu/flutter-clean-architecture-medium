@@ -9,7 +9,8 @@ typedef FeatureGateBuilder = Widget Function(
 /// Renders [child] only while the [flag] is on, or hands [builder] the
 /// flag's value when the layout around a feature depends on it too. The
 /// flag is read once when the gate mounts; a changed flag shows after the
-/// screen is rebuilt.
+/// screen is rebuilt. A read that fails leaves the flag off: a toggle that
+/// cannot be checked behaves as if it were disabled.
 class FeatureGate extends StatefulWidget {
   const FeatureGate({
     super.key,
@@ -53,9 +54,17 @@ class _FeatureGateState extends State<FeatureGate> {
   }
 
   Future<void> _fetchIsEnabled() async {
-    final isEnabled = await widget.featureConfig.isEnabled(widget.flag);
+    final isEnabled = await _readFlag();
     if (!mounted || isEnabled == _isEnabled) return;
 
     setState(() => _isEnabled = isEnabled);
+  }
+
+  Future<bool> _readFlag() async {
+    try {
+      return await widget.featureConfig.isEnabled(widget.flag);
+    } catch (_) {
+      return false;
+    }
   }
 }

@@ -10,7 +10,8 @@ class InitialAvatar extends StatelessWidget {
 
   final String text;
 
-  String get _initial => text.isEmpty ? '' : text[0].toUpperCase();
+  String get _initial =>
+      text.isEmpty ? '' : text.characters.first.toUpperCase();
 
   @override
   Widget build(BuildContext context) {
