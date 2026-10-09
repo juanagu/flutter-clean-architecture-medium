@@ -33,6 +33,8 @@ flutter build web --dart-define=IN_MEMORY_BACKEND=true
 | A decision and the alternatives considered | `docs/adr/NNNN-*.md`, listed in `docs/adr/README.md` |
 | What a feature exposes and its data flow | `lib/src/features/<name>/feature_readme.md` |
 | What changed between versions | `CHANGELOG.md` |
+| Where a coding agent starts, the checks, the contracts that must not regress | `CLAUDE.md` (`AGENTS.md` points at it); the architecture itself is the `flutter-architecture` skill in the global setup |
+| The dependency rule, enforced | `test/architecture/dependency_rule_test.dart` |
 
 Update the doc that would otherwise mislead. Do not append history to a living doc; git holds the history. ADRs get a short dated amendment instead of a rewrite.
 

@@ -87,15 +87,18 @@ Lint is `flutter_lints` plus a few extra rules, with `strict-casts`, `strict-inf
 - `test/core/domain/entities/tweet_test.dart`: feed ordering and like toggle on `Tweet`.
 - `test/application/validators/email_validator_test.dart`: the email regex and the form validator.
 - `test/application/localizations/i18n_test.dart`: `translate`, en/es key parity, every key used in `lib/` exists, every dictionary key is used.
-- `test/application/widgets/forms/email_password_form_test.dart`: widget test of the shared form, in English and Spanish.
+- `test/application/widgets/forms/email_password_form_test.dart`: widget test of the shared form (validation, inline error, password toggle, submitting state), in English and Spanish.
+- `test/application/pages/page_container_test.dart`: the page shell at 390, 768 and 1280.
+- `test/architecture/dependency_rule_test.dart`: every import under `lib/` against the layer table; vendor packages only in `integrations/` and `main.dart`; no feature importing its own composition root from inside.
 - `test/features/auth/.../auth_index_cubit_test.dart`: maintenance, authorized, unauthorized, config failure.
-- `test/features/sign_in/sign_in_test.dart`: repository mapping through `InMemoryAuthClient` and the cubit.
+- `test/features/sign_in/sign_in_test.dart`: repository mapping through `InMemoryAuthClient` and the cubit; `sign_in_component_test.dart`: inline block for wrong credentials, snackbar for unexpected errors.
 - `test/features/sign_up/.../sign_up_remote_repository_test.dart`: taken email, weak password.
-- `test/features/tweet_creation/.../authored_tweet_creation_use_case_test.dart`: user and clock stamping, no session.
+- `test/features/tweet_creation/.../authored_tweet_creation_use_case_test.dart`: user and clock stamping, no session; `tweet_composer_test.dart`: pill disabled until text, spinner while posting, counter in error near the limit.
 - `test/features/tweet_feed/domain/sorters/tweet_feed_sorters_test.dart`: insertion sort and the bounded wrapper.
 - `test/features/tweet_feed/presentation/cubits/tweet_feed_cubit_test.dart`: loading, found, empty, error, cancel on close.
-- `test/features/tweet_feed/presentation/widgets/tweet_feed_component_test.dart`: widget test of the feed states with retry.
-- `test/features/tweet_like/.../tweet_like_cubit_test.dart`: optimistic update, rollback, no double toggle.
+- `test/features/tweet_feed/presentation/widgets/tweet_feed_component_test.dart`: widget test of the feed states with retry; `tweet_feed_list_item_test.dart`: avatar initial, header line, content.
+- `test/features/tweet_feed/data/remote/tweet_feed_remote_repository_test.dart`: `likedBy` resolved for the signed-in user, re-emit on change.
+- `test/features/tweet_like/tweet_like_test.dart`: use case and repository against the in-memory client (like, unlike, no session), cubit optimistic update, rollback, no double toggle, `sync`; `tweet_like_button_test.dart`: count hidden at 0.
 - `test/integrations/in_memory/in_memory_data_remote_client_test.dart`: ordering, add, update, re-emit.
 
 Helpers in `test/support/`:
@@ -136,15 +139,12 @@ Both themes follow the system setting; switch it in the OS to capture light and 
 - **Flags are read once per gate.** `FeatureGate` (`lib/src/application/widgets/feature_gate.dart`) fetches its flag in `initState`. A changed flag shows after the screen is rebuilt.
 - **Firebase files on native builds.** Without `google-services.json` the Android build fails at the Gradle step even in in-memory mode, because the Google Services plugin is always applied.
 
-## Verified in this PR / not verified
+## Verification status
 
-Verified on the machine that produced this rewrite:
+What has been exercised since the rewrite, and what has not:
 
-- `dart format`, `flutter analyze --fatal-infos` and `flutter test` pass.
-- `flutter build web --dart-define=IN_MEMORY_BACKEND=true` builds. The build was served and opened in Chrome: the entry screen routed to sign-in and the form's validation messages rendered. The signed-in screens were not driven in the browser (a password-manager extension on that machine blocked the password field); they are covered by the widget tests at 390x844.
+- `dart format`, `flutter analyze --fatal-infos`, `flutter test` and the web build run on every PR and pass.
+- The in-memory web build has been driven in Chrome at 390 wide and at desktop, dark theme, English: sign-in and its validation states, the feed, liking, compose empty and at the limit, posting. Light theme and Spanish are covered by the widget tests, not by a browser pass.
+- Not verified: the Android and iOS builds (the machine that produced the rewrite has no Android SDK or Xcode; expect to fix Gradle details on the first Android run), and the Firebase wiring end to end (Auth, Firestore, Remote Config, Crashlytics) against a real project.
 
-Not verified:
-
-- The Android build. The machine has no Android SDK, so the Gradle plugin declarations and the `minSdk` change compiled nowhere. Expect to fix Gradle details on the first Android run.
-- The iOS build.
-- The Firebase wiring end to end (Auth, Firestore, Remote Config, Crashlytics) against a real project.
+Update this list when one of these changes.

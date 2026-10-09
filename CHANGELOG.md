@@ -13,6 +13,9 @@ All notable changes to this project are documented here. The format follows [Kee
 - `PageContainer` caps the content at a centred column (400 for forms, 600 for the feed and composer) and aligns the app bar row and the FAB to it on wide viewports.
 - Six i18n keys: `sign_in_feature.title`, `sign_up_feature.button_prompt`, `sign_up_feature.password_helper`, `form.show_password`, `form.hide_password`, `tweet_creation_feature.counter_semantics`.
 - Widget tests for the inline error, the password toggle, the compose pill and counter, the feed row, the like count and the capped column.
+- `test/architecture/dependency_rule_test.dart`: every import under `lib/` is checked against the layer table; vendor packages are confined to `integrations/` and `main.dart`; a feature never imports its own composition root from inside.
+- `CLAUDE.md` and `AGENTS.md`: where a coding agent starts, the checks to run, the contracts that must not regress. `docs/development.md` gains the browser verification recipe.
+- `PageContainer.canLeave`: blocks system and browser back while a submit is in flight; pages without an app bar sit in a `SafeArea`; the FAB inset follows the page's own width and reading direction.
 
 - In-memory backend (`--dart-define=IN_MEMORY_BACKEND=true`): `InMemoryAuthClient`, `InMemoryDataRemoteClient` and `InMemorySeed` (account `demo@example.com` / `password`, three tweets). Runs the whole UI with no Firebase project.
 - `DeveloperLogLogger` and `DefaultsFeatureConfig` for in-memory runs.
@@ -64,6 +67,10 @@ All notable changes to this project are documented here. The format follows [Kee
 - The email regex rejected hyphenated domains.
 - A feature-config failure left the entry screen on a spinner forever.
 - Uncaught Flutter errors were not forwarded to the logger.
+- The feed list dropped the bottom safe-area inset when it set its own padding.
+- The submit button and the password toggle stayed enabled for assistive tech while submitting; the hidden footer was a fixed-height gap instead of the real footer kept invisible.
+- A failed flag read inside `FeatureGate` was an uncaught error; it now keeps the feature off.
+- `InitialAvatar` took the first UTF-16 code unit instead of the first grapheme.
 
 ### Removed
 
