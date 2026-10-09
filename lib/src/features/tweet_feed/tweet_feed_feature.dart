@@ -19,10 +19,13 @@ import 'package:flutter/material.dart';
 /// Composition root of the feed. Has no route of its own: the home screen
 /// embeds it.
 class TweetFeedFeature {
-  Widget build() {
+  /// [hasFloatingAction] keeps the end of the list clear of the host's
+  /// floating button.
+  Widget build({bool hasFloatingAction = false}) {
     return TweetFeedComponent(
       createCubit: _provideCubit,
       likeActionBuilder: TweetLikeFeature().build,
+      hasFloatingAction: hasFloatingAction,
     );
   }
 

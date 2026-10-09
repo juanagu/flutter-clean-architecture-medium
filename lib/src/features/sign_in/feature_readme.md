@@ -20,11 +20,13 @@ The sign-in screen at `/sign-in`: email and password form, with the sign-up butt
 
 ## Data flow
 
-1. `SignInComponent` renders the shared `EmailPasswordForm`; submit calls `SignInCubit.signIn(email, password)`.
+1. `SignInComponent` renders the shared `EmailPasswordForm` with the `Welcome back` heading; submit calls `SignInCubit.signIn(email, password)`.
 2. The cubit emits `SignInAuthenticating` and calls `SignInRepository.signIn`.
 3. `SignInRemoteRepository` calls `AuthClient.signIn`. `AuthClientException(invalidCredentials)` maps to `SignInUnauthorized` without logging; anything else is logged and maps to `SignInUnexpectedError`.
-4. `SignInAuthorized` triggers `onAuthorized` (`AuthIndexFeature.navigate`), which re-runs the entry checks. Failures show a snackbar and keep the form.
-5. `signUpAction` is `SignUpFeature().buildButton()`, passed in by the Feature class and rendered as the form footer.
+4. `SignInAuthorized` triggers `onAuthorized` (`AuthIndexFeature.navigate`), which re-runs the entry checks. `SignInUnauthorized` is passed to the form as `errorText`: an inline block above the button that stays until the next submit, with focus moved to the password. `SignInUnexpectedError` is a snackbar. Both keep the form and what was typed.
+5. `signUpAction` is `SignUpFeature().buildButton()`, passed in by the Feature class and rendered as the form footer (the prompt plus link row); the form hides it while submitting and keeps its height.
+
+The page has no app bar (nothing to pop) and uses the 400 form column of `PageContainer`.
 
 ## Toggle
 

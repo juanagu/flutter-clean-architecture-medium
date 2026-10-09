@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twitter App · UX pass 1 · artboard</title>
+<style>
+/* ---------- canvas ---------- */
+*{box-sizing:border-box}
+html,body{margin:0;background:#D9D6CF;color:#1B1D22;font-family:Roboto,system-ui,-apple-system,"Segoe UI",sans-serif}
+body{padding:32px}
+h1{font-size:22px;font-weight:700;letter-spacing:-.25px;margin:0 0 4px}
+.lead{font-size:14px;color:#5B5F67;margin:0 0 24px;max-width:860px;line-height:20px}
+.lead code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#ECEAE4;padding:1px 4px;border-radius:4px}
+h2{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5B5F67;margin:40px 0 12px}
+.grid{display:flex;flex-wrap:wrap;gap:40px 28px;align-items:flex-start}
+.art{display:flex;flex-direction:column;gap:8px}
+.art .cap{font-size:12px;color:#5B5F67;line-height:16px;max-width:390px}
+.art .cap b{color:#1B1D22;font-weight:600;display:block}
+.art .cap .n{font-family:ui-monospace,Menlo,Consolas,monospace;color:#80848C;margin-right:6px}
+
+/* ---------- tokens ---------- */
+.frame{
+  --surface:#FAF9F6;--on-surface:#1B1D22;--on-surface-variant:#5B5F67;
+  --surface-container:#F1EFEA;--surface-container-highest:#E9E7E1;
+  --outline:#80848C;--outline-variant:#E2E0DA;
+  --primary:#1B1D22;--on-primary:#FFFFFF;
+  --tertiary:#D23B2C;--error:#B3261E;--error-container:#F9DEDC;--on-error-container:#410E0B;
+  --inverse-surface:#2F3136;--on-inverse-surface:#F2F1ED;
+  --disabled-bg:rgba(27,29,34,.12);--disabled-fg:rgba(27,29,34,.38);
+}
+.frame.dark{
+  --surface:#131416;--on-surface:#ECEAE4;--on-surface-variant:#A8ABB2;
+  --surface-container:#1C1D21;--surface-container-highest:#2A2C31;
+  --outline:#74777E;--outline-variant:#2E3036;
+  --primary:#F2F1EC;--on-primary:#1B1D22;
+  --tertiary:#FF7A6B;--error:#FFB4AB;--error-container:#93000A;--on-error-container:#FFDAD6;
+  --inverse-surface:#ECEAE4;--on-inverse-surface:#1B1D22;
+  --disabled-bg:rgba(236,234,228,.12);--disabled-fg:rgba(236,234,228,.38);
+}
+
+/* ---------- frame chrome ---------- */
+.frame{width:390px;height:844px;background:var(--surface);color:var(--on-surface);position:relative;overflow:hidden;border-radius:28px;box-shadow:0 2px 0 rgba(0,0,0,.08),0 24px 48px -24px rgba(0,0,0,.35);font-size:16px;line-height:24px;display:flex;flex-direction:column}
+.status{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:14px;font-weight:600;flex:none}
+.status .net{display:flex;gap:6px;align-items:center;font-size:11px;letter-spacing:.04em}
+.home-ind{position:absolute;left:50%;bottom:8px;width:134px;height:5px;border-radius:3px;background:var(--on-surface);opacity:.9;transform:translateX(-50%)}
+.body{flex:1;position:relative;display:flex;flex-direction:column;min-height:0}
+
+/* app bar */
+.appbar{height:56px;display:flex;align-items:center;padding:0 16px;flex:none}
+.appbar .ib{width:48px;height:48px;display:flex;align-items:center;justify-content:center;margin-left:-12px;border-radius:24px}
+.appbar .ib + .ttl{margin-left:8px}
+.appbar .ttl{font-size:20px;line-height:26px;font-weight:700;letter-spacing:-.25px;flex:1}
+.appbar .ib.off svg{color:var(--disabled-fg)}
+.ib svg,.ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* type */
+.h1{font-size:28px;line-height:34px;font-weight:700;letter-spacing:-.5px}
+.body-l{font-size:16px;line-height:24px}
+.body-m{font-size:14px;line-height:20px}
+.body-s{font-size:13px;line-height:18px}
+.muted{color:var(--on-surface-variant)}
+
+/* forms */
+.col{padding:0 16px}
+.field{position:relative;height:56px;border:1px solid var(--outline);border-radius:12px;padding:0 16px;display:flex;align-items:center;color:var(--on-surface)}
+.field .lab{position:absolute;left:16px;top:16px;font-size:14px;line-height:20px;color:var(--on-surface-variant);transition:none;pointer-events:none}
+.field.float .lab{top:-9px;left:12px;padding:0 4px;background:var(--surface);font-size:13px;line-height:18px}
+.field.focus{border:2px solid var(--primary);padding:0 15px}
+.field.focus.float .lab{color:var(--primary)}
+.field.err{border-color:var(--error)}
+.field.err.float .lab{color:var(--error)}
+.field.focus.err{border:2px solid var(--error)}
+.field.ro{background:var(--surface-container-highest);border-color:var(--surface-container-highest)}
+.field.ro .val{color:var(--on-surface-variant)}
+.field.ro.float .lab{background:transparent}
+.field .val{font-size:16px;line-height:24px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.field .caret{width:2px;height:20px;background:var(--primary);margin-left:1px}
+.field .sfx{width:48px;height:48px;display:flex;align-items:center;justify-content:center;margin-right:-12px;color:var(--on-surface-variant)}
+.helper{font-size:13px;line-height:18px;color:var(--on-surface-variant);padding:4px 16px 0}
+.helper.e{color:var(--error)}
+.dots{letter-spacing:4px}
+
+.btn{height:48px;border-radius:12px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-size:15px;line-height:20px;font-weight:600;padding:0 24px}
+.btn.tonal{background:var(--surface-container-highest);color:var(--on-surface);align-self:center;min-width:120px}
+.btn.disabled{background:var(--disabled-bg);color:var(--disabled-fg)}
+.btn.stretch{width:100%}
+.linkrow{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px;min-height:44px;font-size:14px;line-height:20px;color:var(--on-surface-variant)}
+.linkrow a{color:var(--primary);font-weight:600;font-size:15px;text-decoration:underline;text-underline-offset:3px;padding:0 12px;line-height:44px}
+
+.errblock{display:flex;gap:8px;padding:12px;border-radius:8px;background:var(--error-container);color:var(--on-error-container);font-size:14px;line-height:20px;align-items:flex-start}
+.errblock .ic{width:20px;height:20px;flex:none}
+
+/* spinner */
+.spin{width:32px;height:32px;border-radius:50%;border:2.5px solid var(--primary);border-right-color:transparent;animation:r 1s linear infinite}
+.spin.sm{width:20px;height:20px;border-width:2.5px;border-color:var(--on-primary);border-right-color:transparent}
+@keyframes r{to{transform:rotate(360deg)}}
+
+/* message view */
+.center{flex:1;display:flex;align-items:center;justify-content:center;padding:16px}
+.msg{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:320px;gap:0}
+.msg .ic{width:40px;height:40px;color:var(--on-surface-variant);stroke-width:1.75}
+.msg p{margin:16px 0 0;font-size:16px;line-height:24px}
+.msg .btn{margin-top:24px}
+
+/* snackbar */
+.snack{position:absolute;left:16px;right:16px;bottom:16px;background:var(--inverse-surface);color:var(--on-inverse-surface);border-radius:12px;padding:14px 16px;font-size:14px;line-height:20px}
+.snack.w{left:50%;right:auto;width:400px;transform:translateX(-50%)}
+
+/* feed */
+.list{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.row{display:flex;gap:12px;padding:16px;align-items:flex-start}
+.row + .row{border-top:1px solid var(--outline-variant)}
+.row.hover{background:var(--surface-container)}
+.avatar{width:40px;height:40px;border-radius:20px;background:var(--surface-container-highest);color:var(--on-surface-variant);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;flex:none}
+.row .c{flex:1;min-width:0}
+.row .hd{display:flex;align-items:baseline;gap:0;min-width:0}
+.row .hd .who{font-size:15px;line-height:20px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:0 1 auto}
+.row .hd .dot{font-size:13px;line-height:18px;color:var(--on-surface-variant);padding:0 4px;flex:none}
+.row .hd .when{font-size:13px;line-height:18px;color:var(--on-surface-variant);white-space:nowrap;flex:none}
+.row .tx{margin-top:4px;font-size:16px;line-height:24px;overflow-wrap:anywhere}
+.like{margin-top:8px;height:44px;display:flex;align-items:center;gap:4px;color:var(--on-surface-variant);font-size:13px;font-weight:600;width:max-content;min-width:44px}
+.like .ic{width:20px;height:20px}
+.like.on{color:var(--tertiary)}
+.like.on .ic{fill:currentColor;stroke:currentColor}
+.fab{position:absolute;right:16px;bottom:16px;width:56px;height:56px;border-radius:16px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.25),0 2px 6px rgba(0,0,0,.12)}
+.fab.safe{bottom:32px}
+.edges{border-left:1px solid var(--outline-variant);border-right:1px solid var(--outline-variant)}
+
+/* compose */
+.pill{height:36px;border-radius:18px;background:var(--primary);color:var(--on-primary);padding:0 16px;display:flex;align-items:center;font-size:15px;font-weight:600;line-height:20px;min-width:72px;justify-content:center}
+.pill.disabled{background:var(--disabled-bg);color:var(--disabled-fg)}
+.compose{padding:12px 16px;font-size:16px;line-height:24px;min-height:156px;position:relative}
+.compose.ro{color:var(--on-surface-variant)}
+.compose .hint{color:var(--on-surface-variant)}
+.counter{font-size:13px;line-height:18px;color:var(--on-surface-variant);text-align:right;padding:0 16px}
+.counter.near{color:var(--error);font-weight:600}
+.kb{margin-top:auto;height:291px;background:var(--surface-container-highest);border-top:1px solid var(--outline-variant);display:flex;align-items:center;justify-content:center;color:var(--on-surface-variant);font-size:12px;letter-spacing:.08em;text-transform:uppercase;flex:none}
+.kb.dark{background:#1C1D21}
+
+/* wide frames */
+.wide{width:1280px;height:800px;border-radius:12px;transform:scale(.5);transform-origin:top left}
+.wide-wrap{width:640px;height:400px}
+.mid{width:768px;height:800px;border-radius:12px;transform:scale(.6);transform-origin:top left}
+.mid-wrap{width:461px;height:480px}
+.wide .status,.mid .status{display:none}
+.colwrap{width:100%;display:flex;justify-content:center}
+.colbox{width:600px;display:flex;flex-direction:column;min-height:0}
+.colbox.form{width:400px}
+.wide .body,.mid .body{align-items:center}
+.wide .fabw,.mid .fabw{position:absolute;bottom:16px;left:50%;width:600px;transform:translateX(-50%)}
+.wide .fabw .fab,.mid .fabw .fab{position:absolute;right:16px;bottom:0}
+.wide .appbar,.mid .appbar{width:100%;padding:0;justify-content:center}
+.wide .appbar .inner,.mid .appbar .inner{width:600px;padding:0 16px;display:flex;align-items:center;height:56px}
+.wide .appbar .inner.form,.mid .appbar .inner.form{width:400px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H6l-3 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M22.6 16.1A5 5 0 0 0 18 9h-1.3A8 8 0 0 0 4.6 6.4"/><path d="M3 3l18 18"/><path d="M7 9.4A5 5 0 0 0 7 19h11"/></symbol>
+  <symbol id="i-build" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 9 15 2l-2.3 2.3a4 4 0 0 0 2 2z"/><path d="M13 11L3 21"/><path d="M9.3 6.3L2 13.6l3 3 7.3-7.3"/></symbol>
+  <symbol id="i-err" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M17.9 17.9A10.9 10.9 0 0 1 12 19C5 19 1 12 1 12a20 20 0 0 1 5.1-5.9"/><path d="M9.9 4.2A10 10 0 0 1 12 5c7 0 11 7 11 7a20 20 0 0 1-2.2 3.2"/><path d="M14.1 14.1a3 3 0 0 1-4.2-4.2"/><path d="M1 1l22 22"/></symbol>
+</svg>
+
+<h1>Twitter App · UX pass 1</h1>
+<p class="lead">Every state of the five screens at 390×844, drawn with the tokens in <code>docs/design/ux-pass-1.md</code>. Typeface: the platform default (Roboto on Android and web, SF on iOS), as decided on review. Frames 24–26 show the web run at 768 and 1280 (scaled). Copy is the proposed en/es text; the feed uses sample data shaped like the in-memory seed. Light unless the caption says dark.</p>
+
+<!-- =============================== ENTRY =============================== -->
+<h2>Entry /</h2>
+<div class="grid">
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body"><div class="center"><div class="spin" role="img" aria-label="Checking session…"></div></div></div>
+  <div class="home-ind"></div>
+</div>
+<div class="cap"><b><span class="n">01</span>Entry · loading</b>32px primary spinner, nothing else. Also shown during the two one-frame transition states.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body"><div class="center"><div class="msg">
+    <svg class="ic"><use href="#i-build"/></svg>
+    <p>We're doing some maintenance. Please try again later.</p>
+  </div></div></div>
+  <div class="home-ind"></div>
+</div>
+<div class="cap"><b><span class="n">02</span>Entry · maintenance</b>MessageView, icon 40 onSurfaceVariant, bodyLarge, max width 320. No action.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body"><div class="center"><div class="msg">
+    <svg class="ic"><use href="#i-cloud"/></svg>
+    <p>We couldn't check your session.</p>
+    <div class="btn tonal">Try again</div>
+  </div></div></div>
+  <div class="home-ind"></div>
+</div>
+<div class="cap"><b><span class="n">03</span>Entry · error</b>Tonal button 48 high, 24 below the message.</div>
+</div>
+
+</div>
+
+<!-- =============================== SIGN IN =============================== -->
+<h2>Sign-in /sign-in</h2>
+<div class="grid">
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="col" style="padding-top:32px">
+      <div class="h1">Welcome back</div>
+      <div class="field focus float" style="margin-top:24px"><span class="lab">Email</span><span class="val"></span><span class="caret"></span></div>
+      <div class="field" style="margin-top:16px"><span class="lab">Password</span><span class="val"></span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="btn stretch" style="margin-top:24px">Sign in</div>
+      <div class="linkrow" style="margin-top:16px"><span>Don't have an account?</span><a>Create an account</a></div>
+    </div>
+    <div class="kb">keyboard</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">04</span>Sign-in · idle</b>Heading in the body, top-aligned form. Email autofocused (2px primary border). Button stretched, link row centred under it.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="col" style="padding-top:32px">
+      <div class="h1">Welcome back</div>
+      <div class="field err float" style="margin-top:24px"><span class="lab">Email</span><span class="val">demo@example</span></div>
+      <div class="helper e">Enter a valid email address</div>
+      <div class="field focus err float" style="margin-top:16px"><span class="lab">Password</span><span class="val"></span><span class="caret"></span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="helper e">Enter your password</div>
+      <div class="btn stretch" style="margin-top:24px">Sign in</div>
+      <div class="linkrow" style="margin-top:16px"><span>Don't have an account?</span><a>Create an account</a></div>
+    </div>
+    <div class="kb">keyboard</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">05</span>Sign-in · validating</b>1px error border, label and helper in error. Focused + error = 2px error. Button stays enabled.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="col" style="padding-top:32px">
+      <div class="h1">Welcome back</div>
+      <div class="field ro float" style="margin-top:24px"><span class="lab">Email</span><span class="val">demo@example.com</span></div>
+      <div class="field ro float" style="margin-top:16px"><span class="lab">Password</span><span class="val dots">••••••••</span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="btn stretch" style="margin-top:24px" aria-label="Signing in…"><div class="spin sm"></div></div>
+      <div style="height:44px;margin-top:16px"></div>
+    </div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">06</span>Sign-in · submitting</b>Fields read-only with surfaceContainerHighest fill; button keeps primary and shows a 20px onPrimary spinner; link row hidden, space kept.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="col" style="padding-top:32px">
+      <div class="h1">Welcome back</div>
+      <div class="field float" style="margin-top:24px"><span class="lab">Email</span><span class="val">demo@example.com</span></div>
+      <div class="field focus float" style="margin-top:16px"><span class="lab">Password</span><span class="val dots">••••••••</span><span class="caret"></span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="errblock" style="margin-top:24px"><svg class="ic"><use href="#i-err"/></svg><span>Incorrect email or password.</span></div>
+      <div class="btn stretch" style="margin-top:16px">Sign in</div>
+      <div class="linkrow" style="margin-top:16px"><span>Don't have an account?</span><a>Create an account</a></div>
+    </div>
+    <div class="kb">keyboard</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">07</span>Sign-in · wrong credentials (inline)</b>errorContainer block, radius 8, padding 12, live region. Stays until the next submit; focus returns to the password.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="col" style="padding-top:32px">
+      <div class="h1">Welcome back</div>
+      <div class="field float" style="margin-top:24px"><span class="lab">Email</span><span class="val">demo@example.com</span></div>
+      <div class="field float" style="margin-top:16px"><span class="lab">Password</span><span class="val dots">••••••••</span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="btn stretch" style="margin-top:24px">Sign in</div>
+      <div class="linkrow" style="margin-top:16px"><span>Don't have an account?</span><a>Create an account</a></div>
+    </div>
+    <div class="snack">Something went wrong. Please try again.</div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">08</span>Sign-in · unexpected error (snackbar)</b>Floating, inverseSurface, 16 margins, 4 s. Form untouched.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="col" style="padding-top:32px">
+      <div class="h1">Welcome back</div>
+      <div class="field focus float" style="margin-top:24px"><span class="lab">Email</span><span class="val"></span><span class="caret"></span></div>
+      <div class="field" style="margin-top:16px"><span class="lab">Password</span><span class="val"></span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="btn stretch" style="margin-top:24px">Sign in</div>
+    </div>
+    <div class="kb">keyboard</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">09</span>Sign-in · sign-up toggle off (rule-driven)</b><code>signUpFeatureIsActive = false</code>: the link row is absent, the button is last. Nothing explains the gap.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="col" style="padding-top:32px">
+      <div class="h1">Hola de nuevo</div>
+      <div class="field focus float" style="margin-top:24px"><span class="lab">Email</span><span class="val"></span><span class="caret"></span></div>
+      <div class="field" style="margin-top:16px"><span class="lab">Contraseña</span><span class="val"></span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="btn stretch" style="margin-top:24px">Iniciar sesión</div>
+      <div class="linkrow" style="margin-top:16px"><span>¿No tienes cuenta?</span><a>Crear una cuenta</a></div>
+    </div>
+    <div class="kb">teclado</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">10</span>Sign-in · Spanish</b>Longest copy of the flow. Link row fits on one line at 390; wraps to two centred lines at 1.3× text scale.</div>
+</div>
+
+</div>
+
+<!-- =============================== SIGN UP =============================== -->
+<h2>Sign-up /sign-up</h2>
+<div class="grid">
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ib"><svg><use href="#i-back"/></svg></div></div>
+    <div class="col" style="padding-top:8px">
+      <div class="h1">Create your account</div>
+      <div class="field focus float" style="margin-top:24px"><span class="lab">Email</span><span class="val"></span><span class="caret"></span></div>
+      <div class="field" style="margin-top:16px"><span class="lab">Password</span><span class="val"></span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="helper">At least 6 characters</div>
+      <div class="btn stretch" style="margin-top:24px">Create account</div>
+    </div>
+    <div class="kb">keyboard</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">11</span>Sign-up · idle</b>Back arrow only in the app bar; heading in the body (8 below the bar so the baseline matches sign-in's 32 from the top). Helper under the password.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ib"><svg><use href="#i-back"/></svg></div></div>
+    <div class="col" style="padding-top:8px">
+      <div class="h1">Create your account</div>
+      <div class="field focus float" style="margin-top:24px"><span class="lab">Email</span><span class="val">demo@example.com</span><span class="caret"></span></div>
+      <div class="field float" style="margin-top:16px"><span class="lab">Password</span><span class="val dots">••••••••</span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+      <div class="helper">At least 6 characters</div>
+      <div class="errblock" style="margin-top:24px"><svg class="ic"><use href="#i-err"/></svg><span>This email is already in use. Try signing in.</span></div>
+      <div class="btn stretch" style="margin-top:16px">Create account</div>
+    </div>
+    <div class="kb">keyboard</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">12</span>Sign-up · email in use (inline)</b>Same block as 07. Weak password uses the same block with “Use at least 6 characters.” and focuses the password.</div>
+</div>
+
+</div>
+
+<!-- =============================== HOME =============================== -->
+<h2>Home /home</h2>
+<div class="grid">
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ttl">Home</div></div>
+    <div class="center"><div class="spin" role="img" aria-label="Loading tweets…"></div></div>
+    <div class="fab safe"><svg class="ic"><use href="#i-edit"/></svg></div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">13</span>Home · loading</b>App bar title left, titleLarge. FAB already present.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ttl">Home</div></div>
+    <div class="list">
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 minutes ago</span></div>
+        <div class="tx">Shipping the clean architecture sample today. Features own their wiring; the app shell only registers routes.</div>
+        <div class="like on"><svg class="ic"><use href="#i-heart"/></svg><span>2</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">A</div><div class="c">
+        <div class="hd"><span class="who">ana.lopez@example.com</span><span class="dot">·</span><span class="when">2 hours ago</span></div>
+        <div class="tx">Does anyone else keep cubits in presentation/ and nothing else?</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg></div>
+      </div></div>
+      <div class="row"><div class="avatar">M</div><div class="c">
+        <div class="hd"><span class="who">m.okafor.engineering@example.com</span><span class="dot">·</span><span class="when">yesterday</span></div>
+        <div class="tx">Long one: the feed sorts the first five hundred tweets newest first and most liked second, then appends the rest as they arrive, so a cold start with a large collection stays cheap and the first screen is always the freshest. Content wraps at the column edge and the row grows; nothing is clipped.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>14</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 days ago</span></div>
+        <div class="tx">Hello, world.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>1</span></div>
+      </div></div>
+    </div>
+    <div class="fab safe"><svg class="ic"><use href="#i-edit"/></svg></div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">14</span>Home · feed</b>Row: 40 initial avatar · owner titleSmall (ellipsis) · time bodySmall · content bodyLarge wraps · heart 20 at the content edge in a 44×44 target, count labelMedium, hidden at 0. Liked = tertiary. Hairline dividers edge to edge.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ttl">Home</div></div>
+    <div class="center"><div class="msg">
+      <svg class="ic"><use href="#i-chat"/></svg>
+      <p>No tweets yet. Be the first to post.</p>
+    </div></div>
+    <div class="fab safe"><svg class="ic"><use href="#i-edit"/></svg></div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">15</span>Home · empty</b>Neutral: no colour, no button. The FAB is the action.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ttl">Home</div></div>
+    <div class="center"><div class="msg">
+      <svg class="ic"><use href="#i-cloud"/></svg>
+      <p>We couldn't load the feed.</p>
+      <div class="btn tonal">Try again</div>
+    </div></div>
+    <div class="fab safe"><svg class="ic"><use href="#i-edit"/></svg></div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">16</span>Home · error</b>Same view as entry error.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ttl">Home</div></div>
+    <div class="list">
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 minutes ago</span></div>
+        <div class="tx">Shipping the clean architecture sample today. Features own their wiring; the app shell only registers routes.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>1</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">A</div><div class="c">
+        <div class="hd"><span class="who">ana.lopez@example.com</span><span class="dot">·</span><span class="when">2 hours ago</span></div>
+        <div class="tx">Does anyone else keep cubits in presentation/ and nothing else?</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg></div>
+      </div></div>
+      <div class="row"><div class="avatar">M</div><div class="c">
+        <div class="hd"><span class="who">m.okafor.engineering@example.com</span><span class="dot">·</span><span class="when">yesterday</span></div>
+        <div class="tx">Long one: the feed sorts the first five hundred tweets newest first and most liked second, then appends the rest as they arrive, so a cold start with a large collection stays cheap and the first screen is always the freshest. Content wraps at the column edge and the row grows; nothing is clipped.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>14</span></div>
+      </div></div>
+    </div>
+    <div class="snack">We couldn't save your like.</div>
+    <div class="fab safe" style="bottom:92px"><svg class="ic"><use href="#i-edit"/></svg></div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">17</span>Home · like failed</b>Heart rolled back (first row: 1, unliked), snackbar explains. The FAB lifts above the floating snackbar (Flutter default).</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ttl">Home</div></div>
+    <div class="list">
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 minutes ago</span></div>
+        <div class="tx">Shipping the clean architecture sample today. Features own their wiring; the app shell only registers routes.</div>
+        <div class="like on"><svg class="ic"><use href="#i-heart"/></svg><span>2</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">A</div><div class="c">
+        <div class="hd"><span class="who">ana.lopez@example.com</span><span class="dot">·</span><span class="when">2 hours ago</span></div>
+        <div class="tx">Does anyone else keep cubits in presentation/ and nothing else?</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg></div>
+      </div></div>
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 days ago</span></div>
+        <div class="tx">Hello, world.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>1</span></div>
+      </div></div>
+    </div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">18</span>Home · compose toggle off (rule-driven)</b><code>tweetCreationIsActive = false</code>: no FAB; list bottom padding drops from 88 to 16.</div>
+</div>
+
+<div class="art">
+<div class="frame dark">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ttl">Home</div></div>
+    <div class="list">
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 minutes ago</span></div>
+        <div class="tx">Shipping the clean architecture sample today. Features own their wiring; the app shell only registers routes.</div>
+        <div class="like on"><svg class="ic"><use href="#i-heart"/></svg><span>2</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">A</div><div class="c">
+        <div class="hd"><span class="who">ana.lopez@example.com</span><span class="dot">·</span><span class="when">2 hours ago</span></div>
+        <div class="tx">Does anyone else keep cubits in presentation/ and nothing else?</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg></div>
+      </div></div>
+      <div class="row"><div class="avatar">M</div><div class="c">
+        <div class="hd"><span class="who">m.okafor.engineering@example.com</span><span class="dot">·</span><span class="when">yesterday</span></div>
+        <div class="tx">Long one: the feed sorts the first five hundred tweets newest first and most liked second, then appends the rest as they arrive, so a cold start with a large collection stays cheap and the first screen is always the freshest. Content wraps at the column edge and the row grows; nothing is clipped.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>14</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 days ago</span></div>
+        <div class="tx">Hello, world.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>1</span></div>
+      </div></div>
+    </div>
+    <div class="fab safe"><svg class="ic"><use href="#i-edit"/></svg></div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">19</span>Home · dark</b>Surface #131416, bone primary #F2F1EC for the FAB, coral #FF7A6B heart, hairlines #2E3036.</div>
+</div>
+
+</div>
+
+<!-- =============================== COMPOSE =============================== -->
+<h2>Compose /tweet</h2>
+<div class="grid">
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ib"><svg><use href="#i-close"/></svg></div><div class="ttl"></div><div class="pill disabled">Tweet</div></div>
+    <div class="compose"><span class="hint">What's happening?</span><span class="caret" style="display:inline-block;width:2px;height:20px;background:var(--primary);vertical-align:-4px"></span></div>
+    <div class="counter">280</div>
+    <div class="kb">keyboard</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">20</span>Compose · empty</b>X to leave, no title, Tweet pill (36 high, 48 target) disabled until text. Borderless field, hint bodyLarge, counter shows what's left.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ib"><svg><use href="#i-close"/></svg></div><div class="ttl"></div><div class="pill">Tweet</div></div>
+    <div class="compose">Reading the Medium piece again: a feature is a composition root, a port is an interface the inner layer owns, and the app shell only knows routes. The in-memory backend makes the whole thing runnable in Chrome without a Firebase project, which is the part I keep<span class="caret" style="display:inline-block;width:2px;height:20px;background:var(--primary);vertical-align:-4px"></span></div>
+    <div class="counter near">12</div>
+    <div class="kb">keyboard</div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">21</span>Compose · near the limit</b>≤ 20 left: counter turns error, weight 600. Flutter blocks the 281st character; at 0 it reads “0” in error.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ib off"><svg><use href="#i-close"/></svg></div><div class="ttl"></div><div class="pill" aria-label="Posting your tweet…"><div class="spin sm"></div></div></div>
+    <div class="compose ro">Shipping the clean architecture sample today. Features own their wiring; the app shell only registers routes.</div>
+    <div class="counter">172</div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">22</span>Compose · submitting</b>Text read-only in onSurfaceVariant, X disabled, pill keeps its width with a 20px spinner. Keyboard dismissed.</div>
+</div>
+
+<div class="art">
+<div class="frame">
+  <div class="status"><span>9:41</span><span class="net">●●● ▲ ▮</span></div>
+  <div class="body">
+    <div class="appbar"><div class="ib"><svg><use href="#i-close"/></svg></div><div class="ttl"></div><div class="pill">Tweet</div></div>
+    <div class="compose">Shipping the clean architecture sample today. Features own their wiring; the app shell only registers routes.</div>
+    <div class="counter">172</div>
+    <div class="snack">We couldn't post your tweet. Please try again.</div>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="cap"><b><span class="n">23</span>Compose · failed</b>Draft kept, pill enabled again, snackbar explains. “Sign in again to post.” uses the same treatment.</div>
+</div>
+
+</div>
+
+<!-- =============================== WIDE =============================== -->
+<h2>Web run · 768 and 1280</h2>
+<div class="grid">
+
+<div class="art">
+<div class="mid-wrap"><div class="frame mid">
+  <div class="body">
+    <div class="appbar"><div class="inner"><div class="ttl">Home</div></div></div>
+    <div class="colwrap" style="flex:1"><div class="colbox edges">
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 minutes ago</span></div>
+        <div class="tx">Shipping the clean architecture sample today. Features own their wiring; the app shell only registers routes.</div>
+        <div class="like on"><svg class="ic"><use href="#i-heart"/></svg><span>2</span></div>
+      </div></div>
+      <div class="row hover"><div class="avatar">A</div><div class="c">
+        <div class="hd"><span class="who">ana.lopez@example.com</span><span class="dot">·</span><span class="when">2 hours ago</span></div>
+        <div class="tx">Does anyone else keep cubits in presentation/ and nothing else?</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg></div>
+      </div></div>
+      <div class="row"><div class="avatar">M</div><div class="c">
+        <div class="hd"><span class="who">m.okafor.engineering@example.com</span><span class="dot">·</span><span class="when">yesterday</span></div>
+        <div class="tx">Long one: the feed sorts the first five hundred tweets newest first and most liked second, then appends the rest as they arrive, so a cold start with a large collection stays cheap and the first screen is always the freshest.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>14</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 days ago</span></div>
+        <div class="tx">Hello, world.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>1</span></div>
+      </div></div>
+    </div></div>
+    <div class="fabw"><div class="fab"><svg class="ic"><use href="#i-edit"/></svg></div></div>
+  </div>
+</div></div>
+<div class="cap"><b><span class="n">24</span>Home · 768 (scaled 0.6)</b>Column 600 centred with hairline edges; title, dividers and FAB align to the column. Second row shows the web hover tint (surfaceContainer).</div>
+</div>
+
+<div class="art">
+<div class="wide-wrap"><div class="frame wide">
+  <div class="body">
+    <div class="appbar"><div class="inner"><div class="ttl">Home</div></div></div>
+    <div class="colwrap" style="flex:1"><div class="colbox edges">
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 minutes ago</span></div>
+        <div class="tx">Shipping the clean architecture sample today. Features own their wiring; the app shell only registers routes.</div>
+        <div class="like on"><svg class="ic"><use href="#i-heart"/></svg><span>2</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">A</div><div class="c">
+        <div class="hd"><span class="who">ana.lopez@example.com</span><span class="dot">·</span><span class="when">2 hours ago</span></div>
+        <div class="tx">Does anyone else keep cubits in presentation/ and nothing else?</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg></div>
+      </div></div>
+      <div class="row"><div class="avatar">M</div><div class="c">
+        <div class="hd"><span class="who">m.okafor.engineering@example.com</span><span class="dot">·</span><span class="when">yesterday</span></div>
+        <div class="tx">Long one: the feed sorts the first five hundred tweets newest first and most liked second, then appends the rest as they arrive, so a cold start with a large collection stays cheap and the first screen is always the freshest.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>14</span></div>
+      </div></div>
+      <div class="row"><div class="avatar">D</div><div class="c">
+        <div class="hd"><span class="who">demo@example.com</span><span class="dot">·</span><span class="when">3 days ago</span></div>
+        <div class="tx">Hello, world.</div>
+        <div class="like"><svg class="ic"><use href="#i-heart"/></svg><span>1</span></div>
+      </div></div>
+    </div></div>
+    <div class="fabw"><div class="fab"><svg class="ic"><use href="#i-edit"/></svg></div></div>
+  </div>
+</div></div>
+<div class="cap"><b><span class="n">25</span>Home · 1280 (scaled 0.5)</b>Same column; the surface fills the viewport, nothing stretches.</div>
+</div>
+
+<div class="art">
+<div class="wide-wrap"><div class="frame wide">
+  <div class="body">
+    <div class="colwrap" style="flex:1"><div class="colbox form" style="padding-top:48px">
+      <div class="col">
+        <div class="h1">Welcome back</div>
+        <div class="field focus float" style="margin-top:24px"><span class="lab">Email</span><span class="val"></span><span class="caret"></span></div>
+        <div class="field" style="margin-top:16px"><span class="lab">Password</span><span class="val"></span><span class="sfx"><svg class="ic"><use href="#i-eye"/></svg></span></div>
+        <div class="btn stretch" style="margin-top:24px">Sign in</div>
+        <div class="linkrow" style="margin-top:16px"><span>Don't have an account?</span><a>Create an account</a></div>
+      </div>
+    </div></div>
+    <div class="snack w">Something went wrong. Please try again.</div>
+  </div>
+</div></div>
+<div class="cap"><b><span class="n">26</span>Sign-in · 1280 (scaled 0.5)</b>Form column 400 centred, 48 from the top; button spans the column. Snackbar fixed at 400 wide, centred.</div>
+</div>
+
+</div>
+
+<p class="lead" style="margin-top:48px">Light/dark: every frame reads the same CSS variables the Flutter <code>ColorScheme</code> defines; frame 19 switches to the dark set. The keyboard block is a placeholder for the system keyboard (291 px on an iPhone 14-class device).</p>
+</body>
+</html>

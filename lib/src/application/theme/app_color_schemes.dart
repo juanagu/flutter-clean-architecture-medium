@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+/// The two colour schemes, explicit rather than seeded so every role is a
+/// chosen value. `tertiary` is the like accent: the liked heart and nothing
+/// else uses it.
+abstract final class AppColorSchemes {
+  static const ColorScheme light = ColorScheme(
+    brightness: Brightness.light,
+    surface: Color(0xFFFAF9F6),
+    onSurface: Color(0xFF1B1D22),
+    onSurfaceVariant: Color(0xFF5B5F67),
+    surfaceContainer: Color(0xFFF1EFEA),
+    surfaceContainerHighest: Color(0xFFE9E7E1),
+    outline: Color(0xFF80848C),
+    outlineVariant: Color(0xFFE2E0DA),
+    primary: Color(0xFF1B1D22),
+    onPrimary: Color(0xFFFFFFFF),
+    primaryContainer: Color(0xFFE9E7E1),
+    onPrimaryContainer: Color(0xFF1B1D22),
+    secondary: Color(0xFF5B5F67),
+    onSecondary: Color(0xFFFFFFFF),
+    secondaryContainer: Color(0xFFE9E7E1),
+    onSecondaryContainer: Color(0xFF1B1D22),
+    tertiary: Color(0xFFD23B2C),
+    onTertiary: Color(0xFFFFFFFF),
+    error: Color(0xFFB3261E),
+    onError: Color(0xFFFFFFFF),
+    errorContainer: Color(0xFFF9DEDC),
+    onErrorContainer: Color(0xFF410E0B),
+    inverseSurface: Color(0xFF2F3136),
+    onInverseSurface: Color(0xFFF2F1ED),
+    inversePrimary: Color(0xFFFFFFFF),
+    surfaceTint: Colors.transparent,
+    shadow: Color(0xFF000000),
+  );
+
+  static const ColorScheme dark = ColorScheme(
+    brightness: Brightness.dark,
+    surface: Color(0xFF131416),
+    onSurface: Color(0xFFECEAE4),
+    onSurfaceVariant: Color(0xFFA8ABB2),
+    surfaceContainer: Color(0xFF1C1D21),
+    surfaceContainerHighest: Color(0xFF2A2C31),
+    outline: Color(0xFF74777E),
+    outlineVariant: Color(0xFF2E3036),
+    primary: Color(0xFFF2F1EC),
+    onPrimary: Color(0xFF1B1D22),
+    primaryContainer: Color(0xFF2A2C31),
+    onPrimaryContainer: Color(0xFFECEAE4),
+    secondary: Color(0xFFA8ABB2),
+    onSecondary: Color(0xFF1B1D22),
+    secondaryContainer: Color(0xFF2A2C31),
+    onSecondaryContainer: Color(0xFFECEAE4),
+    tertiary: Color(0xFFFF7A6B),
+    onTertiary: Color(0xFF1B1D22),
+    error: Color(0xFFFFB4AB),
+    onError: Color(0xFF690005),
+    errorContainer: Color(0xFF93000A),
+    onErrorContainer: Color(0xFFFFDAD6),
+    inverseSurface: Color(0xFFECEAE4),
+    onInverseSurface: Color(0xFF1B1D22),
+    inversePrimary: Color(0xFF1B1D22),
+    surfaceTint: Colors.transparent,
+    shadow: Color(0xFF000000),
+  );
+}

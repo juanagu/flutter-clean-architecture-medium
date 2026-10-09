@@ -1,6 +1,11 @@
+import 'package:app/src/application/theme/tokens.dart';
+import 'package:app/src/application/widgets/avatars/initial_avatar.dart';
+import 'package:app/src/application/widgets/hover_tint.dart';
 import 'package:app/src/features/tweet_feed/presentation/models/tweet_item.dart';
 import 'package:flutter/material.dart';
 
+/// One feed row: avatar, owner and time, content, like control. Padded on
+/// every side so the list's dividers can run edge to edge.
 class TweetFeedListItem extends StatelessWidget {
   const TweetFeedListItem({
     super.key,
@@ -13,54 +18,62 @@ class TweetFeedListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CircleAvatar(child: Icon(Icons.person)),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16),
+    return HoverTint(
+      child: Padding(
+        padding: const EdgeInsets.all(Space.s4),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InitialAvatar(text: tweetItem.ownerEmail),
+            const SizedBox(width: Space.s3),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildHeader(context),
+                  const SizedBox(height: Space.s1),
                   _buildContent(context),
+                  const SizedBox(height: Space.s2),
                   likeAction,
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final secondary = theme.textTheme.bodySmall?.copyWith(
+      color: theme.colorScheme.onSurfaceVariant,
+    );
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
       children: [
-        Expanded(
+        Flexible(
           child: Text(
             tweetItem.ownerEmail,
-            style: textTheme.titleSmall,
+            style: theme.textTheme.titleSmall,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Text(tweetItem.timeAgo, style: textTheme.bodySmall),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Space.s1),
+          child: Text('·', style: secondary),
+        ),
+        Text(tweetItem.timeAgo, style: secondary, maxLines: 1),
       ],
     );
   }
 
   Widget _buildContent(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: Text(
-        tweetItem.content,
-        style: Theme.of(context).textTheme.bodyLarge,
-      ),
+    return Text(
+      tweetItem.content,
+      style: Theme.of(context).textTheme.bodyLarge,
     );
   }
 }

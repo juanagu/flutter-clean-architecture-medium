@@ -1,7 +1,8 @@
+import 'package:app/src/application/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
-/// Centered icon plus message, with an optional action. Used for empty and
-/// error states so they all look the same.
+/// Centred icon plus message, with an optional action. Used for the
+/// maintenance, empty and error states so they all look the same.
 class MessageView extends StatelessWidget {
   const MessageView({
     super.key,
@@ -10,7 +11,8 @@ class MessageView extends StatelessWidget {
     this.action,
   });
 
-  static const double _iconSize = 48;
+  static const double _iconSize = 40;
+  static const double _maxWidth = 320;
 
   final IconData icon;
   final String message;
@@ -18,23 +20,28 @@ class MessageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final action = this.action;
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: _iconSize,
-            color: Theme.of(context).colorScheme.outline,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Text(message, textAlign: TextAlign.center),
-          ),
-          if (action != null)
-            Padding(padding: const EdgeInsets.only(top: 16), child: action),
-        ],
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: _maxWidth),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: _iconSize,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(height: Space.s4),
+            Text(
+              message,
+              style: theme.textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+            if (action != null) ...[const SizedBox(height: Space.s5), action],
+          ],
+        ),
       ),
     );
   }

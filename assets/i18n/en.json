@@ -1,33 +1,38 @@
 {
     "app_title": "Twitter App",
-    "maintenance_message": "Oops! We are working to improve the app. Please try again later.",
-    "retry_button_title": "Retry",
+    "maintenance_message": "We're doing some maintenance. Please try again later.",
+    "retry_button_title": "Try again",
     "form": {
-        "email_required": "Email is required",
+        "email_required": "Enter your email",
         "email_invalid": "Enter a valid email address",
-        "password_required": "Password is required"
+        "password_required": "Enter your password",
+        "show_password": "Show password",
+        "hide_password": "Hide password"
     },
     "auth_index_feature": {
         "loading_semantic": "Checking session...",
-        "unexpected_message": "We could not check your session."
+        "unexpected_message": "We couldn't check your session."
     },
     "sign_in_feature": {
+        "title": "Welcome back",
         "email_label": "Email",
         "password_label": "Password",
         "submit_button_title": "Sign in",
         "authenticating_message_semantics": "Signing in...",
-        "unauthorized_message": "Wrong email or password.",
+        "unauthorized_message": "Incorrect email or password.",
         "unexpected_message": "Something went wrong. Please try again."
     },
     "sign_up_feature": {
-        "button_title": "Sign up for Twitter App",
+        "button_prompt": "Don't have an account?",
+        "button_title": "Create an account",
         "title": "Create your account",
-        "submit_button_title": "Sign up",
+        "submit_button_title": "Create account",
         "email_label": "Email",
         "password_label": "Password",
+        "password_helper": "At least 6 characters",
         "creating_message_semantics": "Creating your account...",
-        "email_already_in_use": "That email is already registered.",
-        "weak_password": "Use a password of at least 6 characters.",
+        "email_already_in_use": "This email is already in use. Try signing in.",
+        "weak_password": "Use at least 6 characters.",
         "unexpected_message": "Something went wrong. Please try again."
     },
     "home_feature": {
@@ -36,20 +41,21 @@
     "tweet_feed_feature": {
         "loading_message_semantics": "Loading tweets...",
         "empty_message": "No tweets yet. Be the first to post.",
-        "unexpected_message": "We could not load the feed."
+        "unexpected_message": "We couldn't load the feed."
     },
     "tweet_creation_feature": {
-        "title": "New Tweet",
+        "title": "New tweet",
         "hint_text": "What's happening?",
         "submit_button_title": "Tweet",
         "tweeting_message_semantics": "Posting your tweet...",
+        "counter_semantics": "{n} characters left",
         "unauthenticated_message": "Sign in again to post.",
-        "unexpected_error_message": "We could not post your tweet. Please try again."
+        "unexpected_error_message": "We couldn't post your tweet. Please try again."
     },
     "tweet_like_feature": {
         "like": "Like",
         "unlike": "Unlike",
         "unauthenticated_message": "Sign in again to like tweets.",
-        "unexpected_message": "We could not save your like."
+        "unexpected_message": "We couldn't save your like."
     }
 }

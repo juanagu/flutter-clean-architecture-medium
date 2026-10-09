@@ -1,7 +1,9 @@
-import 'package:app/src/application/localizations/i18n.dart';
 import 'package:app/src/application/pages/page_container.dart';
+import 'package:app/src/application/theme/tokens.dart';
 import 'package:flutter/material.dart';
 
+/// Pushed over sign-in, so the app bar carries only the back arrow; the
+/// heading lives in the body.
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key, required this.body});
 
@@ -9,9 +11,6 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageContainer(
-      title: I18n.of(context).translate('sign_up_feature.title'),
-      body: body,
-    );
+    return PageContainer(body: body, columnWidth: kColumnWidthForm);
   }
 }

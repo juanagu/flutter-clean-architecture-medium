@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/src/application/localizations/i18n.dart';
+import 'package:app/src/application/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -29,8 +30,9 @@ class _MapLocalizationsDelegate extends LocalizationsDelegate<I18n> {
   bool shouldReload(_MapLocalizationsDelegate old) => false;
 }
 
-/// Wraps [child] in a MaterialApp with the given dictionary so `I18n.of`
-/// and `ScaffoldMessenger.of` work, then settles the first frame.
+/// Wraps [child] in a MaterialApp with the app theme and the given
+/// dictionary so `Theme.of`, `I18n.of` and `ScaffoldMessenger.of` work,
+/// then settles the first frame.
 Future<I18n> pumpLocalized(
   WidgetTester tester,
   Widget child, {
@@ -42,6 +44,7 @@ Future<I18n> pumpLocalized(
   addTearDown(() => tester.binding.setSurfaceSize(null));
   await tester.pumpWidget(
     MaterialApp(
+      theme: AppTheme.light(),
       locale: Locale(languageCode),
       localizationsDelegates: [
         _MapLocalizationsDelegate(languageCode, sentences),

@@ -1,4 +1,5 @@
 import 'package:app/src/application/widgets/forms/email_password_form.dart';
+import 'package:app/src/application/widgets/forms/form_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -6,6 +7,7 @@ import '../../../support/localized.dart';
 
 void main() {
   const labels = EmailPasswordFormLabels(
+    heading: 'Heading',
     email: 'Email',
     password: 'Password',
     submit: 'Go',
@@ -52,7 +54,7 @@ void main() {
     expect(password, ' pw ');
   });
 
-  testWidgets('renders the footer under the form in Spanish too', (
+  testWidgets('renders the heading and the footer in Spanish too', (
     tester,
   ) async {
     await pumpLocalized(
@@ -65,6 +67,69 @@ void main() {
       languageCode: 'es',
     );
 
+    expect(find.text('Heading'), findsOneWidget);
     expect(find.text('footer'), findsOneWidget);
   });
+
+  testWidgets('shows the inline error block only when given one', (
+    tester,
+  ) async {
+    await pumpLocalized(
+      tester,
+      EmailPasswordForm(labels: labels, onSubmit: (_, _) {}),
+    );
+    expect(find.byType(FormErrorMessage), findsNothing);
+
+    await pumpLocalized(
+      tester,
+      EmailPasswordForm(labels: labels, onSubmit: (_, _) {}, errorText: 'Nope'),
+    );
+
+    expect(find.byType(FormErrorMessage), findsOneWidget);
+    expect(find.text('Nope'), findsOneWidget);
+  });
+
+  testWidgets('toggles the password between hidden and shown', (tester) async {
+    final i18n = await pumpLocalized(
+      tester,
+      EmailPasswordForm(labels: labels, onSubmit: (_, _) {}),
+    );
+    final password = find.byType(TextFormField).last;
+    await tester.enterText(password, 'secret');
+    await tester.pump();
+    expect(_isObscured(tester), isTrue);
+
+    await tester.tap(find.byTooltip(i18n.translate('form.show_password')));
+    await tester.pump();
+
+    expect(_isObscured(tester), isFalse);
+    expect(
+      find.byTooltip(i18n.translate('form.hide_password')),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('hides the footer and shows progress while submitting', (
+    tester,
+  ) async {
+    await pumpLocalized(
+      tester,
+      EmailPasswordForm(
+        labels: labels,
+        onSubmit: (_, _) {},
+        isSubmitting: true,
+        footer: const Text('footer'),
+      ),
+    );
+
+    expect(find.text('footer'), findsNothing);
+    expect(find.text('Go'), findsNothing);
+    expect(find.bySemanticsLabel('Working'), findsOneWidget);
+  });
+}
+
+bool _isObscured(WidgetTester tester) {
+  return tester
+      .widget<EditableText>(find.byType(EditableText).last)
+      .obscureText;
 }

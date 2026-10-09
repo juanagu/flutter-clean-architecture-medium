@@ -12,7 +12,7 @@ Account creation at `/sign-up`, and the button that opens it from the sign-in sc
 - `static Map<String, WidgetBuilder> generateRoutes()`
 - `static Future<void> navigate(BuildContext context)`: `pushNamed`, so back returns to sign-in.
 - `Widget buildPage()`
-- `Widget buildButton()`: the toggle-aware link, rendered by `sign_in`.
+- `Widget buildButton()`: the toggle-aware prompt plus link (`Don't have an account?` / `Create an account`), rendered by `sign_in` under its form.
 
 ## States and failures
 
@@ -21,10 +21,10 @@ Account creation at `/sign-up`, and the button that opens it from the sign-in sc
 
 ## Data flow
 
-1. `SignUpComponent` renders `EmailPasswordForm`; submit calls `SignUpCubit.signUp`.
+1. `SignUpComponent` renders `EmailPasswordForm` with the `Create your account` heading in the body and `At least 6 characters` as the password helper; submit calls `SignUpCubit.signUp`. The page is pushed over sign-in, so its app bar carries only the back arrow.
 2. `SignUpRemoteRepository` calls `AuthClient.signUp`. `emailAlreadyInUse` and `weakPassword` map to their failures without logging; other codes and exceptions are logged and map to `SignUpUnexpectedError`.
 3. `SignUpRegistered` triggers `onRegistered` (`AuthIndexFeature.navigate`). The auth client has signed the new user in, so the entry screen routes to home.
-4. Failures show a snackbar and keep the form. While `SignUpCreating`, the form stays mounted read-only with progress in the button, so a failure keeps what was typed.
+4. `SignUpEmailAlreadyInUse` and `SignUpWeakPassword` are passed to the form as `errorText`, an inline block above the button; the weak-password one also moves focus to the password. `SignUpUnexpectedError` is a snackbar. While `SignUpCreating`, the form stays mounted read-only with progress in the button, so a failure keeps what was typed.
 
 ## Toggle
 

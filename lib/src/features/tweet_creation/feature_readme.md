@@ -22,10 +22,12 @@ The compose screen at `/tweet` and the floating button on home that opens it. Po
 
 ## Data flow
 
-1. `TweetComposer` (text field, 280 max, check icon in the app bar) calls `TweetCreationCubit.tweet(content)` with trimmed, non-empty text.
+1. `TweetComposer` is a `PageContainer` with an `X` leading, no title, and the `Tweet` pill (`PillButton`) as the app bar action; the body is a borderless text field (280 max, `minLines` 6) with a remaining-characters counter that turns `error` at 20 left. The pill is disabled until the trimmed text is non-empty (a `ValueListenableBuilder` on the controller) and calls `TweetCreationCubit.tweet(content)` with the trimmed text.
 2. `AuthoredTweetCreationUseCase.execute(content)` reads `UserSessionRepository.getCurrentUser()`. No user returns `Left(TweetCreationUnauthenticated)`. Otherwise it builds a `TweetDraft` with the user and `clock().toUtc()`.
 3. `TweetCreationRemoteRepository.create(draft)` writes `TweetDocument.toJson(...)` with an empty `likedBy` through `DataRemoteClient.add('tweets', ...)`. Exceptions are logged and become `TweetCreationUnexpectedError`.
-4. `TweetCreationTweeted` pops the route. `TweetCreationFailed` shows a snackbar keyed by the failure and keeps the composer. While `TweetCreationTweeting`, the composer stays mounted read-only with progress in the app bar, so a failure keeps the draft. The feed on home updates through its own stream.
+4. `TweetCreationTweeted` pops the route (the composer renders read-only for the frame it exists). `TweetCreationFailed` shows a snackbar keyed by the failure and keeps the composer. While `TweetCreationTweeting`, the composer stays mounted read-only with a spinner in the pill and the `X` disabled, so a failure keeps the draft. The feed on home updates through its own stream.
+
+The floating button on home uses `Icons.edit_outlined` with `tweet_creation_feature.title` (`New tweet`) as its tooltip; the same key names the route for the web document title.
 
 ## Toggle
 

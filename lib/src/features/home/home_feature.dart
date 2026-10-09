@@ -1,3 +1,7 @@
+import 'package:app/src/abstractions/features/feature_config.dart';
+import 'package:app/src/abstractions/ioc/injector.dart';
+import 'package:app/src/application/feature_flags.dart';
+import 'package:app/src/application/widgets/feature_gate.dart';
 import 'package:app/src/features/home/presentation/pages/home_page.dart';
 import 'package:app/src/features/tweet_creation/tweet_creation_feature.dart';
 import 'package:app/src/features/tweet_feed/tweet_feed_feature.dart';
@@ -16,10 +20,16 @@ class HomeFeature {
         .pushNamedAndRemoveUntil(route, (route) => false);
   }
 
+  /// The compose button hides itself when its toggle is off; the feed reads
+  /// the same toggle here to know whether to keep its last row clear of it.
   Widget buildPage() {
-    return HomePage(
-      feed: TweetFeedFeature().build(),
-      composeButton: TweetCreationFeature().buildFloatingButton(),
+    return FeatureGate.builder(
+      featureConfig: Injector.instance.resolve<FeatureConfig>(),
+      flag: FeatureFlags.tweetCreation,
+      builder: (_, canCompose) => HomePage(
+        feed: TweetFeedFeature().build(hasFloatingAction: canCompose),
+        composeButton: TweetCreationFeature().buildFloatingButton(),
+      ),
     );
   }
 }

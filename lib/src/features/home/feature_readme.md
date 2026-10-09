@@ -19,13 +19,13 @@ None. `HomePage` is a stateless `PageContainer` with a title.
 
 ## Data flow
 
-1. `HomeFeature.buildPage()` builds `HomePage` with `feed: TweetFeedFeature().build()` and `composeButton: TweetCreationFeature().buildFloatingButton()`.
-2. `HomePage` places the feed in the body and the button as the floating action button.
+1. `HomeFeature.buildPage()` wraps `HomePage` in `FeatureGate.builder` on `tweetCreationIsActive` and builds it with `feed: TweetFeedFeature().build(hasFloatingAction: canCompose)` and `composeButton: TweetCreationFeature().buildFloatingButton()`.
+2. `HomePage` is a `PageContainer` with the `Home` title, no gutter (rows pad themselves so dividers run edge to edge) and column edges at 768+; the feed is the body and the button the floating action button.
 3. Everything else happens inside `tweet_feed`, `tweet_like` and `tweet_creation`.
 
 ## Toggle
 
-None of its own. The compose button hides itself when `tweetCreationIsActive` is off.
+`tweetCreationIsActive` is read here only to size the feed's bottom padding (88 with the button, 16 without). The compose button still hides itself through its own gate in `tweet_creation`.
 
 ## Known gaps
 

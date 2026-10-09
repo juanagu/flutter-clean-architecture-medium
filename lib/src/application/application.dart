@@ -1,4 +1,5 @@
 import 'package:app/src/application/localizations/i18n.dart';
+import 'package:app/src/application/theme/app_theme.dart';
 import 'package:app/src/features/auth/auth_index_feature.dart';
 import 'package:app/src/features/home/home_feature.dart';
 import 'package:app/src/features/sign_in/sign_in_feature.dart';
@@ -10,17 +11,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 class Application extends StatelessWidget {
   const Application({super.key});
 
-  static const Color _seedColor = Colors.blue;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateTitle: (context) => I18n.of(context).translate('app_title'),
-      theme: ThemeData(colorSchemeSeed: _seedColor),
-      darkTheme: ThemeData(
-        colorSchemeSeed: _seedColor,
-        brightness: Brightness.dark,
-      ),
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
       initialRoute: AuthIndexFeature.route,
       routes: _routes(),
